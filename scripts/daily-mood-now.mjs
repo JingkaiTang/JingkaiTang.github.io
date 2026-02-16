@@ -416,6 +416,9 @@ async function main() {
         '再难的一年，也算走到了终点站。',
         '今天只做一件事：把心安顿好。',
       ],
+      images: [
+        'festival-chuxi-01.jpg',
+      ],
       tags: ['now', 'mood', 'festival'],
     },
     '春节': {
@@ -504,12 +507,14 @@ async function main() {
   let extra = pickVariant(`${ymd}:${base.key}:extra`, base.extras) ?? base.extra;
   let title = base.title;
   let tags = base.tags;
+  let image = base.image;
 
   if (festival?.key && FESTIVAL_CATALOG[festival.key]) {
     const fc = FESTIVAL_CATALOG[festival.key];
     title = pickVariant(`${ymd}:festival:${festival.key}:title`, fc.titles) ?? title;
     oneLiner = pickVariant(`${ymd}:festival:${festival.key}:one`, fc.oneLiners) ?? oneLiner;
     extra = pickVariant(`${ymd}:festival:${festival.key}:extra`, fc.extras) ?? extra;
+    image = pickVariant(`${ymd}:festival:${festival.key}:img`, fc.images) ?? image;
     tags = Array.from(new Set([...(fc.tags || []), ...(base.tags || [])]));
   }
 
@@ -529,7 +534,7 @@ async function main() {
 
   const choice = {
     mood: base.mood,
-    image: base.image,
+    image,
     tags,
     title,
     oneLiner,
