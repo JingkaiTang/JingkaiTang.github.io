@@ -462,6 +462,9 @@ async function main() {
         '把热闹装进口袋里，走到哪都不冷。',
         '今天就让自己更好哄一点。',
       ],
+      images: [
+        'festival-yuanxiao-01.jpg',
+      ],
       tags: ['now', 'mood', 'festival'],
     },
     '端午节': {
