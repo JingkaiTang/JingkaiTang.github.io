@@ -1,9 +1,9 @@
 {
-  "builtAt": "2026-02-16T15:01:09.495Z",
+  "builtAt": "2026-02-16T15:02:36.574Z",
   "counts": {
     "writing": 2,
-    "huolin": 18,
-    "total": 20
+    "huolin": 19,
+    "total": 21
   },
   "items": [
     {
@@ -16,6 +16,10 @@
     },
     {
       "url": "/huolin/festival-chuxi-01.jpg",
+      "kind": "huolin-mood"
+    },
+    {
+      "url": "/huolin/festival-spring-01.jpg",
       "kind": "huolin-mood"
     },
     {
