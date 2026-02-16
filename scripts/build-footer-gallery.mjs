@@ -7,6 +7,9 @@
  * - Writes src/data/footer-gallery.json
  *
  * Designed to run during `npm run build` after sync:assets.
+ *
+ * Note: To avoid dirty working trees from timestamp-only churn, we ONLY rewrite
+ * the JSON file when the (counts/items) payload actually changes.
  */
 
 import fs from 'node:fs/promises';
@@ -80,6 +83,20 @@ async function collectWritingCovers() {
     .sort();
 }
 
+async function readJsonIfExists(p) {
+  try {
+    const raw = await fs.readFile(p, 'utf8');
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+function stableKey({ counts, items }) {
+  // Only include fields that affect UI.
+  return JSON.stringify({ counts, items });
+}
+
 async function main() {
   await ensureDir(path.dirname(OUT_JSON));
 
@@ -91,9 +108,20 @@ async function main() {
     ...huolin.map((url) => ({ url, kind: 'huolin-mood' })),
   ];
 
+  const counts = { writing: writing.length, huolin: huolin.length, total: items.length };
+
+  const prev = await readJsonIfExists(OUT_JSON);
+  const prevKey = prev ? stableKey({ counts: prev.counts, items: prev.items }) : null;
+  const nextKey = stableKey({ counts, items });
+
+  if (prevKey === nextKey) {
+    console.log('[gallery] unchanged; keep existing:', path.relative(ROOT, OUT_JSON));
+    return;
+  }
+
   const out = {
     builtAt: new Date().toISOString(),
-    counts: { writing: writing.length, huolin: huolin.length, total: items.length },
+    counts,
     items,
   };
 

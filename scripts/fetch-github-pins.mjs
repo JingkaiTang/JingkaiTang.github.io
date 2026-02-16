@@ -7,6 +7,9 @@
  * - Writes JSON cache to src/data/github-pins.json.
  *
  * This is intended to run in CI before `astro build`.
+ *
+ * Note: To avoid dirty working trees from timestamp-only churn, we ONLY rewrite
+ * the cache file when the pin payload actually changes.
  */
 
 import fs from 'node:fs/promises';
@@ -36,6 +39,19 @@ function shOut(cmd, args) {
 
 async function ensureDir(p) {
   await fs.mkdir(path.dirname(p), { recursive: true });
+}
+
+async function readJsonIfExists(p) {
+  try {
+    const raw = await fs.readFile(p, 'utf8');
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+function stableStringify(x) {
+  return JSON.stringify(x);
 }
 
 async function main() {
@@ -92,6 +108,15 @@ async function main() {
       isArchived: !!r.isArchived,
       isFork: !!r.isFork,
     }));
+
+  const prev = await readJsonIfExists(OUT_PATH);
+  const prevKey = prev ? stableStringify({ user: prev.user, pins: prev.pins }) : null;
+  const nextKey = stableStringify({ user: username, pins });
+
+  if (prevKey === nextKey) {
+    console.log('[pins] unchanged; keep existing cache:', path.relative(ROOT, OUT_PATH));
+    return;
+  }
 
   const out = {
     user: username,

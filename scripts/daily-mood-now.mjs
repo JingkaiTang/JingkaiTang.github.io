@@ -468,7 +468,7 @@ const choice = {
   // Build + commit + push
   sh('npm', ['run', 'build']);
 
-  sh('git', ['add', `src/content/now/${slug}/`]);
+  sh('git', ['add', `src/content/now/${slug}/`, 'src/data/github-pins.json', 'src/data/footer-gallery.json']);
 
   const msg = `Now: ${title}`;
   sh('git', ['commit', '-m', msg]);
