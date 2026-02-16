@@ -441,6 +441,7 @@ async function main() {
       ],
       images: [
         'festival-spring-01.jpg',
+        'festival-spring-02.jpg',
       ],
       tags: ['now', 'mood', 'festival'],
     },
