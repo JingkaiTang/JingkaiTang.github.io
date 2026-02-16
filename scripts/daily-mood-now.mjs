@@ -439,6 +439,9 @@ async function main() {
         '慢一点也没关系，关键是别丢掉方向。',
         '把希望捂热，它会发光。',
       ],
+      images: [
+        'festival-spring-01.jpg',
+      ],
       tags: ['now', 'mood', 'festival'],
     },
     '元宵节': {
