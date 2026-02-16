@@ -13,6 +13,7 @@ import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import fsp from 'node:fs/promises';
 import path from 'node:path';
+import { Lunar } from 'lunar-javascript';
 
 const ROOT = process.cwd();
 const REPO = 'JingkaiTang/JingkaiTang.github.io';
@@ -138,6 +139,20 @@ function todayRangeShanghai(now = new Date()) {
   };
 }
 
+function detectFestivalShanghai(date = new Date()) {
+  // Use Lunar calendar (offline) for major Chinese festivals.
+  // Return null if not a supported festival.
+  try {
+    const lunar = Lunar.fromDate(date);
+    const fests = lunar.getFestivals?.() || [];
+    const hit = fests.find((f) => ['除夕', '春节', '元宵节', '端午节', '中秋节'].includes(f));
+    if (!hit) return null;
+    return { key: hit };
+  } catch {
+    return null;
+  }
+}
+
 // --- Human-ish text helpers (deterministic rotation, avoids "same every day") ---
 function hash32(s) {
   // FNV-1a 32-bit
@@ -172,10 +187,10 @@ function normalizeTitle(s) {
 }
 
 function loadYesterdayMoodNow({ ymd }) {
-  // Best-effort: look for "yesterday 00:00" now entry under src/content/now/
+  // Best-effort: look for previous-day 22:00 now entry under src/content/now/
   // We don't rely on git/remote; purely local filesystem.
   try {
-    const base = `${ymd}000000-`;
+    const base = `${ymd}220000-`;
     const dirs = fs.readdirSync(NOW_DIR, { withFileTypes: true })
       .filter((d) => d.isDirectory() && d.name.startsWith(base))
       .map((d) => d.name)
@@ -200,7 +215,7 @@ function pickMood({ ymd, commitCount, text }) {
       mood: '快乐放纵',
       image: 'huolin-eating-mcdonalds.jpg',
       tags: ['now', 'mood', 'life', 'food'],
-      title: '今日心情：快乐放纵',
+      title: '快乐放纵',
       oneLiners: [
         '今天的情绪主打一个：先快乐，再说。',
         '今天有点“奖励自己”，快乐是真的。',
@@ -216,7 +231,7 @@ function pickMood({ ymd, commitCount, text }) {
       mood: '自律上线',
       image: 'huolin-working-out-at-gym.jpg',
       tags: ['now', 'mood', 'life', 'health'],
-      title: '今日心情：自律上线',
+      title: '自律上线',
       oneLiners: [
         '今天是那种“咬咬牙也要往前挪一步”的状态。',
         '今天没有鸡血，但有稳定输出。',
@@ -232,7 +247,7 @@ function pickMood({ ymd, commitCount, text }) {
       mood: '有点委屈但不摆烂',
       image: 'huolin-got-scolded-at-work.jpg',
       tags: ['now', 'mood', 'life'],
-      title: '今日心情：有点委屈但不摆烂',
+      title: '有点委屈但不摆烂',
       oneLiners: [
         '今天情绪有点皱，但还没到要掀桌的程度。',
         '今天被现实敲了两下，但还在继续推。',
@@ -248,7 +263,7 @@ function pickMood({ ymd, commitCount, text }) {
       mood: '小成就感',
       image: 'huolin-trophy-victory-proud.jpg',
       tags: ['now', 'mood', 'life'],
-      title: '今日心情：小成就感',
+      title: '小成就感',
       oneLiners: [
         '今天整体是“做完了就松一口气”的满足感。',
         '今天收了几个尾，心里变得干净了。',
@@ -264,7 +279,7 @@ function pickMood({ ymd, commitCount, text }) {
       mood: '躺平充电',
       image: 'huolin-lazy-sleep-in-bed.jpg',
       tags: ['now', 'mood', 'life'],
-      title: '今日心情：躺平充电',
+      title: '躺平充电',
       oneLiners: [
         '今天没太多推进——那就把它当成一次认真充电。',
         '今天的进度条没动，但电量回来了。',
@@ -280,7 +295,7 @@ function pickMood({ ymd, commitCount, text }) {
       mood: '专注干活',
       image: 'huolin-working-at-laptop.jpg',
       tags: ['now', 'mood', 'workflow', 'tooling'],
-      title: '今日心情：专注干活',
+      title: '专注干活',
       oneLiners: [
         '今天的情绪比较“稳”：不吵不闹，把该做的做完。',
         '今天像开了专注模式：一步一步往前推。',
@@ -298,7 +313,7 @@ function pickMood({ ymd, commitCount, text }) {
       mood: '小有进展',
       image: 'huolin-sleepy-subway.jpg',
       tags: ['now', 'mood', 'life'],
-      title: '今日心情：小有进展',
+      title: '小有进展',
       oneLiners: [
         '今天推进了一点点，但很真实。',
         '今天没大招，但至少不是原地踏步。',
@@ -324,9 +339,10 @@ function pickMood({ ymd, commitCount, text }) {
   return { key: '小有进展', ...CATALOG['小有进展'] };
 }
 
-function shouldSkip({ commitCount, force }) {
-  // If nothing happened, allow skipping.
+function shouldSkip({ commitCount, force, isFestival }) {
+  // If nothing happened, allow skipping (except on festivals).
   if (force) return false;
+  if (isFestival) return false;
   if (commitCount === 0) {
     // 60% skip to respect "想不想发" when the day is blank.
     return Math.random() < 0.6;
@@ -359,7 +375,7 @@ async function main() {
   const sinceIso = since.toISOString();
   const untilIso = until.toISOString();
 
-  // Source of “mood”: yesterday notes from the assistant's workspace memory.
+  // Source of “mood”: today's notes from the assistant's workspace memory.
   // Keep output emotional + vague; do NOT include work details.
   const memPath = path.join(ROOT, '..', 'memory', `${ymd.slice(0, 4)}-${ymd.slice(4, 6)}-${ymd.slice(6, 8)}.md`);
   let mem = '';
@@ -379,26 +395,79 @@ async function main() {
   // Build a more human-ish choice with deterministic rotation.
   const base = pickMood({ ymd, commitCount, text });
 
+  const festival = detectFestivalShanghai(new Date());
+
+  const FESTIVAL_CATALOG = {
+    '除夕': {
+      titles: ['热热闹闹', '心里暖暖的', '年味上头', '团圆感'],
+      oneLiners: ['年味有点冲，心里也跟着热乎起来。', '今天更想把心放软一点。', '热闹归热闹，心里反而更安静。'],
+      extras: ['今晚就别和自己较劲了，先把心情哄好。', '愿望不需要说完，心里有数就行。', '热闹是外面的，踏实是自己的。'],
+      tags: ['now', 'mood', 'festival'],
+    },
+    '春节': {
+      titles: ['喜气一点', '慢慢来', '有盼头', '心里亮堂'],
+      oneLiners: ['新的一段开始了，心里有点亮。', '不求爆发，但求顺顺当当。', '今天适合把“盼头”捡起来。'],
+      extras: ['别急，新的节奏会自己长出来。', '把想要的生活轻轻放在心里。', '先开心一点，其他慢慢补齐。'],
+      tags: ['now', 'mood', 'festival'],
+    },
+    '元宵节': {
+      titles: ['甜一点', '软乎乎', '小满足', '热乎气'],
+      oneLiners: ['今天适合对自己好一点。', '甜甜的东西会把心情抬起来一点。', '热乎气一上来，烦恼就小了。'],
+      extras: ['把心情煮热一点，事情就没那么刺。', '别把快乐想得太宏大，小小一口也算。', '今天就当是给自己放个小烟花。'],
+      tags: ['now', 'mood', 'festival'],
+    },
+    '端午节': {
+      titles: ['稳稳当当', '踏实一点', '清清爽爽', '有劲'],
+      oneLiners: ['今天更适合把心收拢一点，慢慢往前。', '踏实点就好，不用太满。', '把杂念丢一丢，日子就清爽了。'],
+      extras: ['把节奏握在手里，就不怕浪。', '别硬扛，慢慢推也很厉害。', '稳住了，就赢了一半。'],
+      tags: ['now', 'mood', 'festival'],
+    },
+    '中秋节': {
+      titles: ['温柔一点', '想念有形', '安心', '月光很亮'],
+      oneLiners: ['今天的心情更像一盏小灯：不吵，但很亮。', '想念这东西，摸不着但很真实。', '抬头看看，心就松一点。'],
+      extras: ['别怕空，月亮会把它照满。', '把想念留在心里，不一定要说出口。', '今天就慢一点，允许自己柔软。'],
+      tags: ['now', 'mood', 'festival'],
+    },
+  };
+
   let oneLiner = pickVariant(`${ymd}:${base.key}:one`, base.oneLiners) ?? base.oneLiner;
   let extra = pickVariant(`${ymd}:${base.key}:extra`, base.extras) ?? base.extra;
+  let title = base.title;
+  let tags = base.tags;
 
-    // De-dup: try to avoid generating the exact same title + one-liner as yesterday.
-    const y = loadYesterdayMoodNow({ ymd: prevYmd(ymd) });
-    if (y && normalizeTitle(y.title) === normalizeTitle(base.title)) {
+  if (festival?.key && FESTIVAL_CATALOG[festival.key]) {
+    const fc = FESTIVAL_CATALOG[festival.key];
+    title = pickVariant(`${ymd}:festival:${festival.key}:title`, fc.titles) ?? title;
+    oneLiner = pickVariant(`${ymd}:festival:${festival.key}:one`, fc.oneLiners) ?? oneLiner;
+    extra = pickVariant(`${ymd}:festival:${festival.key}:extra`, fc.extras) ?? extra;
+    tags = Array.from(new Set([...(fc.tags || []), ...(base.tags || [])]));
+  }
+
+  // De-dup: try to avoid generating the exact same title + one-liner as yesterday.
+  const y = loadYesterdayMoodNow({ ymd: prevYmd(ymd) });
+  if (y && normalizeTitle(y.title) === normalizeTitle(title)) {
+    if (festival?.key && FESTIVAL_CATALOG[festival.key]) {
+      const fc = FESTIVAL_CATALOG[festival.key];
+      oneLiner = pickNextVariant(`${ymd}:festival:${festival.key}:one`, fc.oneLiners, y.oneLiner) ?? oneLiner;
+      extra = pickNextVariant(`${ymd}:festival:${festival.key}:extra`, fc.extras, null) ?? extra;
+      title = pickNextVariant(`${ymd}:festival:${festival.key}:title`, fc.titles, normalizeTitle(y.title)) ?? title;
+    } else {
       oneLiner = pickNextVariant(`${ymd}:${base.key}:one`, base.oneLiners, y.oneLiner) ?? oneLiner;
       extra = pickNextVariant(`${ymd}:${base.key}:extra`, base.extras, null) ?? extra;
     }
+  }
 
-const choice = {
+  const choice = {
     mood: base.mood,
     image: base.image,
-    tags: base.tags,
-    title: base.title,
+    tags,
+    title,
     oneLiner,
     extra,
+    festival: festival?.key || null,
   };
 
-  if (shouldSkip({ commitCount, force })) {
+  if (shouldSkip({ commitCount, force, isFestival: Boolean(choice.festival) })) {
     console.log(`[daily-mood] Skip posting (commitCount=${commitCount}).`);
     return;
   }
@@ -441,17 +510,20 @@ const choice = {
   ].join('\n');
 
   // Tiny, consistent body — emotion only.
-  const body = [
+  const bodyLines = [
     '![cover](cover.jpg)',
     '',
     `一句话：${choice.oneLiner}`,
     '',
     '获麟说（甩甩尾巴）：',
-    `> 今天的心情大概是「${choice.mood}」。`,
+    choice.festival ? `> 今天是「${choice.festival}」。` : null,
+    `> 今天大概是「${choice.mood}」。`,
     `> ${choice.extra}`,
     '',
     '（只记录情绪，不展开细节。）',
-  ].join('\n');
+  ].filter(Boolean);
+
+  const body = bodyLines.join('\n');
 
   const mdPath = path.join(postDir, 'index.md');
 
