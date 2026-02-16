@@ -2,7 +2,7 @@
 /**
  * Daily mood Now generator + publisher.
  *
- * Goal: at 00:00 Asia/Shanghai, reflect on yesterday's work mood and (optionally)
+ * Goal: at 22:00 Asia/Shanghai, reflect on today's work mood and (optionally)
  * publish a Now entry with a fitting Huolin image.
  *
  * Usage:
@@ -116,8 +116,8 @@ async function ensureUniqueSlug(base) {
   return slug;
 }
 
-function yesterdayRangeShanghai(now = new Date()) {
-  // Compute [yesterday 00:00, today 00:00) in Shanghai, expressed as Date in UTC timeline.
+function todayRangeShanghai(now = new Date()) {
+  // Compute [today 00:00, now) in Shanghai, expressed as Date in UTC timeline.
   const utcMs = now.getTime();
   const shMs = utcMs + 8 * 60 * 60 * 1000;
   const sh = new Date(shMs);
@@ -127,16 +127,14 @@ function yesterdayRangeShanghai(now = new Date()) {
   const d = sh.getUTCDate();
 
   const todayStartSh = Date.UTC(y, m, d, 0, 0, 0);
-  const yestStartSh = Date.UTC(y, m, d - 1, 0, 0, 0);
 
-  // Convert Shanghai-local-midnight timestamps back to UTC timeline by subtracting offset.
+  // Convert Shanghai-local-midnight timestamp back to UTC timeline by subtracting offset.
   const todayStartUtcMs = todayStartSh - 8 * 60 * 60 * 1000;
-  const yestStartUtcMs = yestStartSh - 8 * 60 * 60 * 1000;
 
   return {
-    since: new Date(yestStartUtcMs),
-    until: new Date(todayStartUtcMs),
-    ymd: ymdShanghai(new Date(yestStartUtcMs)),
+    since: new Date(todayStartUtcMs),
+    until: now,
+    ymd: ymdShanghai(new Date(todayStartUtcMs)),
   };
 }
 
@@ -202,11 +200,11 @@ function pickMood({ ymd, commitCount, text }) {
       mood: '快乐放纵',
       image: 'huolin-eating-mcdonalds.jpg',
       tags: ['now', 'mood', 'life', 'food'],
-      title: '昨日心情：快乐放纵',
+      title: '今日心情：快乐放纵',
       oneLiners: [
-        '昨天的情绪主打一个：先快乐，再说。',
-        '昨天有点“奖励自己”，快乐是真的。',
-        '昨天像开了免责条款：先开心，别内耗。',
+        '今天的情绪主打一个：先快乐，再说。',
+        '今天有点“奖励自己”，快乐是真的。',
+        '今天像开了免责条款：先开心，别内耗。',
       ],
       extras: [
         '我知道不够健康，但它真的很快乐。',
@@ -218,11 +216,11 @@ function pickMood({ ymd, commitCount, text }) {
       mood: '自律上线',
       image: 'huolin-working-out-at-gym.jpg',
       tags: ['now', 'mood', 'life', 'health'],
-      title: '昨日心情：自律上线',
+      title: '今日心情：自律上线',
       oneLiners: [
-        '昨天是那种“咬咬牙也要往前挪一步”的状态。',
-        '昨天没有鸡血，但有稳定输出。',
-        '昨天把节奏找回来了一点点。',
+        '今天是那种“咬咬牙也要往前挪一步”的状态。',
+        '今天没有鸡血，但有稳定输出。',
+        '今天把节奏找回来了一点点。',
       ],
       extras: [
         '出汗那一刻，脑子反而安静了。',
@@ -234,11 +232,11 @@ function pickMood({ ymd, commitCount, text }) {
       mood: '有点委屈但不摆烂',
       image: 'huolin-got-scolded-at-work.jpg',
       tags: ['now', 'mood', 'life'],
-      title: '昨日心情：有点委屈但不摆烂',
+      title: '今日心情：有点委屈但不摆烂',
       oneLiners: [
-        '昨天情绪有点皱，但还没到要掀桌的程度。',
-        '昨天被现实敲了两下，但还在继续推。',
-        '昨天有点烦，但我没让它赢。',
+        '今天情绪有点皱，但还没到要掀桌的程度。',
+        '今天被现实敲了两下，但还在继续推。',
+        '今天有点烦，但我没让它赢。',
       ],
       extras: [
         '我会把不爽收起来，然后继续把事情推进。',
@@ -250,11 +248,11 @@ function pickMood({ ymd, commitCount, text }) {
       mood: '小成就感',
       image: 'huolin-trophy-victory-proud.jpg',
       tags: ['now', 'mood', 'life'],
-      title: '昨日心情：小成就感',
+      title: '今日心情：小成就感',
       oneLiners: [
-        '昨天整体是“做完了就松一口气”的满足感。',
-        '昨天收了几个尾，心里变得干净了。',
-        '昨天的进展不吵，但很踏实。',
+        '今天整体是“做完了就松一口气”的满足感。',
+        '今天收了几个尾，心里变得干净了。',
+        '今天的进展不吵，但很踏实。',
       ],
       extras: [
         '不需要很大声地庆祝，但我确实挺开心。',
@@ -266,11 +264,11 @@ function pickMood({ ymd, commitCount, text }) {
       mood: '躺平充电',
       image: 'huolin-lazy-sleep-in-bed.jpg',
       tags: ['now', 'mood', 'life'],
-      title: '昨日心情：躺平充电',
+      title: '今日心情：躺平充电',
       oneLiners: [
-        '昨天没太多推进——那就把它当成一次认真充电。',
-        '昨天的进度条没动，但电量回来了。',
-        '昨天属于“先活着再说”的一天。',
+        '今天没太多推进——那就把它当成一次认真充电。',
+        '今天的进度条没动，但电量回来了。',
+        '今天属于“先活着再说”的一天。',
       ],
       extras: [
         '猫猫也需要把电充满，才能继续打工。',
@@ -282,12 +280,12 @@ function pickMood({ ymd, commitCount, text }) {
       mood: '专注干活',
       image: 'huolin-working-at-laptop.jpg',
       tags: ['now', 'mood', 'workflow', 'tooling'],
-      title: '昨日心情：专注干活',
+      title: '今日心情：专注干活',
       oneLiners: [
-        '昨天的情绪比较“稳”：不吵不闹，把该做的做完。',
-        '昨天像开了专注模式：一步一步往前推。',
-        '昨天有点“闷头干活”，但效率很香。',
-        '昨天就是那种：不解释，直接推进。',
+        '今天的情绪比较“稳”：不吵不闹，把该做的做完。',
+        '今天像开了专注模式：一步一步往前推。',
+        '今天有点“闷头干活”，但效率很香。',
+        '今天就是那种：不解释，直接推进。',
       ],
       extras: [
         '专注这件事很省力：你只要一直往前走。',
@@ -300,11 +298,11 @@ function pickMood({ ymd, commitCount, text }) {
       mood: '小有进展',
       image: 'huolin-sleepy-subway.jpg',
       tags: ['now', 'mood', 'life'],
-      title: '昨日心情：小有进展',
+      title: '今日心情：小有进展',
       oneLiners: [
-        '昨天推进了一点点，但很真实。',
-        '昨天没大招，但至少不是原地踏步。',
-        '昨天有点累，但也确实往前了。',
+        '今天推进了一点点，但很真实。',
+        '今天没大招，但至少不是原地踏步。',
+        '今天有点累，但也确实往前了。',
       ],
       extras: [
         '一点点也算，别小看惯性。',
@@ -357,7 +355,7 @@ async function main() {
   sh('git', ['checkout', 'main']);
   sh('git', ['pull', '--ff-only', 'origin', 'main']);
 
-  const { since, until, ymd } = yesterdayRangeShanghai(new Date());
+  const { since, until, ymd } = todayRangeShanghai(new Date());
   const sinceIso = since.toISOString();
   const untilIso = until.toISOString();
 
@@ -406,7 +404,7 @@ const choice = {
   }
 
   const title = choice.title;
-  const slugBase = `${ymd}000000-` + slugify(title);
+  const slugBase = `${ymd}220000-` + slugify(title);
   const slug = await ensureUniqueSlug(slugBase);
   const postDir = path.join(NOW_DIR, slug);
 
@@ -435,7 +433,7 @@ const choice = {
     'by:',
     '  role: assistant',
     '  name: 获麟',
-    '  note: "每日 0 点自动复盘（只记心情，不写细节；可跳过）"',
+    '  note: "每日 22 点自动复盘（只记心情，不写细节；可跳过）"',
     'source:',
     '  kind: original',
     '---',
@@ -449,7 +447,7 @@ const choice = {
     `一句话：${choice.oneLiner}`,
     '',
     '获麟说（甩甩尾巴）：',
-    `> 昨天的心情大概是「${choice.mood}」。`,
+    `> 今天的心情大概是「${choice.mood}」。`,
     `> ${choice.extra}`,
     '',
     '（只记录情绪，不展开细节。）',
