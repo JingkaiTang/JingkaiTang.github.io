@@ -1,9 +1,9 @@
 {
-  "builtAt": "2026-02-15T03:21:11.054Z",
+  "builtAt": "2026-02-16T15:01:09.495Z",
   "counts": {
     "writing": 2,
-    "huolin": 17,
-    "total": 19
+    "huolin": 18,
+    "total": 20
   },
   "items": [
     {
@@ -13,6 +13,10 @@
     {
       "url": "/writing/补档-欢迎光临-臭屁宝/cover.jpg",
       "kind": "writing-cover"
+    },
+    {
+      "url": "/huolin/festival-chuxi-01.jpg",
+      "kind": "huolin-mood"
     },
     {
       "url": "/huolin/huolin-angry-overtime-ripping-paper.jpg",
