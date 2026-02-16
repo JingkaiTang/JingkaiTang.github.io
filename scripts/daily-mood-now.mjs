@@ -199,8 +199,8 @@ function loadYesterdayMoodNow({ ymd }) {
     const mdPath = path.join(NOW_DIR, dirs[dirs.length - 1], 'index.md');
     const raw = fs.readFileSync(mdPath, 'utf8');
     const title = (raw.match(/^title:\s*"([^"]+)"/m)?.[1]) || '';
-    const oneLiner = (raw.match(/^一句话：(.+)$/m)?.[1]) || '';
-    return { title: normalizeTitle(title), oneLiner: String(oneLiner).trim() };
+    const desc = (raw.match(/^description:\s*"([^"]*)"/m)?.[1]) || '';
+    return { title: normalizeTitle(title), oneLiner: String(desc).trim() };
   } catch {
     return null;
   }
@@ -605,7 +605,7 @@ async function main() {
   const pubDate = isoShanghai(new Date());
   const fm = [
     '---',
-    `title: ${JSON.stringify(`Now: ${postTitle}`)}`,
+    `title: ${JSON.stringify(postTitle)}`,
     `description: ${JSON.stringify(choice.oneLiner)}`,
     `pubDate: ${JSON.stringify(pubDate)}`,
     `tags: [${choice.tags.map((t) => JSON.stringify(t)).join(', ')}]`,
@@ -614,7 +614,6 @@ async function main() {
     'by:',
     '  role: assistant',
     '  name: 获麟',
-    '  note: "每日 22 点自动复盘（只记心情，不写细节；可跳过）"',
     'source:',
     '  kind: original',
     '---',
@@ -625,14 +624,10 @@ async function main() {
   const bodyLines = [
     '![cover](cover.jpg)',
     '',
-    `一句话：${choice.oneLiner}`,
+    choice.festival ? `今天是「${choice.festival}」。` : null,
+    choice.oneLiner,
     '',
-    '获麟说（甩甩尾巴）：',
-    choice.festival ? `> 今天是「${choice.festival}」。` : null,
-    `> 今天大概是「${choice.mood}」。`,
-    `> ${choice.extra}`,
-    '',
-    '（只记录情绪，不展开细节。）',
+    choice.extra,
   ].filter(Boolean);
 
   const body = bodyLines.join('\n');
