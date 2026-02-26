@@ -652,8 +652,9 @@ async function main() {
 
   sh('git', ['push', `ssh://git@ssh.github.com:443/${REPO}.git`, 'main']);
 
-  // Ensure Pages deploy catches up
-  sh('node', ['scripts/ensure-pages-deploy.mjs', '--workflow', 'pages.yml', '--branch', 'main']);
+  // Pages deploy is triggered by the push-to-main workflow.
+  // NOTE: Avoid triggering an extra workflow_dispatch here; it can race with the push-triggered run
+  // and cause GitHub Actions "canceled" notification emails due to concurrency.
 
   console.log(`Published Now: /now/${slug}/`);
 }
