@@ -1,6 +1,6 @@
 {
   "user": "JingkaiTang",
-  "fetchedAt": "2026-02-26T14:00:29.279Z",
+  "fetchedAt": "2026-02-28T14:00:48.281Z",
   "pins": [
     {
       "name": "BarPin",
@@ -26,7 +26,7 @@
       "forks": 0,
       "language": "JavaScript",
       "languageColor": "#f1e05a",
-      "updatedAt": "2026-02-26T13:05:53Z",
+      "updatedAt": "2026-02-26T14:01:02Z",
       "isArchived": false,
       "isFork": false
     },
@@ -41,6 +41,34 @@
       "language": "TypeScript",
       "languageColor": "#3178c6",
       "updatedAt": "2026-02-18T02:32:37Z",
+      "isArchived": false,
+      "isFork": false
+    },
+    {
+      "name": "ainewssprite",
+      "fullName": "JingkaiTang/ainewssprite",
+      "description": "AI 新闻精灵 -- 每日 AI 领域新闻自动聚合工具",
+      "url": "https://github.com/JingkaiTang/ainewssprite",
+      "homepageUrl": "",
+      "stars": 0,
+      "forks": 0,
+      "language": "Python",
+      "languageColor": "#3572A5",
+      "updatedAt": "2026-02-27T12:14:11Z",
+      "isArchived": false,
+      "isFork": false
+    },
+    {
+      "name": "babysleep",
+      "fullName": "JingkaiTang/babysleep",
+      "description": "🌙 哄睡神器 — 宝宝安睡小助手 | Web Audio API 白噪音 + 摇篮曲 + 夜灯",
+      "url": "https://github.com/JingkaiTang/babysleep",
+      "homepageUrl": "",
+      "stars": 0,
+      "forks": 0,
+      "language": "JavaScript",
+      "languageColor": "#f1e05a",
+      "updatedAt": "2026-02-23T14:23:14Z",
       "isArchived": false,
       "isFork": false
     }
