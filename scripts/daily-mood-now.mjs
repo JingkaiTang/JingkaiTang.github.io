@@ -25,6 +25,21 @@ function sh(cmd, args, opts = {}) {
   if (r.status !== 0) process.exit(r.status ?? 1);
 }
 
+function shRetry(cmd, args, retries = 3, delayMs = 2000) {
+  // 带重试的 sh，用于网络操作（如 git push）
+  for (let i = 0; i < retries; i++) {
+    const r = spawnSync(cmd, args, { stdio: 'inherit', ...opts });
+    if (r.status === 0) return;
+    if (i < retries - 1) {
+      console.log(`[retry] ${cmd} ${args.join(' ')} failed, retrying in ${delayMs}ms... (${i + 1}/${retries})`);
+      const waitMs = delayMs * Math.pow(2, i); // 指数退避
+      const start = Date.now();
+      while (Date.now() - start < waitMs) { /* busy wait */ }
+    }
+  }
+  process.exit(1);
+}
+
 function shOut(cmd, args) {
   const r = spawnSync(cmd, args, { encoding: 'utf8' });
   if (r.status !== 0) throw new Error(r.stderr || `Command failed: ${cmd} ${args.join(' ')}`);
@@ -650,7 +665,7 @@ async function main() {
   const msg = `Now: ${postTitle}`;
   sh('git', ['commit', '-m', msg]);
 
-  sh('git', ['push', `ssh://git@ssh.github.com:443/${REPO}.git`, 'main']);
+  shRetry('git', ['push', 'origin', 'main']);
 
   // Pages deploy is triggered by the push-to-main workflow.
   // NOTE: Avoid triggering an extra workflow_dispatch here; it can race with the push-triggered run
