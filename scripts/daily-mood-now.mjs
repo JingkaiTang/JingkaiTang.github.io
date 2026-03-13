@@ -28,7 +28,7 @@ function sh(cmd, args, opts = {}) {
 function shRetry(cmd, args, retries = 3, delayMs = 2000) {
   // 带重试的 sh，用于网络操作（如 git push）
   for (let i = 0; i < retries; i++) {
-    const r = spawnSync(cmd, args, { stdio: 'inherit', ...opts });
+    const r = spawnSync(cmd, args, { stdio: 'inherit' });
     if (r.status === 0) return;
     if (i < retries - 1) {
       console.log(`[retry] ${cmd} ${args.join(' ')} failed, retrying in ${delayMs}ms... (${i + 1}/${retries})`);
