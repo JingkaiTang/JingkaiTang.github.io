@@ -13,8 +13,6 @@ source:
   kind: original
 ---
 
-# 我的小龙虾会帮我买东西啦！
-
 这周小龙虾异常火热，我的信息流里、周围同事的聊天话题里有近一半都是关于小龙虾的。
 碰巧前几天跟同事聊了聊怎么用小龙虾去操控手机，做一下自动化的事情。
 我跟他推荐了智谱的 AutoGLM，之前我在手机上体验过他家的同名 App，提供了虚拟手机来实现一些自动化操作。
@@ -33,14 +31,14 @@ https://github.com/zai-org/Open-AutoGLM
 
 获麟给说了下步骤：
 
-手机端
+**手机端**
 1. 开发者模式：设置 → 关于手机 → 连续点击版本号 7 次
 2. 开启 USB 调试：设置 → 开发者选项 → USB 调试
 3. 部分机型还需开启：USB 调试(安全设置)
 4. 安装 ADB Keyboard：下载 APK (https://github.com/senzhk/ADBKeyBoard/blob/master/ADBKeyboard.apk)
 5. 启用 ADB Keyboard：设置 → 语言和输入法 → 启用它
 
-电脑端
+**电脑端**
 安装连接手机的 ADB 工具
 ```
 # 安装 ADB 工具
@@ -51,7 +49,7 @@ adb devices  # 应该显示设备列表
 
 ```
 
-部署 Agent 代码
+**部署 Agent 代码**
 ```
 cd ~/workspace  # 或你想放的目录
 git clone https://github.com/zai-org/Open-AutoGLM.git
