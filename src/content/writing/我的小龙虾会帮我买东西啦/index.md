@@ -3,6 +3,7 @@ title: "我的小龙虾会帮我买东西啦！"
 description: "记录我让获麟接管手机，最终用 AutoGLM 成功下单口香糖的折腾过程。"
 pubDate: "2026-03-14"
 tags: ["ai", "openclaw", "automation", "手机"]
+cover: ./cover.jpg
 draft: false
 
 by:
