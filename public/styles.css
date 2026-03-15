@@ -146,6 +146,43 @@
   color-scheme: dark;
 }
 
+:root[data-theme='spring'] {
+  --bg: #f8faf6;
+  --surface: rgba(255, 255, 255, 0.88);
+  --primary: #7cb342;
+  --accent: #ffb7c5;
+  --text: #2d3436;
+  --muted: #6b7280;
+  --border: rgba(124, 179, 66, 0.28);
+  --glow: 0 0 28px rgba(124, 179, 66, 0.25);
+  --bg-orb-1: #e8f5d9;
+  --bg-orb-2: #ffe6eb;
+  --ambient-1: rgba(124, 179, 66, 0.1);
+  --ambient-2: rgba(255, 183, 197, 0.1);
+  --avatar-border: rgba(124, 179, 66, 0.35);
+  --hover-glow: rgba(124, 179, 66, 0.18);
+  --panel-border-soft: rgba(124, 179, 66, 0.18);
+  --panel-accent-soft: rgba(124, 179, 66, 0.1);
+  --panel-bg-strong: rgba(255, 255, 255, 0.94);
+  --stack-bg: rgba(124, 179, 66, 0.1);
+  --field-bg: rgba(248, 250, 246, 0.96);
+  --text-strong: rgba(45, 52, 54, 0.96);
+  --text-dim-strong: rgba(45, 52, 54, 0.88);
+  --blockquote-border: rgba(124, 179, 66, 0.4);
+  --blockquote-text: rgba(45, 52, 54, 0.9);
+  --blockquote-bg: rgba(124, 179, 66, 0.08);
+  --code-bg: rgba(124, 179, 66, 0.1);
+  --code-border: rgba(124, 179, 66, 0.25);
+  --pre-bg: rgba(248, 250, 246, 0.96);
+  --image-border: rgba(124, 179, 66, 0.22);
+  --toc-bg: rgba(255, 255, 255, 0.9);
+  --modal-border: rgba(124, 179, 66, 0.25);
+  --modal-bg: rgba(255, 255, 255, 0.96);
+  --modal-divider: rgba(124, 179, 66, 0.18);
+  --modal-close-border: rgba(124, 179, 66, 0.25);
+  color-scheme: light;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -807,4 +844,58 @@ main {
   border: 1px solid var(--border);
   border-radius: 14px;
   color: var(--text);
+}
+
+/* Spring Theme Decorations - Cherry Blossom Petals */
+:root[data-theme='spring'] .spring-petals {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+:root[data-theme='spring'] .spring-petal {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(135deg, #ffb7c5 0%, #ffd1dc 100%);
+  border-radius: 12px 0 12px 0;
+  opacity: 0.7;
+  animation: petal-fall linear infinite;
+}
+
+:root[data-theme='spring'] .spring-petal:nth-child(1) { left: 5%; animation-duration: 12s; animation-delay: 0s; }
+:root[data-theme='spring'] .spring-petal:nth-child(2) { left: 15%; animation-duration: 15s; animation-delay: 2s; }
+:root[data-theme='spring'] .spring-petal:nth-child(3) { left: 25%; animation-duration: 11s; animation-delay: 4s; }
+:root[data-theme='spring'] .spring-petal:nth-child(4) { left: 35%; animation-duration: 14s; animation-delay: 1s; }
+:root[data-theme='spring'] .spring-petal:nth-child(5) { left: 45%; animation-duration: 13s; animation-delay: 3s; }
+:root[data-theme='spring'] .spring-petal:nth-child(6) { left: 55%; animation-duration: 16s; animation-delay: 5s; }
+:root[data-theme='spring'] .spring-petal:nth-child(7) { left: 65%; animation-duration: 12s; animation-delay: 2s; }
+:root[data-theme='spring'] .spring-petal:nth-child(8) { left: 75%; animation-duration: 14s; animation-delay: 4s; }
+:root[data-theme='spring'] .spring-petal:nth-child(9) { left: 85%; animation-duration: 11s; animation-delay: 1s; }
+:root[data-theme='spring'] .spring-petal:nth-child(10) { left: 95%; animation-duration: 15s; animation-delay: 3s; }
+
+@keyframes petal-fall {
+  0% {
+    transform: translateY(-10vh) rotate(0deg) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(110vh) rotate(720deg) translateX(50px);
+    opacity: 0;
+  }
+}
+
+/* Accessibility: Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  :root[data-theme='spring'] .spring-petals {
+    display: none;
+  }
 }
