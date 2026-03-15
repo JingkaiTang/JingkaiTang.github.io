@@ -1,5 +1,14 @@
 # HEARTBEAT.md - JingkaiTang.github.io 项目
 
+## 路径说明（重要）
+- **Agent 工作区**：`/home/t7kai/.openclaw/workspace-JingkaiTang.github.io/`
+  - 存放：AGENTS.md、HEARTBEAT.md、TODO.md、MEMORY.md
+  - 用途：Agent 配置、任务清单、记忆
+- **博客项目区**：`/home/t7kai/workspace/JingkaiTang.github.io/`
+  - 存放：package.json、src/、scripts/、文章内容
+  - 用途：博客源代码、构建、发布
+- **执行命令时**：需要 `cd /home/t7kai/workspace/JingkaiTang.github.io/` 再运行 npm/git 命令
+
 ## 项目监控任务
 
 ### 1. GitHub 仓库检查（每天 09:00）
