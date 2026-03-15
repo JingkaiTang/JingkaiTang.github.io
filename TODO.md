@@ -35,11 +35,11 @@
   - 验收：OG/Twitter meta 正确；分享卡片可用
   - 影响范围：全站 head/meta
   - 备注：已实现，og:image 使用绝对 URL，支持 Twitter summary_large_image
-- [ ] [P1] RSS/站点地图
+- [x] [P1] RSS/站点地图
   - 目标：支持订阅与 SEO
   - 验收：rss.xml + sitemap.xml 可访问
   - 影响范围：构建产物
-  - 备注：
+  - 备注：已实现，rss.xml 含最新文章，sitemap.xml 含全站页面
 - [ ] [P1] 图片懒加载与统一尺寸
   - 目标：提升加载速度与一致性
   - 验收：图片懒加载生效；尺寸/占位一致
