@@ -23,6 +23,7 @@
     "build": "node scripts/fetch-github-pins.mjs && node scripts/build-footer-gallery.mjs && astro build && pagefind --site dist",
     "test": "vitest run",
     "test:watch": "vitest",
+    "audit:size": "node scripts/audit-size.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
