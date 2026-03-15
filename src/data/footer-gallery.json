@@ -1,11 +1,15 @@
 {
-  "builtAt": "2026-02-16T15:04:44.087Z",
+  "builtAt": "2026-03-15T04:09:04.213Z",
   "counts": {
-    "writing": 2,
+    "writing": 3,
     "huolin": 21,
-    "total": 23
+    "total": 24
   },
   "items": [
+    {
+      "url": "/writing/我的小龙虾会帮我买东西啦/cover.jpg",
+      "kind": "writing-cover"
+    },
     {
       "url": "/writing/我雇了个-ai-打工人-一次跑通-github-pages-pr-ci-的完整工作流/cover.jpg",
       "kind": "writing-cover"
