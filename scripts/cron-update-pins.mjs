@@ -12,7 +12,6 @@
  */
 
 import { execSync } from 'child_process';
-import { existsSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -21,10 +20,9 @@ const ROOT = join(__dirname, '..');
 
 function run(cmd) {
   try {
-    return execSync(cmd, { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+    return execSync(cmd, { cwd: ROOT, encoding: 'utf8', stdio: 'inherit' });
   } catch (error) {
     console.error(`❌ 命令失败：${cmd}`);
-    console.error(error.stderr || error.message);
     process.exit(1);
   }
 }
@@ -37,13 +35,13 @@ function main() {
   run('git checkout main');
   run('git pull --ff-only');
 
-  // 2. 运行更新脚本
+  // 2. 运行更新脚本（使用完整 npm 路径）
   console.log('🔄 运行 fetch-github-pins.mjs...');
-  run('npm run update:pins');
+  run('npm run update:pins --if-present');
 
   // 3. 检查是否有变更
   console.log('🔍 检查变更...');
-  const status = run('git status --porcelain src/data/github-pins.json');
+  const status = execSync('git status --porcelain src/data/github-pins.json', { cwd: ROOT, encoding: 'utf8' });
   
   if (!status.trim()) {
     console.log('✅ 无变更，跳过提交');
