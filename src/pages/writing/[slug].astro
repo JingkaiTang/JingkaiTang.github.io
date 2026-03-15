@@ -8,13 +8,21 @@ export async function getStaticPaths() {
   // Include drafts so they can be previewed via direct link.
   // Drafts are still hidden from feeds/lists elsewhere.
   const posts = await getCollection('writing');
-  return posts.map((p) => ({
+  
+  // Sort posts by pubDate (newest first) for prev/next navigation
+  const sortedPosts = posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+  
+  return posts.map((p, index) => ({
     params: { slug: p.slug.replace(/\/index$/, '') },
-    props: { post: p },
+    props: { 
+      post: p,
+      prevPost: sortedPosts[index - 1] || null, // Newer post
+      nextPost: sortedPosts[index + 1] || null, // Older post
+    },
   }));
 }
 
-const { post } = Astro.props;
+const { post, prevPost, nextPost } = Astro.props;
 const { Content, headings } = await render(post);
 
 const toc = (headings ?? []).filter((h) => h.depth >= 2 && h.depth <= 3);
@@ -72,6 +80,25 @@ const { words, minutes } = calculateReadingTime(postBody);
         <div class="post-content">
           <Content />
         </div>
+
+        {/* Prev/Next Navigation */}
+        {(prevPost || nextPost) && (
+          <nav class="post-nav">
+            {prevPost ? (
+              <a href={`/writing/${prevPost.slug.replace(/\/index$/, '')}/`} class="post-nav-link post-nav-link--prev">
+                <span class="post-nav-label">← 上一篇</span>
+                <span class="post-nav-title">{prevPost.data.title}</span>
+              </a>
+            ) : <div class="post-nav-link post-nav-link--placeholder"></div>}
+            
+            {nextPost ? (
+              <a href={`/writing/${nextPost.slug.replace(/\/index$/, '')}/`} class="post-nav-link post-nav-link--next">
+                <span class="post-nav-label">下一篇 →</span>
+                <span class="post-nav-title">{nextPost.data.title}</span>
+              </a>
+            ) : <div class="post-nav-link post-nav-link--placeholder"></div>}
+          </nav>
+        )}
       </article>
 
       {toc.length ? (

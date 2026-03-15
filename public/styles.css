@@ -846,6 +846,72 @@ main {
   color: var(--text);
 }
 
+/* Post Navigation (Prev/Next) */
+.post-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.post-nav-link {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: var(--theme-radius-sm);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  background: var(--panel-bg-strong);
+}
+
+.post-nav-link:hover {
+  border-color: var(--primary);
+  background: var(--panel-accent-soft);
+}
+
+.post-nav-link--placeholder {
+  visibility: hidden;
+}
+
+.post-nav-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.post-nav-title {
+  color: var(--text);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.post-nav-link--prev {
+  text-align: left;
+  align-items: flex-start;
+}
+
+.post-nav-link--next {
+  text-align: right;
+  align-items: flex-end;
+}
+
+@media (max-width: 768px) {
+  .post-nav {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .post-nav-link--prev,
+  .post-nav-link--next {
+    text-align: left;
+    align-items: flex-start;
+  }
+}
+
 /* Spring Theme Decorations - Cherry Blossom Petals */
 :root[data-theme='spring'] .spring-petals {
   position: fixed;
