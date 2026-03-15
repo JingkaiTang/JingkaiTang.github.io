@@ -23,6 +23,13 @@ const canonicalUrl = canonical
     ? new URL(Astro.url.pathname, siteUrl)
     : null;
 
+// Resolve ogImage to absolute URL for social sharing
+const ogImageUrl = ogImage.startsWith('http')
+  ? ogImage
+  : siteUrl
+    ? new URL(ogImage, siteUrl).toString()
+    : ogImage;
+
 const BASE_URL = import.meta.env.BASE_URL;
 ---
 
@@ -43,12 +50,12 @@ const BASE_URL = import.meta.env.BASE_URL;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     {siteUrl ? <meta property="og:url" content={canonicalUrl?.toString() ?? siteUrl.toString()} /> : null}
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:image" content={ogImageUrl} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image" content={ogImageUrl} />
 
     <title>{title}</title>
 

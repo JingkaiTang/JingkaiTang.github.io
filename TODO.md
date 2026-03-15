@@ -30,11 +30,11 @@
   - 验收：文章页底部出现上一篇/下一篇
   - 影响范围：文章详情页
   - 备注：
-- [ ] [P1] Open Graph 分享图
+- [x] [P1] Open Graph 分享图
   - 目标：分享时显示美观预览
   - 验收：OG/Twitter meta 正确；分享卡片可用
   - 影响范围：全站 head/meta
-  - 备注：
+  - 备注：已实现，og:image 使用绝对 URL，支持 Twitter summary_large_image
 - [ ] [P1] RSS/站点地图
   - 目标：支持订阅与 SEO
   - 验收：rss.xml + sitemap.xml 可访问
