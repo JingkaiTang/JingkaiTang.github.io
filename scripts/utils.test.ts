@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { slugify, parseArgs, normalizeTags, todayISO, isDraft } from './utils.test-utils.js';
+import { slugify, parseArgs, normalizeTags, todayISO, isDraft } from './utils.test-utils';
 
 describe('slugify', () => {
   describe('basic transformations', () => {

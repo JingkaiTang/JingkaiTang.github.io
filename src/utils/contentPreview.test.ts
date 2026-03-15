@@ -3,7 +3,7 @@ import {
   pickFirstImageFromMarkdown,
   pickCover,
   resolveMaybeRelativeUrl,
-} from './contentPreview.js';
+} from './contentPreview';
 
 describe('pickFirstImageFromMarkdown', () => {
   describe('markdown image syntax', () => {

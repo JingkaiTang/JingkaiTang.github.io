@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { formatShanghai } from './dateFormat.js';
+import { formatShanghai } from './dateFormat';
 
 describe('formatShanghai', () => {
   it('formats a date in Asia/Shanghai timezone with seconds by default', () => {
