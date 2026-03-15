@@ -892,3 +892,10 @@ main {
     opacity: 0;
   }
 }
+
+/* Accessibility: Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  :root[data-theme='spring'] .spring-petals {
+    display: none;
+  }
+}
