@@ -16,16 +16,22 @@ export async function getStaticPaths() {
   // Sort posts by pubDate (newest first) for prev/next navigation
   const sortedPosts = publishedPosts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
   
-  return posts.map((p, index) => {
+  // Build a map: postId -> index in sortedPosts (O(1) lookup)
+  const postIndexMap = new Map(
+    sortedPosts.map((post, index) => [post.id, index])
+  );
+  
+  return posts.map((p) => {
     // Find the index of this post in the sorted published posts
-    const publishedIndex = publishedPosts.findIndex(published => published.id === p.id);
+    const publishedIndex = postIndexMap.get(p.id);
     
     return {
       params: { slug: p.slug.replace(/\/index$/, '') },
       props: { 
         post: p,
-        prevPost: publishedIndex >= 0 ? (sortedPosts[publishedIndex - 1] || null) : null, // Newer post
-        nextPost: publishedIndex >= 0 ? (sortedPosts[publishedIndex + 1] || null) : null, // Older post
+        // Only show prev/next for published posts
+        prevPost: publishedIndex !== undefined ? (sortedPosts[publishedIndex - 1] || null) : null, // Newer post
+        nextPost: publishedIndex !== undefined ? (sortedPosts[publishedIndex + 1] || null) : null, // Older post
       },
     };
   });
