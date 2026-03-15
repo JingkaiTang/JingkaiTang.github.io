@@ -25,7 +25,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "audit:size": "node scripts/audit-size.mjs",
+    "compress:images": "node scripts/compress-images.mjs",
+    "validate:publish": "node scripts/validate-publish.mjs",
     "preview": "astro preview",
+    "preview:lan": "node scripts/preview-lan.mjs",
     "astro": "astro"
   },
   "engines": {
@@ -35,6 +38,7 @@
   "packageManager": "npm@10.8.2",
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
+    "gray-matter": "^4.0.3",
     "typescript": "^5.9.3",
     "vitest": "^4.1.0"
   },
