@@ -9,17 +9,32 @@ export async function getStaticPaths() {
   // Drafts are still hidden from feeds/lists elsewhere.
   const posts = await getCollection('writing');
   
-  // Sort posts by pubDate (newest first) for prev/next navigation
-  const sortedPosts = posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+  // Filter out drafts for prev/next navigation
+  // Drafts should not appear in navigation and should not be linked from published posts
+  const publishedPosts = posts.filter(p => !p.data.draft);
   
-  return posts.map((p, index) => ({
-    params: { slug: p.slug.replace(/\/index$/, '') },
-    props: { 
-      post: p,
-      prevPost: sortedPosts[index - 1] || null, // Newer post
-      nextPost: sortedPosts[index + 1] || null, // Older post
-    },
-  }));
+  // Sort posts by pubDate (newest first) for prev/next navigation
+  const sortedPosts = publishedPosts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+  
+  // Build a map: postId -> index in sortedPosts (O(1) lookup)
+  const postIndexMap = new Map(
+    sortedPosts.map((post, index) => [post.id, index])
+  );
+  
+  return posts.map((p) => {
+    // Find the index of this post in the sorted published posts
+    const publishedIndex = postIndexMap.get(p.id);
+    
+    return {
+      params: { slug: p.slug.replace(/\/index$/, '') },
+      props: { 
+        post: p,
+        // Only show prev/next for published posts
+        prevPost: publishedIndex !== undefined ? (sortedPosts[publishedIndex - 1] || null) : null, // Newer post
+        nextPost: publishedIndex !== undefined ? (sortedPosts[publishedIndex + 1] || null) : null, // Older post
+      },
+    };
+  });
 }
 
 const { post, prevPost, nextPost } = Astro.props;
