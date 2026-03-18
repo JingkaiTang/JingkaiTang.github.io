@@ -1,11 +1,15 @@
 {
-  "builtAt": "2026-03-15T04:09:04.213Z",
+  "builtAt": "2026-03-18T15:51:21.895Z",
   "counts": {
-    "writing": 3,
+    "writing": 4,
     "huolin": 21,
-    "total": 24
+    "total": 25
   },
   "items": [
+    {
+      "url": "/writing/wechat-article-with-claw/cover.jpg",
+      "kind": "writing-cover"
+    },
     {
       "url": "/writing/我的小龙虾会帮我买东西啦/cover.jpg",
       "kind": "writing-cover"
