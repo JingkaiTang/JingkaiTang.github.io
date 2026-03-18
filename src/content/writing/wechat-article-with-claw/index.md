@@ -3,8 +3,8 @@ title: "我用小龙虾发布微信公众号文章"
 description: "记录使用 wechat-publisher skill 和 wenyan-cli 发布微信公众号文章的完整流程"
 pubDate: "2026-03-18"
 tags: ["ai", "openclaw", "微信公众号"]
-draft: true
 
+draft: false
 by:
   role: coauthored
   name: 唐靖凯
