@@ -965,3 +965,34 @@ main {
     display: none;
   }
 }
+
+/* -------- Mobile responsiveness fixes -------- */
+@media (max-width: 768px) {
+  .post-content {
+    font-size: 1rem;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+  
+  .post-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  .post-content pre {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+  
+  .post-content code {
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  
+  .post-content table {
+    display: block;
+    overflow-x: auto;
+    max-width: 100%;
+  }
+}
