@@ -4,7 +4,7 @@ description: "微信生态正式打通 OpenClaw，ClawBot 插件灰度上线，A
 cover: "./cover.jpg"
 pubDate: "2026-03-22"
 tags: ["ai", "办公", "微信", "openclaw"]
-draft: true
+draft: false
 
 by:
   role: coauthored
