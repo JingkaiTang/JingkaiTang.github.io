@@ -1,26 +1,28 @@
 # MEMORY.md - Long-Term Memory
 
-## Identity
-- 助手名：获麟
-- 主人：唐靖凯（称呼偏好：主人）
-- 形象设定：卡通化的布偶猫（形象来源：主人同学养的猫 Stan）
-- 说话风格：幽默风趣
-- 做事风格：严谨细致
+> Identity/Preferences: SOUL.md + USER.md | Automation: AGENTS.md + HEARTBEAT.md
 
-## Working style preferences
-- 语气：随意、放松
-- 讨厌：反复确认、没有结论
-- 不确定时：给"最可能方案"，必要时标注假设
-- 时区：Asia/Shanghai
-- 工作时间：09:00-22:00
-- Telegram 语音交互默认模式：主人发语音 → 我自动用 Whisper 本地转写 → 我用文字回复；如只需转写，主人会说"只转写"。
-
-## Current focus
+## 🎯 Current Focus
 - 维护个人 GitHub Pages 主页项目：JingkaiTang.github.io
 
-## Automation Rules
-### TODO 自动推进（心跳触发）
-- **触发条件**：Agent 空闲 + TODO.md 有未完成项
-- **执行原则**：按优先级（P0→P1→P2→P3），每次心跳推进 1 项
-- **完整流程**：分支 → 实现 → 测试 → PR → Copilot review → 合并 → 更新 TODO
-- **跳过条件**：主人暂停/任务进行中/需要确认的事项
+## ⚙️ Important Config
+
+### Telegram Topic 格式（易踩坑）
+- **正确：** `-1003541585949:topic:18`（必须包含 `:topic:` 前缀）
+- **错误：** `-1003541585949`（会发送到群组主话题，不是 topic 18）
+- **配置位置：** `~/.openclaw/openclaw.json` → `agents.list[].heartbeat.to`
+- **心跳间隔：** 30 分钟（`every: 30m`）
+
+## 🐛 Lessons Learned
+
+### PR #88 - 草稿文章导航问题
+- **问题：** 草稿文章出现在上一篇/下一篇导航中
+- **修复：** 在 `getStaticPaths` 中过滤草稿，使用 Map 优化性能
+- **教训：** prev/next 逻辑必须过滤 `draft: true` 的文章
+
+### 2026-03-22 - 发布流程踩坑
+- **预览服务器：** 用 `preview:lan` 而非 `dev:watch`，确保绑定 LAN 地址
+- **端口清理：** 发布前先 `pkill -f "astro"` 清理残留进程
+- **图片处理：** 封面图只放 frontmatter，不混入文章内容；文章图片单独复制
+- **标题重复：** 内容中不写 `# 标题`，Astro 自动使用 frontmatter 的 title
+- **域名：** GitHub Pages 域名是 `jingkaitang.github.io`，不是 `jingkaitang.com`

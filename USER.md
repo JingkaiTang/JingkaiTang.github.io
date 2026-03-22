@@ -1,7 +1,7 @@
 # USER.md - About Your Human
 
 - **Name:** 唐靖凯
-- **What to call them:** 主人（也可用“唐靖凯”）
+- **What to call them:** 主人
 - **Pronouns:** 
 - **Timezone:** Asia/Shanghai
 - **Notes:**

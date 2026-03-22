@@ -1,45 +1,37 @@
 # HEARTBEAT.md - JingkaiTang.github.io 项目
 
-## 路径说明（重要）
-- **Agent 工作区**：`/home/t7kai/.openclaw/workspace-JingkaiTang.github.io/`
-  - 存放：AGENTS.md、HEARTBEAT.md、TODO.md、MEMORY.md
-  - 用途：Agent 配置、任务清单、记忆
-- **博客项目区**：`/home/t7kai/workspace/JingkaiTang.github.io/`
-  - 存放：package.json、src/、scripts/、文章内容
-  - 用途：博客源代码、构建、发布
-- **执行命令时**：需要 `cd /home/t7kai/workspace/JingkaiTang.github.io/` 再运行 npm/git 命令
+> 路径说明：见 AGENTS.md | 项目路径：`~/workspace/JingkaiTang.github.io/`
 
-## 项目监控任务
+## 监控任务
 
-### 1. GitHub 仓库检查（每天 09:00）
-- 检查 `JingkaiTang/JingkaiTang.github.io` 仓库
-- 查看是否有新的 Issues 或 PRs
-- 检查 CI/CD 状态
+### 1. GitHub 检查（每天 09:00）
+- Issues / PRs / CI 状态
 
-### 2. 内容更新提醒（每周一）
-- 检查 `source/posts/` 下是否有未发布的文章
-- 检查 `source/now.md` 是否需要更新
+### 2. 内容检查（每周一）
+- `src/content/writing/` 下未发布文章
+- `src/content/now/` 更新需求
 
-### 3. 依赖更新检查（每周日）
-- 检查 `package.json` 依赖是否有重大更新
-- 检查 Hexo 主题更新
+### 3. 依赖检查（每周日）
+- `package.json` 重大更新
+- Astro/主题更新
 
-### 4. TODO 自动推进（每次心跳）
-**触发条件：**
-- Agent 未在执行任务中（空闲状态）
-- TODO.md 中存在未完成项（`[ ]` 或 `[~]`）
+### 4. TODO 自动推进（每次心跳）→ **核心机制**
 
-**执行原则：**
-- 按优先级顺序执行（P0 > P1 > P2 > P3）
-- 同一优先级按列表顺序执行
-- 每次心跳只推进 1 个 TODO 项
-- 遵循 AGENTS.md 定义的完整工作流（分支 → 实现 → PR → review → 合并 → 更新 TODO）
+**触发：** Agent 空闲 + TODO.md 有未完成项（`[ ]` 或 `[~]`）
 
-**跳过情况：**
-- 主人明确要求暂停
-- 当前有进行中的任务（session 活跃）
-- TODO 项需要主人确认（如发布流程）
+**执行：**
+- 优先级：P0 → P1 → P2 → P3
+- 每次心跳只推进 1 项
+- **流程：严格遵循 AGENTS.md "TODO 自动推进"章节**
+- **禁止直接修改 TODO.md** — PR 合并后才能勾选
+
+**跳过：** 主人明确暂停 / 进行中任务 / 需要主人确认
 
 ---
 
-**注意：** 遵循项目 `AGENTS.md` 定义的工作流程
+**Heartbeat Prompt 指令：**
+```
+Read HEARTBEAT.md. Check TODO.md for pending items. 
+If Agent is idle + TODOs exist → start auto-push workflow from AGENTS.md.
+If nothing needs attention → reply HEARTBEAT_OK.
+```
