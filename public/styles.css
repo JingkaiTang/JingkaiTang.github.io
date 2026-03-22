@@ -528,6 +528,9 @@ main {
   border: 1px solid var(--panel-accent-soft);
   border-radius: 24px;
   padding: 32px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .metrics {
@@ -972,47 +975,86 @@ main {
 @media (max-width: 768px) {
   main {
     padding: 0 16px 60px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .section {
+    gap: 16px;
+    width: 100%;
+    box-sizing: border-box;
   }
   
   .glass {
     padding: 20px 16px;
     border-radius: 16px;
-  }
-  
-  .post-article {
-    overflow-x: hidden;
-  }
-  
-  .post-content {
-    font-size: 1rem;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: break-word;
-    max-width: 100%;
-  }
-  
-  .post-content * {
+    width: 100%;
     max-width: 100%;
     box-sizing: border-box;
   }
   
+  .post-article {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .post-shell {
+    display: block !important;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .toc {
+    display: none !important;
+  }
+  
+  .post-content {
+    font-size: 1rem;
+    overflow-wrap: anywhere;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .post-content * {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  .post-content p,
+  .post-content ul,
+  .post-content ol,
+  .post-content li,
+  .post-content h1,
+  .post-content h2,
+  .post-content h3,
+  .post-content h4 {
+    width: 100%;
+    box-sizing: border-box;
+    overflow-wrap: anywhere;
+  }
+  
   .post-content img {
-    max-width: 100%;
+    max-width: 100% !important;
+    width: auto !important;
     height: auto;
     display: block;
-    margin-left: 0;
-    margin-right: 0;
+    margin-left: auto;
+    margin-right: auto;
   }
   
   .post-content pre {
     overflow-x: auto;
     max-width: 100%;
     border-radius: 12px;
+    box-sizing: border-box;
   }
   
   .post-content code {
-    overflow-wrap: break-word;
-    word-break: break-word;
+    overflow-wrap: anywhere;
+    word-break: break-all;
   }
   
   .post-content table {
@@ -1025,30 +1067,30 @@ main {
     margin-left: 0;
     margin-right: 0;
     padding: 10px 12px;
+    overflow-wrap: anywhere;
+    width: 100%;
+    box-sizing: border-box;
   }
   
   .post-content a {
-    word-break: break-word;
+    word-break: break-all;
+    overflow-wrap: anywhere;
   }
   
   .post-title {
     font-size: 1.5rem;
     word-break: break-word;
-    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
+    width: 100%;
+    box-sizing: border-box;
   }
   
   .post-meta {
     font-size: 0.9rem;
     word-break: break-word;
-    overflow-wrap: break-word;
-  }
-  
-  .post-shell {
-    gap: 16px;
-  }
-  
-  .section {
-    gap: 16px;
+    overflow-wrap: anywhere;
+    width: 100%;
+    box-sizing: border-box;
   }
 }
 
