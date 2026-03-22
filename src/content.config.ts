@@ -1,4 +1,6 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 
 function normalizeTag(input: string) {
   return input.trim().toLowerCase();
@@ -50,14 +52,15 @@ const baseSchema = z.object({
     .optional(),
 });
 
+// Writing collection - blog posts
 const writing = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/index.md', base: './src/content/writing' }),
   schema: baseSchema,
 });
 
-// Now is a first-class content type
+// Now collection - short updates
 const now = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/index.md', base: './src/content/now' }),
   schema: baseSchema,
 });
 

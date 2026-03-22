@@ -26,7 +26,7 @@ const tags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeC
 
     <div class="tag-index-grid" style="margin-top: 16px;">
       {tags.map(([tag, count]) => (
-        <a class="project-card tag-index-card" href={`/tags/${encodeURIComponent(tag)}/`}>
+        <a class="project-card tag-index-card" href={`/tags/${tag}/`}>
           <span class="tag-index-card__name">#{tag}</span>
           <span class="tag-index-card__count">{count}</span>
         </a>

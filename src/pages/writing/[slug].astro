@@ -26,7 +26,7 @@ export async function getStaticPaths() {
     const publishedIndex = postIndexMap.get(p.id);
     
     return {
-      params: { slug: p.slug.replace(/\/index$/, '') },
+      params: { slug: p.id },
       props: { 
         post: p,
         // Only show prev/next for published posts
@@ -51,7 +51,7 @@ const { words, minutes } = calculateReadingTime(postBody);
 <BaseLayout
   title={`${post.data.title}${isDraft ? '（草稿）' : ''} | 唐靖凯`}
   description={post.data.description}
-  canonical={`/writing/${post.slug.replace(/\/index$/, '')}/`}
+  canonical={`/writing/${post.id}/`}
   ogType="article"
   publishedTime={post.data.pubDate.toISOString()}
 >
@@ -100,14 +100,14 @@ const { words, minutes } = calculateReadingTime(postBody);
         {(prevPost || nextPost) && (
           <nav class="post-nav">
             {prevPost ? (
-              <a href={`/writing/${prevPost.slug.replace(/\/index$/, '')}/`} class="post-nav-link post-nav-link--prev">
+              <a href={`/writing/${prevPost.id}/`} class="post-nav-link post-nav-link--prev">
                 <span class="post-nav-label">← 上一篇</span>
                 <span class="post-nav-title">{prevPost.data.title}</span>
               </a>
             ) : <div class="post-nav-link post-nav-link--placeholder"></div>}
             
             {nextPost ? (
-              <a href={`/writing/${nextPost.slug.replace(/\/index$/, '')}/`} class="post-nav-link post-nav-link--next">
+              <a href={`/writing/${nextPost.id}/`} class="post-nav-link post-nav-link--next">
                 <span class="post-nav-label">下一篇 →</span>
                 <span class="post-nav-title">{nextPost.data.title}</span>
               </a>

@@ -1,11 +1,19 @@
 {
-  "builtAt": "2026-03-18T15:51:21.895Z",
+  "builtAt": "2026-03-22T08:09:04.190Z",
   "counts": {
-    "writing": 4,
+    "writing": 6,
     "huolin": 21,
-    "total": 25
+    "total": 27
   },
   "items": [
+    {
+      "url": "/writing/ai-office-wechat-20260322/cover.jpg",
+      "kind": "writing-cover"
+    },
+    {
+      "url": "/writing/ai-office-wechat-clawbot/cover.jpg",
+      "kind": "writing-cover"
+    },
     {
       "url": "/writing/wechat-article-with-claw/cover.jpg",
       "kind": "writing-cover"
