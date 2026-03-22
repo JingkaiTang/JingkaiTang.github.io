@@ -198,6 +198,8 @@ body {
   min-height: 100vh;
   line-height: 1.6;
   overflow-x: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .ambient-glow {
@@ -968,21 +970,44 @@ main {
 
 /* -------- Mobile responsiveness fixes -------- */
 @media (max-width: 768px) {
+  main {
+    padding: 0 16px 60px;
+  }
+  
+  .glass {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+  
+  .post-article {
+    overflow-x: hidden;
+  }
+  
   .post-content {
     font-size: 1rem;
     overflow-wrap: break-word;
     word-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
+  }
+  
+  .post-content * {
+    max-width: 100%;
+    box-sizing: border-box;
   }
   
   .post-content img {
     max-width: 100%;
     height: auto;
     display: block;
+    margin-left: 0;
+    margin-right: 0;
   }
   
   .post-content pre {
     overflow-x: auto;
     max-width: 100%;
+    border-radius: 12px;
   }
   
   .post-content code {
@@ -994,5 +1019,89 @@ main {
     display: block;
     overflow-x: auto;
     max-width: 100%;
+  }
+  
+  .post-content blockquote {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 10px 12px;
+  }
+  
+  .post-content a {
+    word-break: break-word;
+  }
+  
+  .post-title {
+    font-size: 1.5rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  .post-meta {
+    font-size: 0.9rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  .post-shell {
+    gap: 16px;
+  }
+  
+  .section {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 560px) {
+  main {
+    padding: 0 12px 40px;
+  }
+  
+  .glass {
+    padding: 16px 12px;
+    border-radius: 12px;
+  }
+  
+  .post-title {
+    font-size: 1.3rem;
+  }
+  
+  .post-nav {
+    gap: 10px;
+  }
+  
+  .post-nav-link {
+    padding: 12px;
+  }
+  
+  .post-nav-title {
+    font-size: 0.9rem;
+    word-break: break-word;
+  }
+}
+
+@media (max-width: 380px) {
+  main {
+    padding: 0 10px 32px;
+  }
+  
+  .glass {
+    padding: 12px 10px;
+  }
+  
+  .post-title {
+    font-size: 1.2rem;
+  }
+  
+  .post-content {
+    font-size: 0.95rem;
+  }
+  
+  .post-nav-link {
+    padding: 10px;
+  }
+  
+  .post-meta {
+    font-size: 0.85rem;
   }
 }
