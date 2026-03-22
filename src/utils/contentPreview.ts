@@ -10,8 +10,8 @@ export function pickFirstImageFromMarkdown(md: string): string | null {
   return null;
 }
 
-export function pickCover(input: { data: { cover?: string | undefined }; body: string }): string | null {
-  const raw = input.data.cover ?? pickFirstImageFromMarkdown(input.body);
+export function pickCover(input: { data: { cover?: string | undefined }; body?: string | undefined }): string | null {
+  const raw = input.data.cover ?? pickFirstImageFromMarkdown(input.body ?? '');
   return raw && raw.trim().length ? raw.trim() : null;
 }
 
