@@ -8,7 +8,7 @@ export async function getStaticPaths() {
   // Drafts are still hidden from feeds/lists elsewhere.
   const posts = await getCollection('now');
   return posts.map((p) => ({
-    params: { slug: p.slug.replace(/\/index$/, '') },
+    params: { slug: p.id },
     props: { post: p },
   }));
 }
@@ -21,7 +21,7 @@ const isDraft = Boolean(post.data.draft);
 <BaseLayout
   title={`${post.data.title}${isDraft ? '（草稿）' : ''} | 唐靖凯`}
   description={post.data.description}
-  canonical={`/now/${post.slug.replace(/\/index$/, '')}/`}
+  canonical={`/now/${post.id}/`}
   ogType="article"
   publishedTime={post.data.pubDate.toISOString()}
 >

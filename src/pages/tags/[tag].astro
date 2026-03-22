@@ -29,7 +29,7 @@ export async function getStaticPaths() {
   for (const t of ['ai', 'game', 'life']) tagSet.add(t);
 
   return [...tagSet].map((tag) => ({
-    params: { tag: encodeURIComponent(tag) },
+    params: { tag },
     props: { tag },
   }));
 }
@@ -40,7 +40,7 @@ const writingPosts = (await getCollection('writing'))
   .filter((p) => !p.data.draft)
   .filter((p) => (p.data.tags ?? []).includes(tag))
   .map((p) => {
-    const slug = p.slug.replace(/\/index$/, '');
+    const slug = p.id;
     const href = `/writing/${slug}/`;
     const coverRaw = pickCover(p);
     const cover = coverRaw ? resolveMaybeRelativeUrl(coverRaw, href) : null;
@@ -59,7 +59,7 @@ const nowPosts = (await getCollection('now'))
   .filter((p) => !p.data.draft)
   .filter((p) => (p.data.tags ?? []).includes(tag))
   .map((p) => {
-    const slug = p.slug.replace(/\/index$/, '');
+    const slug = p.id;
     const href = `/now/${slug}/`;
     const coverRaw = pickCover(p);
     const cover = coverRaw ? resolveMaybeRelativeUrl(coverRaw, href) : null;

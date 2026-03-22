@@ -31,7 +31,7 @@ export const GET: APIRoute = async ({ site }) => {
   }
 
   for (const post of writingPosts) {
-    const slug = post.slug.replace(/\/index$/, '');
+    const slug = post.id;
     urls.push({
       loc: toUrl(site, `/writing/${slug}/`),
       lastmod: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
@@ -39,7 +39,7 @@ export const GET: APIRoute = async ({ site }) => {
   }
 
   for (const post of nowPosts) {
-    const slug = post.slug.replace(/\/index$/, '');
+    const slug = post.id;
     urls.push({
       loc: toUrl(site, `/now/${slug}/`),
       lastmod: (post.data.updatedDate ?? post.data.pubDate).toISOString(),

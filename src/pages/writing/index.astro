@@ -18,7 +18,7 @@ const posts = (await getCollection('writing'))
 
     <div style="display:grid; gap:16px;">
       {posts.map((post) => {
-        const href = `/writing/${post.slug.replace(/\/index$/, '')}/`;
+        const href = `/writing/${post.id}/`;
         const coverRaw = pickCover(post);
         const cover = coverRaw ? resolveMaybeRelativeUrl(coverRaw, href) : null;
         return (

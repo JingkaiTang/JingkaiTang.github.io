@@ -48,7 +48,7 @@ const pinned = (pinsData?.pins || []).slice(0, 6);
         <h3 class="latest-column-title">Writing</h3>
         <div class="latest-list" style="display:grid; gap:16px;">
           {latestWriting.map((post) => {
-            const href = `/writing/${post.slug.replace(/\/index$/, '')}/`;
+            const href = `/writing/${post.id}/`;
             const coverRaw = pickCover(post);
             const cover = coverRaw ? resolveMaybeRelativeUrl(coverRaw, href) : null;
             return (
@@ -76,7 +76,7 @@ const pinned = (pinsData?.pins || []).slice(0, 6);
         <h3 class="latest-column-title">Now</h3>
         <div class="latest-list" style="display:grid; gap:16px;">
           {latestNow.map((post) => {
-            const href = `/now/${post.slug.replace(/\/index$/, '')}/`;
+            const href = `/now/${post.id}/`;
             const title = post.data.title.replace(/^Now:\s*/, '');
             const coverRaw = pickCover(post);
             const cover = coverRaw ? resolveMaybeRelativeUrl(coverRaw, href) : null;
