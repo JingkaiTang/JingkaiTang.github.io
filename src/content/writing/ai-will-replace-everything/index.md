@@ -4,8 +4,8 @@ description: "所有程序员都会被取代，所有数字世界生产端的一
 cover: "./cover.jpg"
 pubDate: "2026-03-24"
 tags: ["ai", "生产力", "未来"]
-draft: true
 
+draft: false
 by:
   role: coauthored
   name: 唐靖凯
