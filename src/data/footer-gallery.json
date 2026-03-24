@@ -1,9 +1,9 @@
 {
-  "builtAt": "2026-03-22T08:09:04.190Z",
+  "builtAt": "2026-03-24T14:00:16.691Z",
   "counts": {
-    "writing": 6,
+    "writing": 7,
     "huolin": 21,
-    "total": 27
+    "total": 28
   },
   "items": [
     {
@@ -12,6 +12,10 @@
     },
     {
       "url": "/writing/ai-office-wechat-clawbot/cover.jpg",
+      "kind": "writing-cover"
+    },
+    {
+      "url": "/writing/ai-will-replace-everything/cover.jpg",
       "kind": "writing-cover"
     },
     {
