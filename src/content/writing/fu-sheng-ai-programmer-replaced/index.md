@@ -3,7 +3,8 @@ title: "傅盛说程序员被取代，评论区骂他卖课，但我挺他"
 cover: "./cover.jpg"
 tags: ["AI", "程序员", "未来工作", "GitHub Octoverse"]
 pubDate: "2026-03-25T14:00:00+08:00"
-draft: true
+
+draft: false
 ---
 
 傅盛发了条视频，说传统程序员必定被 AI 取代。
