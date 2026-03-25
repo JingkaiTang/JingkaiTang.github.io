@@ -1,9 +1,9 @@
 {
-  "builtAt": "2026-03-24T14:00:16.691Z",
+  "builtAt": "2026-03-25T06:21:46.109Z",
   "counts": {
-    "writing": 7,
+    "writing": 8,
     "huolin": 21,
-    "total": 28
+    "total": 29
   },
   "items": [
     {
@@ -16,6 +16,10 @@
     },
     {
       "url": "/writing/ai-will-replace-everything/cover.jpg",
+      "kind": "writing-cover"
+    },
+    {
+      "url": "/writing/fu-sheng-ai-programmer-replaced/cover.jpg",
       "kind": "writing-cover"
     },
     {
