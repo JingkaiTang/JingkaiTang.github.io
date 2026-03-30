@@ -3,7 +3,7 @@ title: "时效性陷阱，记录一次 OpenClaw 翻车现场"
 cover: /huolin/huolin-got-scolded-at-work.jpg
 tags: ["AI", "OpenClaw", "Agent", "搜索"]
 pubDate: "2026-03-30T08:00:00+08:00"
-draft: true
+draft: false
 ---
 
 > AI 擅长搜索和总结，但它对信息的时效性判断和搜索覆盖面经常翻车。
