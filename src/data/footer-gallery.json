@@ -1,9 +1,9 @@
 {
-  "builtAt": "2026-03-25T06:21:46.109Z",
+  "builtAt": "2026-03-31T14:01:07.414Z",
   "counts": {
-    "writing": 8,
+    "writing": 9,
     "huolin": 21,
-    "total": 29
+    "total": 30
   },
   "items": [
     {
@@ -16,6 +16,10 @@
     },
     {
       "url": "/writing/ai-will-replace-everything/cover.jpg",
+      "kind": "writing-cover"
+    },
+    {
+      "url": "/writing/claude-code-source-code-leak/cover.jpg",
       "kind": "writing-cover"
     },
     {
