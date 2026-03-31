@@ -1,6 +1,6 @@
 ---
 title: "Claude Code 源码泄露，我扒了 51 万行代码，发现了 Anthropic 的 Agent 架构秘密"
-cover: ./screenshot.png
+cover: ./cover.jpg
 tags: ["AI", "Claude", "Agent", "源码分析"]
 pubDate: "2026-03-31T21:00:00+08:00"
 draft: false
