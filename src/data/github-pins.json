@@ -1,6 +1,6 @@
 {
   "user": "JingkaiTang",
-  "fetchedAt": "2026-03-30T18:00:55.602Z",
+  "fetchedAt": "2026-03-31T18:00:14.364Z",
   "pins": [
     {
       "name": "BarPin",
@@ -26,7 +26,7 @@
       "forks": 0,
       "language": "JavaScript",
       "languageColor": "#f1e05a",
-      "updatedAt": "2026-03-30T14:01:48Z",
+      "updatedAt": "2026-03-31T14:01:50Z",
       "isArchived": false,
       "isFork": false
     },
@@ -36,11 +36,11 @@
       "description": "通过 Telegram Bot 远程控制终端的命令行工具，基于 tmux 管理会话。",
       "url": "https://github.com/JingkaiTang/cligram",
       "homepageUrl": "",
-      "stars": 1,
+      "stars": 2,
       "forks": 0,
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "updatedAt": "2026-02-18T02:32:37Z",
+      "updatedAt": "2026-03-31T12:33:14Z",
       "isArchived": false,
       "isFork": false
     },
