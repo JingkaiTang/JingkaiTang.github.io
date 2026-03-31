@@ -1,6 +1,6 @@
 ---
 title: "我被 AI 骗了，而且它根本不知道自己在骗我"
-cover: /huolin/huolin-got-scolded-at-work.jpg
+cover: /huolin/ai-search-outdated-info-trap-cover.jpg
 tags: ["AI", "搜索", "踩坑", "翻车"]
 pubDate: "2026-03-31T01:30:00+08:00"
 draft: false
