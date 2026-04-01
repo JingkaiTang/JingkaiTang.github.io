@@ -1,9 +1,9 @@
 {
-  "builtAt": "2026-03-31T14:01:07.414Z",
+  "builtAt": "2026-04-01T15:10:54.824Z",
   "counts": {
-    "writing": 9,
+    "writing": 10,
     "huolin": 21,
-    "total": 30
+    "total": 31
   },
   "items": [
     {
@@ -16,6 +16,10 @@
     },
     {
       "url": "/writing/ai-will-replace-everything/cover.jpg",
+      "kind": "writing-cover"
+    },
+    {
+      "url": "/writing/build-ai-agent-from-scratch/cover.jpg",
       "kind": "writing-cover"
     },
     {

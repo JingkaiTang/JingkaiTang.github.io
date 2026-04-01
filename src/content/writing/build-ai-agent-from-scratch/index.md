@@ -1,10 +1,10 @@
 ---
-title: "手搓核弹不如手搓AI Agent"
+title: "Claude Code 泄露 51 万行源码，我用 Java 手搓了同款 Agent"
 description: ""
 pubDate: "2026-04-01"
 tags: ["ai agent", "claude code", "java", "技术"]
-draft: true
-cover: "./Pasted image 20260331205749.png"
+draft: false
+cover: "./cover.jpg"
 
 by:
   role: coauthored
@@ -43,8 +43,6 @@ source:
 安全研究员在 Claude Code 的 npm 发行包中发现了一个 `.map` 文件（Source Map），这个文件引用了 Anthropic R2 存储桶中**未混淆的 TypeScript 源码**——整个 `src/` 目录可被直接下载。
 
 51 万行 TypeScript。1900 个文件。**目前最完整的商业级 AI Agent 架构实例，就这样赤裸裸地暴露在了公众面前。**
-
-![Claude Code Source Map 泄露](./Pasted image 20260331205749.png)
 
 我连夜把源码拉下来读了一遍（好吧，其实是 AI 帮我读的），然后写了一篇[[Claude-Code源码架构深度分析|详细的架构分析]]。
 
@@ -419,4 +417,3 @@ Coordinator (协调器)
 ---
 
 *本文源码：[agent-from-scratch](https://github.com/JingkaiTang/agent-from-scratch)*
-*Claude Code 架构分析：[[Claude-Code源码架构深度分析]]*
