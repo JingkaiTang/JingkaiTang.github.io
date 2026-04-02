@@ -117,7 +117,8 @@ const { words, minutes } = calculateReadingTime(postBody);
       </article>
 
       {toc.length ? (
-        <aside class="toc">
+        <details class="toc" open>
+          <summary>目录</summary>
           <div class="toc-title">目录</div>
           <ol>
             {toc.map((h) => (
@@ -126,7 +127,7 @@ const { words, minutes } = calculateReadingTime(postBody);
               </li>
             ))}
           </ol>
-        </aside>
+        </details>
       ) : null}
     </div>
   </section>

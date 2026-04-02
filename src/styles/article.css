@@ -1,0 +1,354 @@
+/* ══════════════════════════════════════════════════
+   article.css — .post-content 排版 + TOC + 导航
+   依赖 typography.css token 和 theme-tokens.css 变量
+   ══════════════════════════════════════════════════ */
+
+/* ── Post Shell / Layout ── */
+.post-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 28px;
+  align-items: start;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Post Title ── */
+.post-title {
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-tight);
+}
+
+/* ── Post Meta ── */
+.post-meta {
+  color: var(--muted);
+  margin-top: 10px;
+  font-size: var(--fs-sm);
+}
+
+.post-meta a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.post-meta a:hover {
+  color: var(--primary);
+}
+
+/* ── Post Content: Base ── */
+.post-content {
+  margin-top: 22px;
+  color: var(--text);
+  font-size: var(--fs-base);
+  line-height: var(--lh-body);
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Lobotomized owl: uniform vertical rhythm */
+.post-content > * + * {
+  margin-top: var(--space-prose);
+}
+
+/* PretextEnhancer: line-height via CSS custom property */
+.post-content > p {
+  line-height: var(--lh-computed, var(--lh-body));
+  transition: line-height 0.15s ease;
+}
+
+/* CJK class-based line-height (fallback for mobile simple mode) */
+.post-content > p.cjk-heavy  { --lh-computed: var(--lh-body-cjk); }
+.post-content > p.cjk-mixed  { --lh-computed: var(--lh-body-mixed); }
+.post-content > p.cjk-light  { --lh-computed: var(--lh-body-mixed); }
+
+/* ── Headings ── */
+.post-content :is(h2, h3, h4) {
+  margin-top: var(--space-heading-above);
+  margin-bottom: var(--space-heading-below);
+  line-height: var(--lh-tight);
+  letter-spacing: 0.02em;
+}
+
+.post-content h2 {
+  font-size: var(--fs-xl);
+}
+
+.post-content h3 {
+  font-size: var(--fs-lg);
+  color: var(--text-strong);
+}
+
+.post-content h4 {
+  font-size: var(--fs-md);
+  color: var(--text-strong);
+}
+
+/* First element after heading gets less top margin */
+.post-content :is(h2, h3, h4) + * {
+  margin-top: 0.5em;
+}
+
+/* ── Links ── */
+.post-content a {
+  color: var(--primary);
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.post-content a:hover {
+  filter: brightness(1.1);
+}
+
+/* ── Blockquotes ── */
+.post-content blockquote {
+  border-left: 3px solid var(--blockquote-border);
+  padding: 0.75em 1.25em;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: var(--space-block);
+  margin-bottom: var(--space-block);
+  color: var(--blockquote-text);
+  background: var(--blockquote-bg);
+  border-radius: 0 12px 12px 0;
+  line-height: var(--lh-loose);
+}
+
+.post-content blockquote > *:first-child { margin-top: 0; }
+.post-content blockquote > *:last-child  { margin-bottom: 0; }
+
+/* Nested blockquotes */
+.post-content blockquote blockquote {
+  border-left-color: var(--muted);
+  background: transparent;
+  margin-top: 0.75em;
+}
+
+/* ── Lists ── */
+.post-content ul,
+.post-content ol {
+  padding-left: 1.5em;
+  margin-top: var(--space-prose);
+  margin-bottom: var(--space-prose);
+}
+
+.post-content li {
+  padding-left: 0.25em;
+}
+
+.post-content li + li {
+  margin-top: var(--space-list-item);
+}
+
+/* Nested lists */
+.post-content li > ul,
+.post-content li > ol {
+  margin-top: var(--space-list-item);
+  margin-bottom: 0;
+}
+
+/* Custom marker colors */
+.post-content ul > li::marker {
+  color: var(--primary);
+}
+
+.post-content ol > li::marker {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* ── Code ── */
+.post-content code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  padding: 0.15em 0.4em;
+  border-radius: 6px;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.post-content pre {
+  background: var(--pre-bg);
+  border: 1px solid var(--code-border);
+  border-radius: 16px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+  box-sizing: border-box;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-code);
+  margin-top: var(--space-block);
+  margin-bottom: var(--space-block);
+}
+
+.post-content pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+/* ── Tables ── */
+.post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+  margin-top: var(--space-block);
+  margin-bottom: var(--space-block);
+}
+
+.post-content table th,
+.post-content table td {
+  padding: 0.5em 0.75em;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+.post-content table th {
+  background: var(--surface);
+  font-weight: 600;
+}
+
+/* ── Images ── */
+.post-content img,
+.post-content video,
+.post-content iframe {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  display: block;
+}
+
+.post-content img {
+  margin: 18px auto;
+  border-radius: 14px;
+  border: 1px solid var(--image-border);
+}
+
+/* Image caption: ![text](img) followed by *caption in em* */
+.post-content img + em,
+.post-content figure figcaption {
+  display: block;
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  margin-top: -0.5em;
+  margin-bottom: 1em;
+  font-style: normal;
+}
+
+/* ── Horizontal Rule ── */
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 2.5em 0;
+}
+
+/* ── Table of Contents ── */
+.toc {
+  position: sticky;
+  top: 24px;
+  background: var(--toc-bg);
+  border: 1px solid var(--image-border);
+  border-radius: 16px;
+  padding: 14px;
+}
+
+/* details/summary for collapsible TOC */
+.toc > summary {
+  display: none;
+}
+
+.toc-title {
+  font-weight: 600;
+  color: var(--text-dim-strong);
+  margin-bottom: 10px;
+  cursor: default;
+}
+
+.toc ol {
+  list-style: none;
+  padding-left: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.toc a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: var(--fs-sm);
+}
+
+.toc a:hover {
+  color: var(--primary);
+}
+
+.toc li.d3 {
+  padding-left: 10px;
+}
+
+/* ── Post Navigation (Prev/Next) ── */
+.post-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.post-nav-link {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: var(--theme-radius-sm, 12px);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  background: var(--panel-bg-strong);
+  min-width: 0;
+}
+
+.post-nav-link:hover {
+  border-color: var(--primary);
+  background: var(--panel-accent-soft);
+}
+
+.post-nav-link--placeholder {
+  visibility: hidden;
+}
+
+.post-nav-label {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.post-nav-title {
+  color: var(--text);
+  font-weight: 600;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.post-nav-link--prev {
+  text-align: left;
+  align-items: flex-start;
+}
+
+.post-nav-link--next {
+  text-align: right;
+  align-items: flex-end;
+}
+
+/* ── Card description line-height transition ── */
+.content-card__desc {
+  transition: line-height 0.15s ease;
+}

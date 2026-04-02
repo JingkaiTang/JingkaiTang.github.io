@@ -1,0 +1,48 @@
+/* ══════════════════════════════════════════════════
+   typography.css — 字体比例尺、行高、间距 token
+   Major Third (1.25) 模数 + fluid clamp()
+   ══════════════════════════════════════════════════ */
+
+:root {
+  /* ── Font Stacks ── */
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Space Grotesk', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Noto Sans SC', 'PingFang SC',
+    'Microsoft YaHei', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo,
+    Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+  /* ── Type Scale (fluid, Major Third 1.25) ──
+     Step -2  →  badges, small meta
+     Step -1  →  captions, code
+     Step  0  →  base body (16px)
+     Step  1  →  h4, lead text
+     Step  2  →  h3
+     Step  3  →  h2
+     Step  4  →  post title
+     Step  5  →  hero h1
+  */
+  --fs-xs:   clamp(0.64rem,  0.58rem + 0.25vw, 0.72rem);
+  --fs-sm:   clamp(0.8rem,   0.74rem + 0.25vw, 0.88rem);
+  --fs-base: clamp(1rem,     0.93rem + 0.3vw,  1.08rem);
+  --fs-md:   clamp(1.15rem,  1.05rem + 0.4vw,  1.25rem);
+  --fs-lg:   clamp(1.35rem,  1.2rem  + 0.6vw,  1.563rem);
+  --fs-xl:   clamp(1.6rem,   1.4rem  + 0.8vw,  1.953rem);
+  --fs-2xl:  clamp(1.8rem,   1.5rem  + 1.2vw,  2.441rem);
+  --fs-3xl:  clamp(2rem,     1.6rem  + 1.6vw,  3.052rem);
+
+  /* ── Line Heights ── */
+  --lh-tight:      1.2;    /* headings */
+  --lh-body:       1.75;   /* Latin-dominant body */
+  --lh-body-cjk:   1.95;   /* CJK-dominant body */
+  --lh-body-mixed: 1.85;   /* mixed CJK/Latin */
+  --lh-loose:      2.0;    /* blockquotes, captions */
+  --lh-code:       1.55;   /* code blocks */
+
+  /* ── Spacing (vertical rhythm) ── */
+  --space-prose:         1.25em;   /* paragraph margin-bottom */
+  --space-heading-above: 2em;     /* margin-top before h2/h3 */
+  --space-heading-below: 0.5em;   /* margin-bottom after h2/h3 */
+  --space-list-item:     0.35em;  /* gap between list items */
+  --space-block:         1.5em;   /* pre, blockquote, table margin */
+}
