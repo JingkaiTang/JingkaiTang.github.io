@@ -1,9 +1,9 @@
 ---
-title: "Agent 底层原理解析：模型是怎么\"调用工具\"的？"
+title: "Claude Code//Agent 底层揭秘：模型从不执行代码，它只是在玩文字游戏"
 description: "深入解析 LLM 工具调用的底层原理，揭开 function calling 的神秘面纱"
 pubDate: "2026-04-02"
 tags: ["ai", "agent", "llm"]
-draft: true
+draft: false
 
 by:
   role: coauthored
@@ -12,7 +12,7 @@ by:
 source:
   kind: original
 ---
-> [[手搓核弹不如手搓AI Agent|上一篇]]我们手搓了一个最基础的 AI Agent，跑通了 ReAct 循环。但有一个问题被刻意跳过了——**模型到底是怎么"调用工具"的？**
+> 在《Claude Code 泄露 51 万行源码，我用 Java 手搓了同款 Agent》里，我们手搓了一个最基础的 AI Agent，跑通了 ReAct 循环。但有一个问题被刻意跳过了——**模型到底是怎么"调用工具"的？**
 >
 > 它真的理解了工具吗？还是只是在玩一个精心设计的文字游戏？
 
@@ -378,7 +378,7 @@ LLM 的"能力"在于：它能理解自然语言任务，判断需要哪个工�
 
 **Function Calling API 做的事情本质上一样**——只不过把这个"格式约定"内化到了模型训练中，让 LLM 输出更加稳定和可靠的结构化数据。不再需要我们写脆弱的正则去解析，API 直接在响应的 `tool_calls` 字段里给出结构化的结果。
 
-这就是为什么我们[[手搓核弹不如手搓AI Agent|上篇]]的 `AgentLoop` 代码如此简单——所有的"智能"都在 LLM 端完成了，我们只需要做一个忠实的"服务员"：接收订单、执行、回传。
+这就是为什么我们在《Claude Code 泄露 51 万行源码，我用 Java 手搓了同款 Agent》里的 `AgentLoop` 代码如此简单——所有的"智能"都在 LLM 端完成了，我们只需要做一个忠实的"服务员"：接收订单、执行、回传。
 
 ---
 
@@ -397,5 +397,4 @@ LLM 的"能力"在于：它能理解自然语言任务，判断需要哪个工�
 
 ---
 
-*上一篇：[[手搓核弹不如手搓AI Agent|Claude Code 泄露 51 万行源码，我用 Java 手搓了同款 Agent]]*
 *本文源码：[agent-from-scratch](https://github.com/JingkaiTang/agent-from-scratch)*
