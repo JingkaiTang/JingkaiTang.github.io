@@ -4,6 +4,7 @@ description: "深入解析 LLM 工具调用的底层原理，揭开 function cal
 pubDate: "2026-04-02"
 tags: ["ai", "agent", "llm"]
 draft: false
+cover: "./cover.jpg"
 
 by:
   role: coauthored
