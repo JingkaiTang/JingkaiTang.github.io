@@ -1,0 +1,169 @@
+---
+// PretextEnhancer.astro
+// 使用 @chenglou/pretext 在客户端增强文章排版
+// 渐进增强：JS 失败或字体未加载时，CSS 基线布局不受影响
+---
+
+<script>
+import { prepare, layout, prepareWithSegments, layoutWithLines } from '@chenglou/pretext';
+
+// CJK 字符正则（中日韩统一表意文字 + 扩展区）
+const CJK_RE = /[\u4e00-\u9fff\u3400-\u4dbf\uf900-\ufaff\u{20000}-\u{2a6df}\u{2a700}-\u{2ebef}]/gu;
+
+/** 计算文本中 CJK 字符占比 (0~1) */
+function cjkRatio(text: string): number {
+  const chars = [...text.replace(/\s/g, '')];
+  if (chars.length === 0) return 0;
+  const cjkCount = (text.match(CJK_RE) || []).length;
+  return cjkCount / chars.length;
+}
+
+/** 根据 CJK 占比选择最佳 line-height */
+function optimalLineHeight(ratio: number): number {
+  if (ratio > 0.6) return 2.0;   // CJK 为主
+  if (ratio > 0.3) return 1.9;   // 中英混排
+  return 1.85;                    // 拉丁为主（保持 CSS 基线）
+}
+
+/** 获取元素当前 computed font 字符串 */
+function getFont(el: HTMLElement): string {
+  const cs = getComputedStyle(el);
+  return `${cs.fontSize} ${cs.fontFamily}`;
+}
+
+/** 增强文章段落排版 */
+function enhanceArticle(): void {
+  const paragraphs = document.querySelectorAll<HTMLParagraphElement>('.post-content > p');
+  if (paragraphs.length === 0) return;
+
+  for (const p of paragraphs) {
+    const text = p.textContent || '';
+    if (text.trim().length < 10) continue; // 跳过过短的段落
+
+    const ratio = cjkRatio(text);
+    const targetLH = optimalLineHeight(ratio);
+
+    // 如果目标 line-height 与 CSS 基线相同，跳过
+    if (targetLH === 1.85) continue;
+
+    const font = getFont(p);
+    const containerWidth = p.clientWidth;
+    const fontSize = parseFloat(getComputedStyle(p).fontSize);
+    const currentLH = fontSize * 1.85;
+    const newLH = fontSize * targetLH;
+
+    // 用 pretext 验证：调整后的行数不应差异过大
+    try {
+      const prepared = prepare(text, font);
+      const currentLayout = layout(prepared, containerWidth, currentLH);
+      const newLayout = layout(prepared, containerWidth, newLH);
+
+      // 如果行数增加超过 20%，放弃此段落的调整
+      if (newLayout.lineCount > currentLayout.lineCount * 1.2) continue;
+
+      p.style.lineHeight = String(targetLH);
+    } catch {
+      // pretext 测量失败时静默跳过
+      continue;
+    }
+  }
+}
+
+/** 存储卡片原始文本 */
+const cardOriginals = new WeakMap<HTMLElement, string>();
+
+/** 增强卡片描述截断 */
+function enhanceCards(): void {
+  const descs = document.querySelectorAll<HTMLElement>('.content-card__desc');
+  if (descs.length === 0) return;
+
+  const maxLines = 3;
+
+  for (const desc of descs) {
+    // 保存或恢复原始文本
+    if (!cardOriginals.has(desc)) {
+      cardOriginals.set(desc, desc.textContent || '');
+    }
+    const originalText = cardOriginals.get(desc) || '';
+    if (originalText.trim().length === 0) continue;
+
+    const font = getFont(desc);
+    const containerWidth = desc.clientWidth;
+    if (containerWidth <= 0) continue;
+
+    const fontSize = parseFloat(getComputedStyle(desc).fontSize);
+    const lh = parseFloat(getComputedStyle(desc).lineHeight) || fontSize * 1.6;
+
+    try {
+      const prepared = prepareWithSegments(originalText, font);
+      const result = layoutWithLines(prepared, containerWidth, lh);
+
+      if (result.lineCount <= maxLines) {
+        // 不需要截断，恢复原始文本
+        desc.textContent = originalText;
+        continue;
+      }
+
+      // 取前 maxLines 行的文本拼接，末尾加省略号
+      const truncatedLines = result.lines.slice(0, maxLines);
+      let truncatedText = truncatedLines.map((line: { text: string }) => line.text).join('');
+      truncatedText = truncatedText.trimEnd() + '…';
+      desc.textContent = truncatedText;
+    } catch {
+      // 测量失败时不做截断
+      continue;
+    }
+  }
+}
+
+/** 主增强函数 */
+function enhance(): void {
+  enhanceArticle();
+  enhanceCards();
+  document.documentElement.classList.add('pretext-ready');
+}
+
+/** debounce 工具 */
+function debounce(fn: () => void, ms: number): () => void {
+  let timer: ReturnType<typeof setTimeout>;
+  return () => {
+    clearTimeout(timer);
+    timer = setTimeout(fn, ms);
+  };
+}
+
+/** resize 时重新计算 */
+function handleResize(): void {
+  // 清除文章段落的 inline style
+  for (const p of document.querySelectorAll<HTMLParagraphElement>('.post-content > p')) {
+    p.style.lineHeight = '';
+  }
+  // 恢复卡片原始文本再重新截断
+  for (const desc of document.querySelectorAll<HTMLElement>('.content-card__desc')) {
+    const original = cardOriginals.get(desc);
+    if (original) desc.textContent = original;
+  }
+  enhance();
+}
+
+/** 等待字体加载后执行 */
+async function init(): Promise<void> {
+  await document.fonts.ready;
+
+  // 确认 Space Grotesk 已加载
+  if (!document.fonts.check('1em "Space Grotesk"')) {
+    // 字体未加载，放弃增强
+    return;
+  }
+
+  enhance();
+  window.addEventListener('resize', debounce(handleResize, 200));
+}
+
+// 页面加载完成后初始化
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => init());
+} else {
+  init();
+}
+</script>

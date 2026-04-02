@@ -541,7 +541,7 @@ main {
 
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
   gap: 24px;
 }
 
@@ -551,6 +551,9 @@ main {
   padding: 24px;
   border: 1px solid var(--panel-accent-soft);
   transition: transform 0.3s ease, border 0.3s ease;
+  box-sizing: border-box;
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .project-card:hover {
@@ -662,6 +665,19 @@ main {
 
 .post-content :is(p, ul, ol, blockquote, pre) {
   margin: 16px 0;
+}
+
+.post-content :is(ul, ol) {
+  padding-left: 1.5em;
+}
+
+/* pretext 排版增强：平滑过渡 */
+.post-content > p {
+  transition: line-height 0.2s ease;
+}
+
+.content-card__desc {
+  transition: line-height 0.2s ease;
 }
 
 .post-content :is(h2, h3) {
@@ -878,6 +894,7 @@ main {
   text-decoration: none;
   transition: all 0.2s ease;
   background: var(--panel-bg-strong);
+  min-width: 0;
 }
 
 .post-nav-link:hover {
@@ -899,6 +916,8 @@ main {
   color: var(--text);
   font-weight: 600;
   line-height: 1.4;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .post-nav-link--prev {
@@ -1031,8 +1050,6 @@ main {
   }
   
   .post-content p,
-  .post-content ul,
-  .post-content ol,
   .post-content li,
   .post-content h1,
   .post-content h2,
@@ -1040,6 +1057,13 @@ main {
   .post-content h4 {
     width: 100%;
     box-sizing: border-box;
+    overflow-wrap: anywhere;
+  }
+
+  .post-content ul,
+  .post-content ol {
+    box-sizing: border-box;
+    padding-left: 1.5em;
     overflow-wrap: anywhere;
   }
   

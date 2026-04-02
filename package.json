@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.17",
+    "@chenglou/pretext": "^0.0.3",
     "astro": "^6.0.8",
     "chokidar": "^3.6.0",
     "lunar-javascript": "^1.7.4",
