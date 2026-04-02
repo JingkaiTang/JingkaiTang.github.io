@@ -1,11 +1,15 @@
 {
-  "builtAt": "2026-04-01T15:10:54.824Z",
+  "builtAt": "2026-04-02T15:16:38.116Z",
   "counts": {
     "writing": 10,
     "huolin": 21,
     "total": 31
   },
   "items": [
+    {
+      "url": "/writing/agent-tool-calling-principles/cover.jpg",
+      "kind": "writing-cover"
+    },
     {
       "url": "/writing/ai-office-wechat-clawbot/cover.jpg",
       "kind": "writing-cover"

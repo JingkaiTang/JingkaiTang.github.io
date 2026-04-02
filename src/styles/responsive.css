@@ -147,15 +147,13 @@
     margin-right: auto;
   }
 
-  /* Code blocks: bleed layout for more space */
+  /* Code blocks: contain within container on mobile */
   .post-content pre {
-    margin-left: -8px;
-    margin-right: -8px;
-    padding-left: 16px;
-    padding-right: 16px;
-    border-radius: 0;
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 12px;
     overflow-x: auto;
-    max-width: calc(100% + 16px);
+    max-width: 100%;
   }
 
   /* Inline code: gentle breaks */
