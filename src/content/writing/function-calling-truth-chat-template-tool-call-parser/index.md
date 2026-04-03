@@ -26,32 +26,11 @@ source:
 
 当你调用一个 OpenAI 兼容的 Chat Completion API，传入 `tools` 参数时，你以为的流程是这样的：
 
-```mermaid
-flowchart LR
-    A["JSON 请求"] --> B["模型理解工具定义"] --> C["返回结构化 tool_calls"]
-    style A fill:#e3f2fd,stroke:#1565c0
-    style B fill:#e8f5e9,stroke:#2e7d32
-    style C fill:#e3f2fd,stroke:#1565c0
-```
+![](./diagrams/flow-01.svg)
 
 **实际发生的：**
 
-```mermaid
-flowchart TB
-    A["🔵 你发的 JSON 请求<br>tools + messages"]
-    B["🟠 chat_template<br>（Jinja2 模板）<br>把 JSON 拼成纯文本 prompt"]
-    C["🟢 模型推理<br>收到一长串 token<br>续写下一个 token"]
-    D["🟠 tool_call_parser<br>（正则 / JSON 解析器）<br>从纯文本中提取工具调用"]
-    E["🔵 你收到的 JSON 响应<br>tool_calls: [{...}]"]
-
-    A -->|"输入侧翻译"| B --> C -->|"输出侧翻译"| D --> E
-
-    style A fill:#e3f2fd,stroke:#1565c0
-    style B fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    style C fill:#e8f5e9,stroke:#2e7d32
-    style D fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    style E fill:#e3f2fd,stroke:#1565c0
-```
+![](./diagrams/flow-02.svg)
 
 **从头到尾，模型处理的都是纯文本。** "结构化 API"是输入侧和输出侧两个翻译层联手制造的抽象。
 
@@ -306,42 +285,7 @@ GPT-5、Claude 4、Gemini——它们也是这样实现的吗？
 
 ## 五、全景图：一次 Function Calling 的完整旅程
 
-```mermaid
-flowchart TB
-    subgraph 你的代码
-        A["POST /chat/completions<br>{ messages, tools }"]
-    end
-
-    subgraph API 服务层
-        B["chat_template 渲染<br>Jinja2 把 JSON → 纯文本"]
-    end
-
-    subgraph 模型
-        C["模型收到纯文本 Prompt<br>&lt;tools&gt;...&lt;/tools&gt; + 用户消息"]
-        D["模型输出纯文本<br>&lt;tool_call&gt;{JSON}&lt;/tool_call&gt;"]
-        C -->|"续写 token"| D
-    end
-
-    subgraph API 服务层2 [API 服务层]
-        E["tool_call_parser<br>正则提取 → json.loads()"]
-    end
-
-    subgraph 你的代码2 [你的代码]
-        F["收到 JSON 响应<br>tool_calls: [{ function: {...} }]"]
-    end
-
-    A -->|"结构化 JSON"| B
-    B -->|"纯文本 token"| C
-    D -->|"纯文本"| E
-    E -->|"结构化 JSON"| F
-
-    style A fill:#e3f2fd,stroke:#1565c0
-    style B fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    style C fill:#e8f5e9,stroke:#2e7d32
-    style D fill:#e8f5e9,stroke:#2e7d32
-    style E fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    style F fill:#e3f2fd,stroke:#1565c0
-```
+![](./diagrams/flow-03.svg)
 
 **三步变换，两层翻译。** 你看到的"结构化 API"，是 chat_template 和 tool_call_parser 联手制造的优雅抽象。
 
@@ -390,22 +334,7 @@ flowchart TB
 
 Function Calling 不是什么高深的模型能力，它是一个**三明治结构**：
 
-```mermaid
-flowchart TB
-    A["🍞 漂亮的 JSON API（你看到的）"]
-    B["🟠 chat_template — 把 JSON 渲染成 prompt"]
-    C["🥩 模型文本续写 — 核心能力，就是续写 token"]
-    D["🟠 tool_call_parser — 把文本正则回 JSON"]
-    E["🍞 漂亮的 JSON 响应（你收到的）"]
-
-    A --> B --> C --> D --> E
-
-    style A fill:#fff8e1,stroke:#f9a825
-    style B fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    style C fill:#ffebee,stroke:#c62828,stroke-width:3px
-    style D fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    style E fill:#fff8e1,stroke:#f9a825
-```
+![](./diagrams/flow-04.svg)
 
 上层面包和下层面包是两个翻译层，负责让你用干净的 JSON 与模型交互。中间的馅料是模型的真实能力——理解上下文，续写出格式正确的文本。
 

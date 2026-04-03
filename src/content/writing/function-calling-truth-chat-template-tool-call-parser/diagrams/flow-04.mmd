@@ -1,0 +1,15 @@
+%%{init: { 'theme': 'default' }}%%
+flowchart TB
+    A["🍞 漂亮的 JSON API（你看到的）"]
+    B["🟠 chat_template — 把 JSON 渲染成 prompt"]
+    C["🥩 模型文本续写 — 核心能力，就是续写 token"]
+    D["🟠 tool_call_parser — 把文本正则回 JSON"]
+    E["🍞 漂亮的 JSON 响应（你收到的）"]
+
+    A --> B --> C --> D --> E
+
+    style A fill:#fff8e1,stroke:#f9a825
+    style B fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style C fill:#ffebee,stroke:#c62828,stroke-width:3px
+    style D fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style E fill:#fff8e1,stroke:#f9a825

@@ -1,0 +1,35 @@
+%%{init: { 'theme': 'default' }}%%
+flowchart TB
+    subgraph 你的代码
+        A["POST /chat/completions<br>{ messages, tools }"]
+    end
+
+    subgraph API 服务层
+        B["chat_template 渲染<br>Jinja2 把 JSON → 纯文本"]
+    end
+
+    subgraph 模型
+        C["模型收到纯文本 Prompt<br>&lt;tools&gt;...&lt;/tools&gt; + 用户消息"]
+        D["模型输出纯文本<br>&lt;tool_call&gt;{JSON}&lt;/tool_call&gt;"]
+        C -->|"续写 token"| D
+    end
+
+    subgraph API 服务层2 [API 服务层]
+        E["tool_call_parser<br>正则提取 → json.loads()"]
+    end
+
+    subgraph 你的代码2 [你的代码]
+        F["收到 JSON 响应<br>tool_calls: [{ function: {...} }]"]
+    end
+
+    A -->|"结构化 JSON"| B
+    B -->|"纯文本 token"| C
+    D -->|"纯文本"| E
+    E -->|"结构化 JSON"| F
+
+    style A fill:#e3f2fd,stroke:#1565c0
+    style B fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style C fill:#e8f5e9,stroke:#2e7d32
+    style D fill:#e8f5e9,stroke:#2e7d32
+    style E fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style F fill:#e3f2fd,stroke:#1565c0

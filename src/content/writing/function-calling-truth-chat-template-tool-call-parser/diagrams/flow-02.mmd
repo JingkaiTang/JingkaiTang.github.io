@@ -1,0 +1,15 @@
+%%{init: { 'theme': 'default' }}%%
+flowchart TB
+    A["🔵 你发的 JSON 请求<br>tools + messages"]
+    B["🟠 chat_template<br>（Jinja2 模板）<br>把 JSON 拼成纯文本 prompt"]
+    C["🟢 模型推理<br>收到一长串 token<br>续写下一个 token"]
+    D["🟠 tool_call_parser<br>（正则 / JSON 解析器）<br>从纯文本中提取工具调用"]
+    E["🔵 你收到的 JSON 响应<br>tool_calls: [{...}]"]
+
+    A -->|"输入侧翻译"| B --> C -->|"输出侧翻译"| D --> E
+
+    style A fill:#e3f2fd,stroke:#1565c0
+    style B fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style C fill:#e8f5e9,stroke:#2e7d32
+    style D fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style E fill:#e3f2fd,stroke:#1565c0
