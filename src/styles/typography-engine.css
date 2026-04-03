@@ -1,0 +1,54 @@
+/* ══════════════════════════════════════════════════
+   typography-engine.css — 流动性排版引擎 v2
+   取代旧 typography.css 中的静态 token
+   使用 clamp() 实现 375px → 1200px 全区间平滑过渡
+   ══════════════════════════════════════════════════ */
+
+:root {
+  /* ── Font Stacks ── */
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Space Grotesk', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Noto Sans SC', 'PingFang SC',
+    'Microsoft YaHei', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo,
+    Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+  /* ── Fluid Type Scale (375px → 1200px) ──
+     使用更精细的 clamp() 参数，确保字号在整个视口范围平滑过渡
+     公式: clamp(min, preferred, max)
+     preferred = min + (max - min) * (100vw - 375px) / (1200px - 375px)
+     简化为: min + slope * vw
+  */
+  --fs-xs:   clamp(0.625rem, 0.58rem + 0.18vw,  0.72rem);   /* 10px → 11.5px */
+  --fs-sm:   clamp(0.8rem,   0.74rem + 0.22vw,  0.88rem);   /* 12.8px → 14px */
+  --fs-base: clamp(0.938rem, 0.87rem + 0.28vw,  1.08rem);   /* 15px → 17.3px */
+  --fs-md:   clamp(1.063rem, 0.97rem + 0.38vw,  1.25rem);   /* 17px → 20px */
+  --fs-lg:   clamp(1.25rem,  1.1rem  + 0.55vw,  1.563rem);  /* 20px → 25px */
+  --fs-xl:   clamp(1.438rem, 1.24rem + 0.75vw,  1.953rem);  /* 23px → 31px */
+  --fs-2xl:  clamp(1.625rem, 1.35rem + 1.05vw,  2.441rem);  /* 26px → 39px */
+  --fs-3xl:  clamp(1.8rem,   1.45rem + 1.4vw,   3.052rem);  /* 28.8px → 49px */
+
+  /* ── Line Heights ── */
+  --lh-tight:      1.2;    /* headings */
+  --lh-body:       1.75;   /* Latin-dominant body */
+  --lh-body-cjk:   1.95;   /* CJK-dominant body */
+  --lh-body-mixed: 1.85;   /* mixed CJK/Latin */
+  --lh-loose:      2.0;    /* blockquotes, captions */
+  --lh-code:       1.55;   /* code blocks */
+
+  /* ── CJK 小屏行高变体 ──
+     在小视口上 CJK 行高可以稍紧凑，避免行距过大 */
+  --lh-body-cjk-compact:   1.88;
+  --lh-body-mixed-compact: 1.8;
+
+  /* ── Spacing (vertical rhythm) ── */
+  --space-prose:         1.25em;
+  --space-heading-above: 2em;
+  --space-heading-below: 0.5em;
+  --space-list-item:     0.35em;
+  --space-block:         1.5em;
+
+  /* ── Container Padding Tokens ── */
+  --container-pad:       clamp(12px, 2vw + 8px, 32px);
+  --container-pad-outer: clamp(10px, 4vw, 8vw);
+}

@@ -365,20 +365,6 @@ body {
   overflow-wrap: anywhere;
 }
 
-@media (max-width: 560px) {
-  .hero-intro {
-    align-items: flex-start;
-    gap: 14px;
-  }
-  .hero-avatar {
-    width: 82px;
-    height: 82px;
-  }
-  .hero-subtitle {
-    font-size: 0.98rem;
-  }
-}
-
 .hero-actions {
   display: flex;
   gap: 16px;

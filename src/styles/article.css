@@ -45,6 +45,9 @@
   box-sizing: border-box;
   min-width: 0;
   overflow-wrap: anywhere;
+  /* 容器查询锚点 (responsive-v2.css 使用) */
+  container-type: inline-size;
+  container-name: article;
 }
 
 /* Lobotomized owl: uniform vertical rhythm */
@@ -95,6 +98,7 @@
   color: var(--primary);
   overflow-wrap: break-word;
   word-break: normal;
+  /* 不使用 break-all，避免在域名/路径中间断裂 */
 }
 
 .post-content a:hover {
@@ -208,6 +212,7 @@
   font-size: var(--fs-sm);
   margin-top: var(--space-block);
   margin-bottom: var(--space-block);
+  /* 保持 display: table 语义，滚动由 .table-scroll-wrapper 处理 */
 }
 
 .post-content table th,

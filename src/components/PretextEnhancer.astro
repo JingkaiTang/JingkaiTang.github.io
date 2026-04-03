@@ -1,7 +1,7 @@
 ---
 // PretextEnhancer.astro
-// CJK/Latin 混排排版增强引擎
-// 视口感知：桌面使用 @chenglou/pretext 精确测量，移动端用 CSS class 驱动
+// CJK/Latin 混排排版增强引擎 v2
+// 容器查询感知：根据 .post-content 容器宽度自动调整行高
 // 渐进增强：JS 失败或字体未加载时，CSS 基线布局不受影响
 ---
 
@@ -39,14 +39,14 @@ function shouldSkipParagraph(p: HTMLParagraphElement): boolean {
 
 // ── Line-height 计算 ──
 
-/** 根据 CJK 比例和视口宽度计算最佳 line-height */
-function optimalLineHeight(ratio: number, viewportWidth: number): number {
-  // 移动端 CJK 需要稍多呼吸空间
-  const mobileBoost = viewportWidth < 640 ? 0.05 : 0;
+/** 根据 CJK 比例和容器宽度计算最佳 line-height */
+function optimalLineHeight(ratio: number, containerWidth: number): number {
+  // 小容器 CJK 稍紧凑，避免行距过大浪费空间
+  const compact = containerWidth < 480 ? -0.07 : containerWidth < 640 ? -0.03 : 0;
 
-  if (ratio > 0.7) return 1.95 + mobileBoost;  // 纯 CJK
-  if (ratio > 0.4) return 1.85 + mobileBoost;  // 重度混排
-  if (ratio > 0.15) return 1.8 + mobileBoost;   // 轻度混排
+  if (ratio > 0.7) return 1.95 + compact;   // 纯 CJK
+  if (ratio > 0.4) return 1.85 + compact;   // 重度混排
+  if (ratio > 0.15) return 1.8 + compact;    // 轻度混排
   return 0; // 纯 Latin → 使用 CSS 默认 --lh-body: 1.75，不覆盖
 }
 
@@ -78,7 +78,7 @@ function debounce(fn: () => void, ms: number): () => void {
 // ── 文章排版增强 ──
 
 /** 桌面/平板：使用 pretext 精确测量 + CSS 自定义属性 */
-function enhanceArticleFull(vw: number): void {
+function enhanceArticleFull(containerWidth: number): void {
   const paragraphs = document.querySelectorAll<HTMLParagraphElement>('.post-content > p');
   if (paragraphs.length === 0) return;
 
@@ -95,27 +95,27 @@ function enhanceArticleFull(vw: number): void {
     if (shouldSkipParagraph(p)) continue;
     const text = p.textContent || '';
     const ratio = cjkRatio(text);
-    const targetLH = optimalLineHeight(ratio, vw);
+    const targetLH = optimalLineHeight(ratio, containerWidth);
     if (targetLH === 0) continue; // Latin, use CSS default
 
     const font = getFont(p);
-    const containerWidth = p.clientWidth;
+    const width = p.clientWidth;
     const fontSize = parseFloat(getComputedStyle(p).fontSize);
 
-    measurements.push({ p, targetLH, font, containerWidth, fontSize });
+    measurements.push({ p, targetLH, font, containerWidth: width, fontSize });
   }
 
   // 批量写入
   requestAnimationFrame(() => {
-    for (const { p, targetLH, font, containerWidth, fontSize } of measurements) {
+    for (const { p, targetLH, font, containerWidth: cw, fontSize } of measurements) {
       const text = p.textContent || '';
       const currentLH = fontSize * 1.75; // CSS baseline
       const newLH = fontSize * targetLH;
 
       try {
         const prepared = prepare(text, font);
-        const currentLayout = layout(prepared, containerWidth, currentLH);
-        const newLayout = layout(prepared, containerWidth, newLH);
+        const currentLayout = layout(prepared, cw, currentLH);
+        const newLayout = layout(prepared, cw, newLH);
 
         // 行数增加超过 25% 则放弃
         if (newLayout.lineCount > currentLayout.lineCount * 1.25) continue;
@@ -188,13 +188,16 @@ function enhanceCards(): void {
 // ── 主入口 ──
 
 function enhance(): void {
-  const vw = window.innerWidth;
+  // 使用容器宽度而非视口宽度，与 CSS 容器查询保持一致
+  const container = document.querySelector('.post-content');
+  const containerWidth = container ? container.clientWidth : window.innerWidth;
 
-  // 移动端：跳过 pretext 测量，用 class 驱动
-  if (vw < 640) {
+  // 容器宽度小于 480px: 纯 class 方案（性能优先）
+  // 容器宽度 ≥ 480px: pretext 精确测量 + class 降级
+  if (containerWidth < 480) {
     enhanceArticleSimple();
   } else {
-    enhanceArticleFull(vw);
+    enhanceArticleFull(containerWidth);
   }
 
   enhanceCards();

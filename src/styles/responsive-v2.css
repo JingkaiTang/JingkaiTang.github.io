@@ -1,0 +1,554 @@
+/* ══════════════════════════════════════════════════
+   responsive-v2.css — 容器查询驱动的响应式排版引擎
+   替代旧 responsive.css 的 @media 方案
+   断点: 900px / 640px / 480px
+
+   策略:
+   - 页面级布局 (nav, main, footer) → @media (视口相关)
+   - 内容级排版 (.post-content 内部) → @container (容器相关)
+   - 这样嵌套在不同容器中的内容会自动适配
+   ══════════════════════════════════════════════════ */
+
+/* ── 容器声明 ── */
+.post-content {
+  container-type: inline-size;
+  container-name: article;
+}
+
+.glass {
+  container-type: inline-size;
+  container-name: panel;
+}
+
+/* ══════════════════════════════════════════════════
+   PAGE-LEVEL: @media queries (视口级布局)
+   ══════════════════════════════════════════════════ */
+
+/* ── 900px: 平板 → TOC 折叠、画廊调整 ── */
+@media (max-width: 900px) {
+  .post-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .toc {
+    position: relative;
+    top: 0;
+    order: -1;
+  }
+
+  .toc > summary {
+    display: block;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text-dim-strong);
+    padding: 2px 0;
+  }
+
+  .toc .toc-title {
+    display: none;
+  }
+
+  .toc ol {
+    margin-top: 10px;
+  }
+
+  .footer-gallery__grid {
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(3, 100px);
+    gap: 9px;
+  }
+
+  .footer-gallery__img.is-wide { grid-column: span 3; }
+  .footer-gallery__img.is-wide2 { grid-column: span 2; }
+  .footer-gallery__img.is-tall { grid-row: span 2; }
+  .footer-gallery__img.is-big { grid-column: span 4; grid-row: span 2; }
+}
+
+/* ── 640px: 移动布局（页面级） ── */
+@media (max-width: 640px) {
+  /* Navigation */
+  .nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+  }
+
+  .hero-actions,
+  .hero-stats {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* Main layout: fluid padding */
+  main {
+    padding: 0 var(--container-pad-outer) 60px;
+    width: 100%;
+  }
+
+  .site-header {
+    padding: 24px var(--container-pad-outer) 48px;
+  }
+
+  .site-footer {
+    padding: 24px var(--container-pad-outer) 32px;
+  }
+
+  .section {
+    gap: 16px;
+    width: 100%;
+  }
+
+  .glass {
+    padding: var(--container-pad);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .post-article {
+    width: 100%;
+  }
+
+  /* Post shell: single column */
+  .post-shell {
+    display: block !important;
+    width: 100%;
+  }
+
+  /* TOC: hidden on mobile */
+  .toc {
+    display: none !important;
+  }
+
+  /* Post navigation: single column */
+  .post-nav {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .post-nav-link--prev,
+  .post-nav-link--next {
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  /* Cards */
+  .content-card__grid.has-cover {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .content-card__title-link {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  .project-card.content-card .content-card__thumb {
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto;
+    margin-top: 0;
+  }
+
+  /* Gallery: 2-col on mobile */
+  .footer-gallery {
+    padding: 14px;
+  }
+
+  .footer-gallery__grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 110px;
+    grid-template-rows: none;
+    overflow: visible;
+    gap: 8px;
+  }
+
+  .footer-gallery__img.is-wide,
+  .footer-gallery__img.is-wide2 { grid-column: span 2; }
+  .footer-gallery__img.is-tall { grid-row: span 2; }
+  .footer-gallery__img.is-big { grid-column: span 2; grid-row: span 2; }
+}
+
+/* ── 480px: 超小屏（页面级） ── */
+@media (max-width: 480px) {
+  .post-nav-link {
+    padding: 10px;
+  }
+
+  .post-nav-title {
+    font-size: var(--fs-sm);
+    word-break: break-word;
+  }
+
+  /* Gallery: single column */
+  .footer-gallery__grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 100px;
+    gap: 6px;
+  }
+}
+
+/* ── Hero mobile ── */
+@media (max-width: 560px) {
+  .hero-intro {
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .hero-avatar {
+    width: 82px;
+    height: 82px;
+  }
+  .hero-subtitle {
+    font-size: 0.98rem;
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   CONTENT-LEVEL: @container queries (内容排版)
+   .post-content 内部的元素根据容器宽度自适应
+   ══════════════════════════════════════════════════ */
+
+/* ── 基础移动排版 (<640px 容器) ── */
+@container article (max-width: 640px) {
+  /* 文本换行 */
+  & {
+    overflow-wrap: anywhere;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+    min-width: 0;
+  }
+
+  /* 块级元素约束 */
+  & > *,
+  & li,
+  & td,
+  & th,
+  & blockquote > *,
+  & details > * {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  & p,
+  & li,
+  & :is(h1, h2, h3, h4) {
+    width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  & ul,
+  & ol {
+    padding-left: 1.2em;
+    overflow-wrap: anywhere;
+  }
+
+  /* 标题 */
+  & h2 {
+    font-size: var(--fs-lg);
+  }
+
+  & h3 {
+    font-size: var(--fs-md);
+  }
+
+  & h4 {
+    font-size: var(--fs-base);
+    font-weight: 600;
+  }
+
+  /* 图片: 安全止损 */
+  & img {
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+  }
+
+  /* 代码块: 滚动 + 优化间距 */
+  & pre {
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 12px;
+    overflow-x: auto;
+    max-width: 100%;
+    padding: 12px 14px;
+    font-size: var(--fs-sm);
+  }
+
+  /* 内联代码: 温和断行 */
+  & code {
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+
+  /* 表格: 用 scroll wrapper 而不是 display: block
+     由 remark 插件自动包装 .table-scroll-wrapper
+     若没有 wrapper，保持 table 原样并启用横向滚动 */
+  & table {
+    display: table;
+    width: 100%;
+    max-width: 100%;
+    font-size: var(--fs-xs);
+  }
+
+  & table th,
+  & table td {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    padding: 0.4em 0.5em;
+  }
+
+  /* 引用块 */
+  & blockquote {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0.5em 0.8em;
+    overflow-wrap: anywhere;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 链接: 适度换行（不用 break-all，改为 break-word + overflow-wrap） */
+  & a {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  /* 水平线 */
+  & hr {
+    margin: 1.5em 0;
+  }
+
+  /* CJK 行高紧凑版 */
+  & > p.cjk-heavy  { --lh-computed: var(--lh-body-cjk-compact); }
+  & > p.cjk-mixed  { --lh-computed: var(--lh-body-mixed-compact); }
+  & > p.cjk-light  { --lh-computed: var(--lh-body-mixed-compact); }
+}
+
+/* ── 超小容器 (<480px) ── */
+@container article (max-width: 480px) {
+  /* 代码块进一步缩小 */
+  & pre {
+    font-size: clamp(0.7rem, 0.65rem + 0.2vw, 0.8rem);
+    padding: 10px 12px;
+    border-radius: 10px;
+    line-height: 1.5;
+  }
+
+  /* 列表缩进收紧 */
+  & ul,
+  & ol {
+    padding-left: 1em;
+  }
+
+  /* 图片边距收紧 */
+  & img {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+  }
+
+  /* 表格极小屏优化 */
+  & table {
+    font-size: clamp(0.6rem, 0.55rem + 0.15vw, 0.7rem);
+  }
+
+  & table th,
+  & table td {
+    padding: 0.3em 0.4em;
+  }
+
+  /* 引用块 */
+  & blockquote {
+    padding: 0.4em 0.6em;
+    font-size: var(--fs-sm);
+  }
+
+  /* 垂直节奏收紧 */
+  & > * + * {
+    margin-top: 1em;
+  }
+
+  & :is(h2, h3, h4) {
+    margin-top: 1.5em;
+    margin-bottom: 0.4em;
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   表格滚动包装器
+   由 remark 插件自动在 <table> 外套一层
+   保持语义 HTML，不破坏 display: table
+   ══════════════════════════════════════════════════ */
+.table-scroll-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: var(--space-block);
+  margin-bottom: var(--space-block);
+
+  /* 滚动提示渐变 */
+  background:
+    linear-gradient(to right, var(--surface, transparent) 30%, transparent),
+    linear-gradient(to left, var(--surface, transparent) 30%, transparent),
+    linear-gradient(to right, rgba(0, 0, 0, 0.15), transparent 20px),
+    linear-gradient(to left, rgba(0, 0, 0, 0.15), transparent 20px);
+  background-position: left center, right center, left center, right center;
+  background-repeat: no-repeat;
+  background-size: 20px 100%, 20px 100%, 20px 100%, 20px 100%;
+  background-attachment: local, local, scroll, scroll;
+}
+
+.table-scroll-wrapper > table {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* ══════════════════════════════════════════════════
+   标题和元信息（移动端）
+   ══════════════════════════════════════════════════ */
+@container panel (max-width: 640px) {
+  .post-title {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    font-size: var(--fs-xl);
+  }
+
+  .post-meta {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   降级: 不支持 @container 的浏览器
+   使用 @supports 检测 + @media 兜底
+   ══════════════════════════════════════════════════ */
+@supports not (container-type: inline-size) {
+  @media (max-width: 640px) {
+    .post-content {
+      overflow-wrap: anywhere;
+      word-wrap: break-word;
+      word-break: break-word;
+      hyphens: auto;
+      width: 100%;
+      box-sizing: border-box;
+      min-width: 0;
+    }
+
+    .post-content > *,
+    .post-content li,
+    .post-content td,
+    .post-content th,
+    .post-content blockquote > *,
+    .post-content details > * {
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    .post-content p,
+    .post-content li,
+    .post-content :is(h1, h2, h3, h4) {
+      width: 100%;
+      box-sizing: border-box;
+      overflow-wrap: anywhere;
+    }
+
+    .post-content ul,
+    .post-content ol {
+      box-sizing: border-box;
+      padding-left: 1.2em;
+      overflow-wrap: anywhere;
+    }
+
+    .post-content img {
+      max-width: 100%;
+      width: auto;
+      height: auto;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .post-content pre {
+      margin-left: 0;
+      margin-right: 0;
+      border-radius: 12px;
+      overflow-x: auto;
+      max-width: 100%;
+      padding: 12px 14px;
+    }
+
+    .post-content code {
+      overflow-wrap: break-word;
+      word-break: normal;
+    }
+
+    .post-content table {
+      display: block;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%;
+    }
+
+    .post-content table th,
+    .post-content table td {
+      white-space: normal;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .post-content blockquote {
+      margin-left: 0;
+      margin-right: 0;
+      padding: 0.5em 0.8em;
+      overflow-wrap: anywhere;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .post-content a {
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .post-title {
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .post-meta {
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .post-content pre {
+      font-size: 0.75rem;
+      padding: 10px 12px;
+    }
+
+    .post-content ul,
+    .post-content ol {
+      padding-left: 1em;
+    }
+  }
+}
