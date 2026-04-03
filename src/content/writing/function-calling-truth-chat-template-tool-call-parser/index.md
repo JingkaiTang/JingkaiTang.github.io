@@ -14,8 +14,6 @@ source:
   kind: original
 ---
 
-# Function Calling 的真相：从 chat_template 到 tool_call_parser
-
 > 上篇文章发出后，有朋友留言：
 >
 > *"function call 其实还是通过 prompt 约定的，模型并不是返回的结构化数据，API 层依然是通过正则处理的。可以看下 vLLM 项目中的 tool_call_parser 是如何处理的，开源模型基本都带 chat_template，里面有 function 是如何转化成具体的 prompt。"*
