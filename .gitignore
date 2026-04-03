@@ -6,6 +6,14 @@ dist/
 # local scratch (wechat drafts etc.)
 tmp/
 
+# local generated artifacts (do not commit)
+output/
+
+# optional: other local exports
+cards/
+cache/
+logs/
+
 # dependencies
 node_modules/
 
