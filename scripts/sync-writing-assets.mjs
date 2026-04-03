@@ -68,28 +68,68 @@ async function syncOnePostDir({ postDir, indexName = 'index.md', publicBaseDir, 
   const desired = new Set();
   const entries = await fs.readdir(postDir, { withFileTypes: true });
   for (const e of entries) {
-    if (!e.isFile()) continue;
-    if (e.name === 'index.md') continue;
+    // copy single-file assets at post root
+    if (e.isFile()) {
+      if (e.name === 'index.md') continue;
 
-    const ext = path.extname(e.name).toLowerCase();
-    if (!ASSET_EXTS.has(ext)) continue;
+      const ext = path.extname(e.name).toLowerCase();
+      if (!ASSET_EXTS.has(ext)) continue;
 
-    const src = path.join(postDir, e.name);
-    const dst = path.join(outDir, e.name);
-    await fs.copyFile(src, dst);
-    desired.add(e.name);
+      const src = path.join(postDir, e.name);
+      const dst = path.join(outDir, e.name);
+      await fs.copyFile(src, dst);
+      desired.add(e.name);
+      continue;
+    }
+
+    // copy common nested asset folders (e.g. diagrams/*)
+    if (e.isDirectory() && ['diagrams'].includes(e.name)) {
+      const dirName = e.name;
+      const srcDir = path.join(postDir, dirName);
+      const dstDir = path.join(outDir, dirName);
+      await ensureDir(dstDir);
+
+      const nested = await fs.readdir(srcDir, { withFileTypes: true });
+      for (const ne of nested) {
+        if (!ne.isFile()) continue;
+        const ext = path.extname(ne.name).toLowerCase();
+        if (!ASSET_EXTS.has(ext)) continue;
+        const src = path.join(srcDir, ne.name);
+        const dst = path.join(dstDir, ne.name);
+        await fs.copyFile(src, dst);
+        desired.add(`${dirName}/${ne.name}`);
+      }
+    }
   }
 
   let cleaned = 0;
   if (clean) {
     const outEntries = await fs.readdir(outDir, { withFileTypes: true });
     for (const e of outEntries) {
-      if (!e.isFile()) continue;
-      const ext = path.extname(e.name).toLowerCase();
-      if (!ASSET_EXTS.has(ext)) continue;
-      if (desired.has(e.name)) continue;
-      await fs.unlink(path.join(outDir, e.name));
-      cleaned++;
+      if (e.isFile()) {
+        const ext = path.extname(e.name).toLowerCase();
+        if (!ASSET_EXTS.has(ext)) continue;
+        if (desired.has(e.name)) continue;
+        await fs.unlink(path.join(outDir, e.name));
+        cleaned++;
+        continue;
+      }
+
+      // clean common nested folders (diagrams/*)
+      if (e.isDirectory() && ['diagrams'].includes(e.name)) {
+        const dirName = e.name;
+        const dirPath = path.join(outDir, dirName);
+        const nested = await fs.readdir(dirPath, { withFileTypes: true });
+        for (const ne of nested) {
+          if (!ne.isFile()) continue;
+          const ext = path.extname(ne.name).toLowerCase();
+          if (!ASSET_EXTS.has(ext)) continue;
+          const key = `${dirName}/${ne.name}`;
+          if (desired.has(key)) continue;
+          await fs.unlink(path.join(dirPath, ne.name));
+          cleaned++;
+        }
+      }
     }
   }
 
