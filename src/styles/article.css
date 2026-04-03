@@ -239,6 +239,12 @@
   display: block;
 }
 
+/* Mermaid pre-rendered diagrams: slightly smaller than full width */
+.post-content img[src*="/diagrams/"],
+.post-content img[src*="./diagrams/"] {
+  max-width: 86%;
+}
+
 .post-content img {
   margin: 18px auto;
   border-radius: 14px;
