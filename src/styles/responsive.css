@@ -170,6 +170,13 @@
     max-width: 100%;
   }
 
+  .post-content table th,
+  .post-content table td {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
   /* Blockquotes */
   .post-content blockquote {
     margin-left: 0;
