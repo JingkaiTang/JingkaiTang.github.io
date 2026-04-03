@@ -43,6 +43,8 @@
   line-height: var(--lh-body);
   max-width: 100%;
   box-sizing: border-box;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 /* Lobotomized owl: uniform vertical rhythm */
@@ -111,6 +113,12 @@
   background: var(--blockquote-bg);
   border-radius: 0 12px 12px 0;
   line-height: var(--lh-loose);
+  overflow: hidden;
+}
+
+.post-content blockquote > * {
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .post-content blockquote > *:first-child { margin-top: 0; }
@@ -177,6 +185,7 @@
   -webkit-overflow-scrolling: touch;
   max-width: 100%;
   box-sizing: border-box;
+  min-width: 0;
   font-size: var(--fs-sm);
   line-height: var(--lh-code);
   margin-top: var(--space-block);
@@ -206,6 +215,8 @@
   padding: 0.5em 0.75em;
   border: 1px solid var(--border);
   text-align: left;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .post-content table th {

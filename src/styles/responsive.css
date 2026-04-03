@@ -115,11 +115,18 @@
     hyphens: auto;
     width: 100%;
     box-sizing: border-box;
+    min-width: 0;
   }
 
-  .post-content * {
-    max-width: 100% !important;
-    box-sizing: border-box !important;
+  /* 仅约束块级元素，不影响内联元素（em/strong/code/a） */
+  .post-content > *,
+  .post-content li,
+  .post-content td,
+  .post-content th,
+  .post-content blockquote > *,
+  .post-content details > * {
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .post-content p,
@@ -139,8 +146,8 @@
 
   /* Images: responsive */
   .post-content img {
-    max-width: 100% !important;
-    width: auto !important;
+    max-width: 100%;
+    width: auto;
     height: auto;
     display: block;
     margin-left: auto;
