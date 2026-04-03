@@ -3,7 +3,8 @@ title: "Function Calling 的真相：从 chat_template 到 tool_call_parser"
 description: "揭开 Function Calling 的底层实现：模型只是在续写文本，API 层用 chat_template 和 tool_call_parser 联手制造了结构化 API 的优雅抽象"
 pubDate: "2026-04-03"
 tags: ["ai", "llm", "function-calling"]
-draft: true
+
+draft: false
 cover: "./cover.jpg"
 
 by:
