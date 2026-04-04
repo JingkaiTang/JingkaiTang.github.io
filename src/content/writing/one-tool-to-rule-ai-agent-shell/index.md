@@ -3,7 +3,8 @@ title: "一个工具打天下：给AI Agent装上Shell，它就能操作你的�
 description: "只给 Agent 一个 exec（Shell）工具，它就能读文件、建目录、调 API、装软件——能力从“专用玩具”升级成“瑞士军刀”，但必须配套三道安全防线。"
 pubDate: "2026-04-05"
 tags: ["ai", "agent", "tooling", "shell"]
-draft: true
+
+draft: false
 cover: "./cover.jpg"
 
 by:
