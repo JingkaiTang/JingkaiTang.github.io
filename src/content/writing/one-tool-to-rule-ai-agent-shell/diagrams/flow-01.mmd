@@ -1,0 +1,12 @@
+%%{init: { 'theme': 'default' }}%%
+flowchart LR
+    A["LLM 生成命令"] --> B{"第一道：危险命令拦截"}
+    B -->|"命中黑名单"| X["🚫 拒绝执行"]
+    B -->|"通过"| C{"第二道：用户确认"}
+    C -->|"用户拒绝"| Y["⛔ 取消执行"]
+    C -->|"用户确认 y"| D["第三道：超时+截断"]
+    D --> E["✅ 返回结果"]
+
+    style X fill:#ffebee,stroke:#c62828
+    style Y fill:#fff3e0,stroke:#e65100
+    style E fill:#e8f5e9,stroke:#2e7d32
