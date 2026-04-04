@@ -1,9 +1,9 @@
 {
-  "builtAt": "2026-04-03T15:14:50.269Z",
+  "builtAt": "2026-04-04T16:23:49.865Z",
   "counts": {
-    "writing": 12,
+    "writing": 13,
     "huolin": 21,
-    "total": 33
+    "total": 34
   },
   "items": [
     {
@@ -36,6 +36,10 @@
     },
     {
       "url": "/writing/function-calling-truth-chat-template-tool-call-parser/cover.jpg",
+      "kind": "writing-cover"
+    },
+    {
+      "url": "/writing/one-tool-to-rule-ai-agent-shell/cover.jpg",
       "kind": "writing-cover"
     },
     {
