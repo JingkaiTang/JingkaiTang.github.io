@@ -3,7 +3,8 @@ title: "我让 AI 写了一个 macOS 摸鱼神器，它居然先劝我'假装'"
 description: "一个把任意 App 塞进菜单栏气泡的工具。AI 说：真的做不到，但我们可以假装。于是 BarPin 诞生了。"
 pubDate: "2026-04-05"
 tags: ["macOS", "开源项目", "AI编程"]
-draft: true
+
+draft: false
 cover: "./appicon.jpg"
 
 by:
