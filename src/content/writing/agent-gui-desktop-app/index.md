@@ -1,11 +1,10 @@
 ---
-title: "从命令行到桌面应用：给手搓 Agent 做一个 GUI"
-description: "给 Agent 装上图形界面：聊天气泡、流式打字效果、工具调用可视化——让它看起来像一个真正的桌面 AI 助手。"
+title: "从命令行到桌面应用：给手搓Agent做一个GUI"
+description: "给终端里黑底白字的 Agent 装上图形界面——聊天气泡、流式打字效果、工具调用可视化，让它看起来像一个真正的桌面 AI 助手"
 pubDate: "2026-04-06"
-tags: ["Java", "AI Agent", "JavaFX", "桌面开发"]
-
-draft: false
-cover: "./screenshot.png"
+tags: ["Java", "AI Agent", "GUI"]
+draft: true
+cover: "./cover.png"
 
 by:
   role: owner
@@ -34,7 +33,7 @@ demo01 用 `Scanner` 读取用户输入，一行一回车。但实际使用中�
 
 完成的界面大概长这样：
 
-![](./screenshot.png)
+![Agent GUI 界面](./gui-screenshot.png)
 
 ---
 
@@ -42,35 +41,7 @@ demo01 用 `Scanner` 读取用户输入，一行一回车。但实际使用中�
 
 demo02 不是在 demo01 上硬塞一个界面，而是重新做了分层：
 
-```mermaid
-flowchart TB
-    subgraph GUI 层
-        A["ChatWindow<br>聊天窗口布局"]
-        B["MessageBubble<br>消息气泡组件"]
-    end
-
-    subgraph Agent 服务层
-        C["AgentService<br>异步调用 + 生命周期管理"]
-        D["AgentConfig<br>配置集中管理"]
-    end
-
-    subgraph Agent 核心层
-        E["AgentLoop<br>ReAct 循环 + SSE 流式"]
-        F["LLMClient<br>SSE 流式 API 调用"]
-        G["ExecTool<br>Shell 命令执行"]
-    end
-
-    A --> C
-    C --> E
-    E --> F
-    E --> G
-    E -.->|"AgentCallback"| A
-
-    style A fill:#e3f2fd,stroke:#1565c0
-    style B fill:#e3f2fd,stroke:#1565c0
-    style C fill:#fff3e0,stroke:#e65100
-    style E fill:#e8f5e9,stroke:#2e7d32
-```
+![架构设计：三层分离](./architecture-diagram.png)
 
 **关键设计决策：GUI 和 Agent 通过回调接口通信，互不依赖。**
 
@@ -235,8 +206,10 @@ public void onToolCall(String toolName, String argsJson) {
 
 ---
 
-*上一篇：[一个工具打天下：给 AI Agent 装上 Shell，它就能操作你的电脑](/writing/one-tool-to-rule-ai-agent-shell)*
-
-*系列首篇：[Claude Code 泄露 51 万行源码，我用 Java 手搓了同款 Agent](/writing/build-ai-agent-from-scratch)*
+*系列文章：*
+- [Claude Code 泄露 51 万行源码，我用 Java 手搓了同款 Agent](/writing/build-ai-agent-from-scratch)
+- [一个工具打天下：给 AI Agent 装上 Shell，它就能操作你的电脑](/writing/one-tool-to-rule-ai-agent-shell)
+- 本文：从命令行到桌面应用：给手搓 Agent 做一个 GUI
+-下一篇：关掉窗口对话就没了？给 Agent 加上会话管理
 
 *本文源码：[agent-from-scratch](https://github.com/JingkaiTang/agent-from-scratch)*

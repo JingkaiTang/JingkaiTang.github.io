@@ -1,11 +1,15 @@
 {
-  "builtAt": "2026-04-04T16:23:49.865Z",
+  "builtAt": "2026-04-06T15:23:12.993Z",
   "counts": {
-    "writing": 13,
+    "writing": 14,
     "huolin": 21,
-    "total": 34
+    "total": 35
   },
   "items": [
+    {
+      "url": "/writing/agent-gui-desktop-app/cover.png",
+      "kind": "writing-cover"
+    },
     {
       "url": "/writing/agent-tool-calling-principles/cover.jpg",
       "kind": "writing-cover"
