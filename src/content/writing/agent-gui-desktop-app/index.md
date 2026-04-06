@@ -3,7 +3,8 @@ title: "从命令行到桌面应用：给手搓Agent做一个GUI"
 description: "给终端里黑底白字的 Agent 装上图形界面——聊天气泡、流式打字效果、工具调用可视化，让它看起来像一个真正的桌面 AI 助手"
 pubDate: "2026-04-06"
 tags: ["Java", "AI Agent", "GUI"]
-draft: true
+
+draft: false
 cover: "./cover.png"
 
 by:
