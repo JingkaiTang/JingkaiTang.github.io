@@ -3,7 +3,8 @@ title: "AI会取代我，但我不焦虑"
 description: "AI 会取代许多程序员的工作，但真正值得关注的不是焦虑，而是如何顺着变化继续成长。"
 pubDate: "2026-04-07"
 tags: ["AI", "程序员", "未来工作", "心态"]
-draft: true
+
+draft: false
 cover: "./cover.jpg"
 
 by:
