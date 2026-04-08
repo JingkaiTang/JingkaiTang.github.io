@@ -3,7 +3,8 @@ title: "Anthropic说Mythos太强了不敢发布，我觉得是太贵了"
 description: "Anthropic 将 Mythos 包装成“强到不敢发布”的安全故事，但真正更像决定因素的，也许是高得离谱的推理成本。"
 pubDate: "2026-04-08"
 tags: [AI, Anthropic, Claude, Mythos, 商业分析]
-draft: true
+
+draft: false
 cover: "./cover.jpg"
 
 by:
