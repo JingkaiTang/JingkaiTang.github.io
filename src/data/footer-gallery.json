@@ -1,9 +1,9 @@
 {
-  "builtAt": "2026-04-06T15:23:12.993Z",
+  "builtAt": "2026-04-08T13:03:53.677Z",
   "counts": {
-    "writing": 14,
+    "writing": 16,
     "huolin": 21,
-    "total": 35
+    "total": 37
   },
   "items": [
     {
@@ -24,6 +24,14 @@
     },
     {
       "url": "/writing/ai-will-replace-everything/cover.jpg",
+      "kind": "writing-cover"
+    },
+    {
+      "url": "/writing/ai-will-replace-me-but-im-not-anxious/cover.jpg",
+      "kind": "writing-cover"
+    },
+    {
+      "url": "/writing/anthropic说mythos太强了不敢发布-我觉得是太贵了/cover.jpg",
       "kind": "writing-cover"
     },
     {
