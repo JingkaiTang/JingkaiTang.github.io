@@ -1,9 +1,9 @@
 {
-  "builtAt": "2026-04-08T13:03:53.677Z",
+  "builtAt": "2026-04-09T12:24:19.590Z",
   "counts": {
-    "writing": 16,
+    "writing": 17,
     "huolin": 21,
-    "total": 37
+    "total": 38
   },
   "items": [
     {
@@ -56,6 +56,10 @@
     },
     {
       "url": "/writing/wechat-article-with-claw/cover.jpg",
+      "kind": "writing-cover"
+    },
+    {
+      "url": "/writing/取代你的不是ai-是你老板/cover.png",
       "kind": "writing-cover"
     },
     {
