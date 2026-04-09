@@ -3,7 +3,8 @@ title: "取代你的不是AI，是你老板"
 description: "真正决定岗位会不会被 AI 替代的，不是哪个同事更会用工具，而是老板怎么算成本、怎么拍板。"
 pubDate: "2026-04-08"
 tags: [AI, 程序员, 未来工作, 职场]
-draft: true
+
+draft: false
 cover: "./cover.png"
 
 by:
