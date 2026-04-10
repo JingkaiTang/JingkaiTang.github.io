@@ -2,7 +2,7 @@
 title: "关掉窗口对话就没了？给 Agent 加上会话管理"
 description: "给手搓 Agent 补上多会话与持久化能力，把聊天记录从内存搬到磁盘，窗口关了再打开也能接着聊。"
 pubDate: "2026-04-10"
-tags: ["Java", "AI Agent", "会话管理"]
+tags: ["Java", "AI Agent", "会话管理", "持久化"]
 draft: true
 cover: "./cover.png"
 
