@@ -1,13 +1,17 @@
 {
-  "builtAt": "2026-04-10T15:14:08.053Z",
+  "builtAt": "2026-04-10T15:40:21.529Z",
   "counts": {
-    "writing": 18,
+    "writing": 19,
     "huolin": 21,
-    "total": 39
+    "total": 40
   },
   "items": [
     {
       "url": "/writing/agent-gui-desktop-app/cover.png",
+      "kind": "writing-cover"
+    },
+    {
+      "url": "/writing/agent-session-management/cover.jpg",
       "kind": "writing-cover"
     },
     {
