@@ -142,13 +142,7 @@ void resetConversation();
 
 由 `AgentService` 作为桥梁协调两者——**SessionManager 不直接操作 AgentLoop**，所有协调逻辑都在 AgentService 里：
 
-```mermaid
-flowchart LR
-    A["SessionManager<br>管理会话数据"] <-->|"AgentService 协调"| B["AgentLoop<br>管理对话上下文"]
-
-    style A fill:#fff3e0,stroke:#e65100
-    style B fill:#e8f5e9,stroke:#2e7d32
-```
+![](./diagrams/flow-01.svg)
 
 切换会话时的完整流程：
 
