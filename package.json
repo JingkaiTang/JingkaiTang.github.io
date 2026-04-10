@@ -13,6 +13,7 @@
     "publish:writing:draft": "node scripts/publish-writing-draft.mjs",
     "publish:writing:final": "node scripts/publish-writing-final.mjs",
     "publish:writing:confirm": "node scripts/publish-writing-confirm.mjs",
+    "sync:wechat": "node scripts/wechat-sync.mjs",
     "edit:writing": "node scripts/edit-writing.mjs",
     "edit:now": "node scripts/edit-now.mjs",
     "backfill:pubdate": "node scripts/backfill-pubdate-time.mjs",

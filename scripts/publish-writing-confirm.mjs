@@ -23,9 +23,8 @@ if (!slug) {
 }
 
 const { postDir, postPath } = ensurePostExists(slug);
-ensureDraftState(postPath, true);
-
 ensureOnMainAndUpToDate();
+ensureDraftState(postPath, true);
 replaceDraftFlag(postPath, false);
 buildSite();
 
