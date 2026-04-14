@@ -1,9 +1,9 @@
 {
-  "builtAt": "2026-04-10T15:40:21.529Z",
+  "builtAt": "2026-04-14T15:21:13.172Z",
   "counts": {
-    "writing": 19,
+    "writing": 20,
     "huolin": 21,
-    "total": 40
+    "total": 41
   },
   "items": [
     {
@@ -16,6 +16,10 @@
     },
     {
       "url": "/writing/agent-session-management/cover.png",
+      "kind": "writing-cover"
+    },
+    {
+      "url": "/writing/agent-short-term-memory-management/cover.png",
       "kind": "writing-cover"
     },
     {

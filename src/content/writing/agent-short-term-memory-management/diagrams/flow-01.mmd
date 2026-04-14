@@ -1,0 +1,15 @@
+flowchart TB
+    A["完整对话历史<br>System + 50 条消息"] --> B["分割"]
+    B --> C["System Prompt<br>（保留）"]
+    B --> D["旧消息<br>（待压缩）"]
+    B --> E["最近 3 轮<br>（完整保留）"]
+    D --> F["格式化为可读文本"]
+    F --> G["调用 LLM 生成摘要<br>≤ 200 字"]
+    C --> H["组装新历史"]
+    G --> H
+    E --> H
+    H --> I["System + 摘要 + 最近 3 轮<br>≈ 2000 tokens"]
+
+    style D fill:#ffebee,stroke:#c62828
+    style G fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style I fill:#e8f5e9,stroke:#2e7d32
