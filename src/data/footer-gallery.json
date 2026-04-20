@@ -1,9 +1,9 @@
 {
-  "builtAt": "2026-04-14T15:21:13.172Z",
+  "builtAt": "2026-04-20T15:37:48.374Z",
   "counts": {
-    "writing": 20,
+    "writing": 21,
     "huolin": 21,
-    "total": 41
+    "total": 42
   },
   "items": [
     {
@@ -64,6 +64,10 @@
     },
     {
       "url": "/writing/one-tool-to-rule-ai-agent-shell/cover.jpg",
+      "kind": "writing-cover"
+    },
+    {
+      "url": "/writing/tdd-dao-le-ai-shi-dai-hong-lu-deng-gai-reng-le/cover.jpg",
       "kind": "writing-cover"
     },
     {
