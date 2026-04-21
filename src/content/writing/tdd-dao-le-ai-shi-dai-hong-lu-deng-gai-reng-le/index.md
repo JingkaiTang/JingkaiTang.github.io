@@ -3,7 +3,8 @@ title: "TDD到了AI时代，红绿灯该扔了"
 description: "AI 时代还要不要坚持传统 TDD 红绿灯循环？这篇文章主张保留测试精神，砍掉面向人类认知节奏的执行仪式。"
 pubDate: "2026-04-15"
 tags: ["AI", "TDD", "测试驱动开发", "AI Coding", "软件工程"]
-draft: true
+
+draft: false
 cover: "./cover.jpg"
 
 by:
