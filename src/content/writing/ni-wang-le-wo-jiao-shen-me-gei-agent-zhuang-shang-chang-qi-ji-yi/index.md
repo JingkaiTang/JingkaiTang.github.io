@@ -4,7 +4,7 @@ description: "用一个 Markdown 文件和两次 LLM 调用，给 Agent 做出�
 pubDate: "2026-05-07"
 tags: ["AI", "Agent", "长期记忆", "OpenClaw"]
 
-draft: true
+draft: false
 cover: "./cover.png"
 
 by:
