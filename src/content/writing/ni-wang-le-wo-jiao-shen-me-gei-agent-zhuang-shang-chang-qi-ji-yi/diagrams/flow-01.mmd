@@ -1,0 +1,8 @@
+flowchart LR
+    A["用户消息<br>你还记得我叫什么吗？"] --> B["LLM 提关键词"]
+    B --> C["名字 / 姓名 / 叫"]
+    C --> D["扫描 memories.md<br>小写 contains 匹配"]
+    D --> E["命中记忆<br>用户名叫小明"]
+
+    style B fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style D fill:#e3f2fd,stroke:#1565c0

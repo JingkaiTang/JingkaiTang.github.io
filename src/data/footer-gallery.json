@@ -1,9 +1,9 @@
 {
-  "builtAt": "2026-04-20T15:37:48.374Z",
+  "builtAt": "2026-05-07T12:18:32.490Z",
   "counts": {
-    "writing": 21,
+    "writing": 22,
     "huolin": 21,
-    "total": 42
+    "total": 43
   },
   "items": [
     {
@@ -60,6 +60,10 @@
     },
     {
       "url": "/writing/function-calling-truth-chat-template-tool-call-parser/cover.jpg",
+      "kind": "writing-cover"
+    },
+    {
+      "url": "/writing/ni-wang-le-wo-jiao-shen-me-gei-agent-zhuang-shang-chang-qi-ji-yi/cover.png",
       "kind": "writing-cover"
     },
     {

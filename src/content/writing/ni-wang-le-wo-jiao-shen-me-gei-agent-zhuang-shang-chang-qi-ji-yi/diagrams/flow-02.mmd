@@ -1,0 +1,16 @@
+flowchart TB
+    A["用户发消息"] --> B["AgentLoop.run()"]
+    B --> C["长期记忆 retrieve<br>LLM 提词 + 文件匹配"]
+    C --> D["临时注入 system 消息"]
+    D --> E["进入 ReAct 循环"]
+    E --> F["短期记忆检查<br>token 超阈值就压缩"]
+    F --> G["调用 LLM<br>工具调用 + 回复"]
+    G --> H{"任务完成?"}
+    H -->|否| F
+    H -->|是| I["回复用户"]
+    I --> J["长期记忆 ingest<br>LLM 从对话提炼"]
+    J --> K["追加写入 memories.md"]
+
+    style C fill:#f3e8ff,stroke:#9333ea,stroke-width:2px
+    style F fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style J fill:#f3e8ff,stroke:#9333ea,stroke-width:2px
