@@ -4,7 +4,7 @@ description: "给手搓 Agent 加上最小可用的 Skills 机制，用按需加
 pubDate: "2026-05-18"
 tags: ["Java", "AI Agent", "Skills", "工作流"]
 
-draft: true
+draft: false
 cover: "./cover.png"
 
 by:
