@@ -1,9 +1,9 @@
 {
-  "builtAt": "2026-05-07T12:18:32.490Z",
+  "builtAt": "2026-05-18T12:43:13.760Z",
   "counts": {
-    "writing": 22,
+    "writing": 23,
     "huolin": 21,
-    "total": 43
+    "total": 44
   },
   "items": [
     {
@@ -20,6 +20,10 @@
     },
     {
       "url": "/writing/agent-short-term-memory-management/cover.png",
+      "kind": "writing-cover"
+    },
+    {
+      "url": "/writing/agent-skills/cover.png",
       "kind": "writing-cover"
     },
     {

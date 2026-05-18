@@ -1,0 +1,12 @@
+flowchart TB
+    A["启动"] --> B["扫描 skills 目录"]
+    B --> C["只注入 name + description"]
+    C --> D["用户发起任务"]
+    D --> E{"模型判断需要 skill?"}
+    E -->|否| F["直接回复 / 调其他工具"]
+    E -->|是| G["调用 load_skill(name)"]
+    G --> H["读取完整 SKILL.md"]
+    H --> I{"还需要额外资料?"}
+    I -->|否| J["按说明书完成任务"]
+    I -->|是| K["读取 references / templates 或执行 scripts"]
+    K --> J
