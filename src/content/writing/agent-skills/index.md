@@ -1,5 +1,5 @@
 ---
-title: "不是工具越多越强：给Agent装上Skills"
+title: "别让 Agent 硬莽：给它装上 Skills"
 description: "给手搓 Agent 加上最小可用的 Skills 机制，用按需加载的任务说明书沉淀可复用工作流。"
 pubDate: "2026-05-18"
 tags: ["Java", "AI Agent", "Skills", "工作流"]
