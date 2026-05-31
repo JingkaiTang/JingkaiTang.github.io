@@ -1,9 +1,9 @@
 {
-  "builtAt": "2026-05-18T12:43:13.760Z",
+  "builtAt": "2026-05-31T11:26:35.463Z",
   "counts": {
-    "writing": 23,
+    "writing": 25,
     "huolin": 21,
-    "total": 44
+    "total": 46
   },
   "items": [
     {
@@ -80,6 +80,14 @@
     },
     {
       "url": "/writing/wechat-article-with-claw/cover.jpg",
+      "kind": "writing-cover"
+    },
+    {
+      "url": "/writing/wo-zheng-zai-bei-ai-xun-hua/cover.jpg",
+      "kind": "writing-cover"
+    },
+    {
+      "url": "/writing/wo-zheng-zai-bei-ai-xun-hua/cover.png",
       "kind": "writing-cover"
     },
     {
