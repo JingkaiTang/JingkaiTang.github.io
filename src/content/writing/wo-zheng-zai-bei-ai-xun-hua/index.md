@@ -3,7 +3,8 @@ title: "我正在被AI驯化"
 description: "从 AI 编程提效到审查失控：当 Agent 产出越来越多，人反而逐渐只剩下签字和盖章。"
 pubDate: "2026-05-28T12:00:00+08:00"
 tags: ["ai", "ai编程", "claude code", "agent", "信息过载", "驯化"]
-draft: true
+
+draft: false
 cover: "./cover.jpg"
 
 by:
