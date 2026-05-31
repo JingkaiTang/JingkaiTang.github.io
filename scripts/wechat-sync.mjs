@@ -109,7 +109,12 @@ process.stdout.write(result.stdout || '');
 process.stderr.write(result.stderr || '');
 if (result.status !== 0) process.exit(result.status ?? 1);
 
-sh('git', ['add', wechatPath, postDir + '/diagrams']);
+const pathsToAdd = [wechatPath];
+const diagramsDir = path.join(postDir, 'diagrams');
+if (fs.existsSync(diagramsDir)) {
+  pathsToAdd.push(diagramsDir);
+}
+sh('git', ['add', ...pathsToAdd]);
 const staged = shOut('git', ['diff', '--cached', '--name-only']);
 if (staged) {
   sh('git', ['commit', '-m', `chore: sync wechat assets for ${slug}`]);
