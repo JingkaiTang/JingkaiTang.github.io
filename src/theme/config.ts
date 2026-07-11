@@ -4,7 +4,7 @@ export type ThemeNavItem = {
   external?: boolean;
 };
 
-export type ThemeKey = 'tech' | 'day' | 'night' | 'cny' | 'spring';
+export type ThemeKey = 'tech' | 'day' | 'night' | 'cny' | 'spring' | 'summer';
 
 export type ThemeOption = {
   value: ThemeKey;
@@ -16,7 +16,7 @@ export const THEME_BRAND = 'JINGKAI//TANG';
 // Default theme entrypoint: update this value when changing site default theme.
 export const DEFAULT_THEME: ThemeKey = 'spring';
 export const THEME_STORAGE_KEY = 'site-theme';
-export const THEME_KEYS: ThemeKey[] = ['tech', 'day', 'night', 'cny', 'spring'];
+export const THEME_KEYS: ThemeKey[] = ['tech', 'day', 'night', 'cny', 'spring', 'summer'];
 
 export const THEME_OPTIONS: ThemeOption[] = [
   { value: 'tech', label: '🤖 科技' },
@@ -24,6 +24,7 @@ export const THEME_OPTIONS: ThemeOption[] = [
   { value: 'night', label: '🌙 黑夜' },
   { value: 'cny', label: '🧧 新春' },
   { value: 'spring', label: '🌸 春季' },
+  { value: 'summer', label: '🌙 夏夜' },
 ];
 
 export const THEME_NAV_ITEMS: ThemeNavItem[] = [
