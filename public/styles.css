@@ -977,6 +977,22 @@ main {
   100% { translate: 0 0; }
 }
 
+/* -----------------------------------------------
+   View Transitions — theme switch spread animation
+   ----------------------------------------------- */
+@keyframes theme-expand {
+  from { clip-path: circle(0% at var(--vtx) var(--vty)); }
+  to   { clip-path: circle(var(--vtr) at var(--vtx) var(--vty)); }
+}
+
+::view-transition-old(root) {
+  animation: none;
+}
+
+::view-transition-new(root) {
+  animation: theme-expand 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 /* Accessibility: Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
   :root[data-theme='spring'] .spring-petals {
@@ -986,6 +1002,15 @@ main {
   :root[data-theme='summer'] .summer-fireflies,
   :root[data-theme='summer'] .summer-stars {
     display: none;
+  }
+
+  /* Skip view transition animation */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+  ::view-transition-group(root) {
+    animation-duration: 0s;
   }
 }
 
