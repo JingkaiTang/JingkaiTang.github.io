@@ -24,7 +24,7 @@ export const THEME_OPTIONS: ThemeOption[] = [
   { value: 'night', label: '🌙 黑夜' },
   { value: 'cny', label: '🧧 新春' },
   { value: 'spring', label: '🌸 春季' },
-  { value: 'summer', label: '🌙 夏夜' },
+  { value: 'summer', label: '✨ 夏夜' },
 ];
 
 export const THEME_NAV_ITEMS: ThemeNavItem[] = [
