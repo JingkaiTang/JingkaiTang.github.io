@@ -65,12 +65,37 @@ import {
     if (select) {
       select.value = current;
       select.addEventListener('change', (event) => {
-        const target = event.target;
-        const next = applyTheme(target?.value || DEFAULT_THEME);
-        try {
-          localStorage.setItem(THEME_STORAGE_KEY, next);
-        } catch {
-          // ignore storage errors
+        // Compute spread origin: mouse position if available, otherwise select element center
+        const rect = select.getBoundingClientRect();
+        const ox = event.clientX || (rect.left + rect.width / 2);
+        const oy = event.clientY || (rect.top + rect.height / 2);
+
+        // Compute radius needed to cover the entire viewport from origin
+        const r = Math.hypot(
+          Math.max(ox, innerWidth - ox),
+          Math.max(oy, innerHeight - oy),
+        );
+
+        // Set CSS variables consumed by @keyframes theme-expand
+        document.documentElement.style.setProperty('--vtx', ox + 'px');
+        document.documentElement.style.setProperty('--vty', oy + 'px');
+        document.documentElement.style.setProperty('--vtr', r + 'px');
+
+        // Theme switch logic (extracted so it can run inside or outside startViewTransition)
+        const switchTheme = () => {
+          const next = applyTheme(event.target?.value || DEFAULT_THEME);
+          try {
+            localStorage.setItem(THEME_STORAGE_KEY, next);
+          } catch {
+            // ignore storage errors
+          }
+        };
+
+        // Use View Transitions API if available, otherwise apply instantly
+        if (document.startViewTransition) {
+          document.startViewTransition(() => switchTheme());
+        } else {
+          switchTheme();
         }
       });
     }
