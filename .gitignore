@@ -40,3 +40,7 @@ pnpm-debug.log*
 
 # OpenClaw local session state
 .openclaw/
+
+# Superpowers
+.superpowers
+
