@@ -14,7 +14,7 @@ export type ThemeOption = {
 export const THEME_BRAND = 'JINGKAI//TANG';
 
 // Default theme entrypoint: update this value when changing site default theme.
-export const DEFAULT_THEME: ThemeKey = 'spring';
+export const DEFAULT_THEME: ThemeKey = 'summer';
 export const THEME_STORAGE_KEY = 'site-theme';
 export const THEME_KEYS: ThemeKey[] = ['tech', 'day', 'night', 'cny', 'spring', 'summer'];
 
