@@ -754,12 +754,12 @@ main {
   pointer-events: none;
   z-index: -1;
   overflow: hidden;
-  background: linear-gradient(to bottom, #0a0f1e 0%, #111827 25%, #1e2740 45%, #33415e 65%, #4a5a78 80%, #5e6e8a 100%);
+  background: linear-gradient(to bottom, #050810 0%, #0a0f1e 35%, #162038 60%, #0a0f1e 82%, #050810 100%);
 }
 
 :root[data-theme='summer'] .summer-moon {
   position: absolute;
-  top: 6%;
+  top: 9%;
   right: 18%;
   width: 48px;
   height: 48px;
@@ -776,7 +776,7 @@ main {
   width: 140px;
   height: 140px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(245, 215, 150, 0.08), transparent 70%);
+  background: radial-gradient(circle, rgba(245, 215, 150, 0.14), transparent 70%);
   pointer-events: none;
 }
 
@@ -809,9 +809,9 @@ main {
 :root[data-theme='summer'] .summer-stars .summer-star:nth-child(15) { width: 2px; height: 2px; top: 10%; left: 82%; --d: 2.8s; }
 
 @keyframes summer-twinkle {
-  0% { opacity: 0.15; }
-  50% { opacity: 0.5; }
-  100% { opacity: 1; }
+  0%   { opacity: 0.35; }
+  50%  { opacity: 0.6; }
+  100% { opacity: 0.85; }
 }
 
 :root[data-theme='summer'] .summer-bamboo {
@@ -842,6 +842,14 @@ main {
 :root[data-theme='summer'] .summer-cluster.summer-cluster-3 { left: 44%; }
 :root[data-theme='summer'] .summer-cluster.summer-cluster-4 { left: 64%; }
 :root[data-theme='summer'] .summer-cluster.summer-cluster-5 { left: 85%; }
+
+/* Depth tiers — far clusters faded & scaled, near clusters full black */
+:root[data-theme='summer'] .summer-cluster-3 { opacity: 0.5; transform: scale(0.8); transform-origin: bottom; }
+:root[data-theme='summer'] .summer-cluster-3 .summer-stalk { background: #0d1a2a; }
+:root[data-theme='summer'] .summer-cluster-1,
+:root[data-theme='summer'] .summer-cluster-5 { opacity: 0.8; }
+:root[data-theme='summer'] .summer-cluster-1 .summer-stalk,
+:root[data-theme='summer'] .summer-cluster-5 .summer-stalk { background: #050a14; }
 
 /* Cluster 1 */
 :root[data-theme='summer'] .summer-cluster-1 .s1 { left: 0;   height: 70%; width: 10px; transform: rotate(-3deg);  transform-origin: bottom; }
@@ -879,7 +887,7 @@ main {
   position: absolute;
   left: -1px; right: -1px;
   height: 2px;
-  background: #000;
+  background: rgba(90, 130, 100, 0.18);
   border-radius: 2px;
 }
 :root[data-theme='summer'] .summer-cluster-1 .s1::before { top: 26%; }
@@ -925,14 +933,15 @@ main {
   left: 0;
   right: 0;
   height: 6%;
-  background: #010101;
+  background: linear-gradient(to bottom, transparent, #050810 70%);
   z-index: 2;
 }
 
 :root[data-theme='summer'] .summer-fireflies {
-  position: absolute;
+  position: fixed;
   inset: 0;
   pointer-events: none;
+  z-index: 0;
 }
 
 :root[data-theme='summer'] .summer-firefly {
@@ -940,29 +949,32 @@ main {
   border-radius: 50%;
   background: radial-gradient(circle at 40% 40%, #ffe57f, #f5c542);
   box-shadow: 0 0 8px rgba(245, 197, 66, 0.6), 0 0 20px rgba(245, 197, 66, 0.2);
-  animation: summer-flicker var(--fd) ease-in-out infinite alternate;
-  z-index: 3;
+  animation: summer-flicker var(--fd) ease-in-out infinite alternate,
+             summer-drift var(--drift) ease-in-out infinite;
 }
-:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(1)  { width: 6px; height: 6px;  bottom: 42%; left: 12%; --fd: 2.8s; }
-:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(2)  { width: 5px; height: 5px;  bottom: 32%; left: 18%; --fd: 3.5s; animation-delay: 0.5s; }
-:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(3)  { width: 7px; height: 7px;  bottom: 52%; left: 28%; --fd: 2.2s; animation-delay: 1s; box-shadow: 0 0 12px rgba(245,197,66,0.7), 0 0 28px rgba(245,197,66,0.25); }
-:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(4)  { width: 4px; height: 4px;  bottom: 24%; left: 36%; --fd: 3.2s; animation-delay: 0.3s; }
-:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(5)  { width: 6px; height: 6px;  bottom: 55%; left: 48%; --fd: 2.5s; animation-delay: 1.5s; }
-:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(6)  { width: 5px; height: 5px;  bottom: 38%; left: 56%; --fd: 3.8s; animation-delay: 0.8s; }
-:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(7)  { width: 4px; height: 4px;  bottom: 60%; left: 42%; --fd: 2.1s; animation-delay: 2s; }
-:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(8)  { width: 5px; height: 5px;  bottom: 20%; left: 70%; --fd: 3s;   animation-delay: 0.2s; }
-:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(9)  { width: 6px; height: 6px;  bottom: 48%; left: 74%; --fd: 2.6s; animation-delay: 1.2s; }
-:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(10) { width: 4px; height: 4px;  bottom: 40%; left: 82%; --fd: 3.4s; animation-delay: 0.6s; }
-:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(11) { width: 5px; height: 5px;  bottom: 62%; left: 15%; --fd: 2.9s; animation-delay: 0.4s; }
-:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(12) { width: 6px; height: 6px;  bottom: 30%; left: 64%; --fd: 3.1s; animation-delay: 1.8s; }
+:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(1)  { width: 6px; height: 6px;  bottom: 42%; left: 12%; --fd: 2.8s; --drift: 11s; --dx: 18px;  --dy: -22px; }
+:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(2)  { width: 5px; height: 5px;  bottom: 32%; left: 18%; --fd: 3.5s; --drift: 14s; --dx: -24px; --dy: 16px; animation-delay: 0.5s; }
+:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(3)  { width: 7px; height: 7px;  bottom: 52%; left: 28%; --fd: 2.2s; --drift: 9s;  --dx: 28px;  --dy: -18px; animation-delay: 1s; box-shadow: 0 0 12px rgba(245,197,66,0.7), 0 0 28px rgba(245,197,66,0.25); }
+:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(4)  { width: 4px; height: 4px;  bottom: 24%; left: 36%; --fd: 3.2s; --drift: 13s; --dx: -20px; --dy: -26px; animation-delay: 0.3s; }
+:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(5)  { width: 6px; height: 6px;  bottom: 55%; left: 48%; --fd: 2.5s; --drift: 10s; --dx: 22px;  --dy: 20px; animation-delay: 1.5s; }
+:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(6)  { width: 5px; height: 5px;  bottom: 38%; left: 56%; --fd: 3.8s; --drift: 16s; --dx: -26px; --dy: -14px; animation-delay: 0.8s; }
+:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(7)  { width: 4px; height: 4px;  bottom: 60%; left: 42%; --fd: 2.1s; --drift: 8s;  --dx: 16px;  --dy: 24px; animation-delay: 2s; }
+:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(8)  { width: 5px; height: 5px;  bottom: 20%; left: 70%; --fd: 3s;   --drift: 12s; --dx: 30px;  --dy: -20px; animation-delay: 0.2s; }
+:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(9)  { width: 6px; height: 6px;  bottom: 48%; left: 74%; --fd: 2.6s; --drift: 15s; --dx: -18px; --dy: 18px; animation-delay: 1.2s; }
+:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(10) { width: 4px; height: 4px;  bottom: 40%; left: 82%; --fd: 3.4s; --drift: 10s; --dx: 22px;  --dy: -28px; animation-delay: 0.6s; }
+:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(11) { width: 5px; height: 5px;  bottom: 62%; left: 15%; --fd: 2.9s; --drift: 13s; --dx: -22px; --dy: 22px; animation-delay: 0.4s; }
+:root[data-theme='summer'] .summer-fireflies .summer-firefly:nth-child(12) { width: 6px; height: 6px;  bottom: 30%; left: 64%; --fd: 3.1s; --drift: 9s;  --dx: 26px;  --dy: -16px; animation-delay: 1.8s; }
 
 @keyframes summer-flicker {
-  0%   { opacity: 0.05; transform: scale(0.4); }
-  25%  { opacity: 0.9;  transform: scale(1.15); }
-  45%  { opacity: 0.15; transform: scale(0.6); }
-  65%  { opacity: 1;    transform: scale(1); }
-  85%  { opacity: 0.3;  transform: scale(0.7); }
-  100% { opacity: 0.05; transform: scale(0.3); }
+  0%   { opacity: 0.1;  scale: 0.5; }
+  50%  { opacity: 0.9;  scale: 1; }
+  100% { opacity: 0.15; scale: 0.6; }
+}
+
+@keyframes summer-drift {
+  0%   { translate: 0 0; }
+  50%  { translate: var(--dx) var(--dy); }
+  100% { translate: 0 0; }
 }
 
 /* Accessibility: Respect reduced motion preferences */
