@@ -792,7 +792,7 @@ main {
   background: #fff;
   animation: summer-twinkle var(--d) ease-in-out infinite alternate;
 }
-:root[data-theme='summer'] .summer-stars .summer-stars .summer-star:nth-child(1) { width: 2px; height: 2px; top: 6%; left: 8%; --d: 2.4s; }
+:root[data-theme='summer'] .summer-stars .summer-star:nth-child(1) { width: 2px; height: 2px; top: 6%; left: 8%; --d: 2.4s; }
 :root[data-theme='summer'] .summer-stars .summer-star:nth-child(2) { width: 3px; height: 3px; top: 12%; left: 22%; --d: 3.1s; box-shadow: 0 0 4px rgba(255,255,255,0.5); }
 :root[data-theme='summer'] .summer-stars .summer-star:nth-child(3) { width: 1.5px; height: 1.5px; top: 4%; left: 35%; --d: 1.8s; }
 :root[data-theme='summer'] .summer-stars .summer-star:nth-child(4) { width: 2.5px; height: 2.5px; top: 14%; left: 48%; --d: 2.7s; box-shadow: 0 0 3px rgba(255,255,255,0.35); }
