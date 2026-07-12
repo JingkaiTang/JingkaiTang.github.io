@@ -1,5 +1,10 @@
 .theme-header {
   padding-bottom: 24px;
+  border-bottom: none;
+}
+
+.nav-links a {
+  font-weight: 500;
 }
 
 main {
