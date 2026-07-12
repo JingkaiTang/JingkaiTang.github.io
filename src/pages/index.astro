@@ -112,21 +112,30 @@ const pinned = (pinsData?.pins || []).slice(0, 6);
     </div>
   </section>
 
-  {/* Now — lightweight list */}
+  {/* Now — PostCard cards */}
   <section id="now-list" class="section">
     <div class="section-head">
       <h2>Now</h2>
       <a class="section-head-more" href="/now/">查看全部 →</a>
     </div>
-    <div class="now-list">
+    <div class="now-list" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:16px;">
       {latestNow.map((post) => {
         const href = `/now/${post.id}/`;
         const title = post.data.title.replace(/^Now:\s*/, '');
+        const coverRaw = pickCover(post);
+        const cover = coverRaw ? resolveMaybeRelativeUrl(coverRaw, href) : null;
         return (
-          <a href={href} class="now-list-item">
-            <span class="now-list-item__date">{formatShanghai(post.data.pubDate, { withSeconds: true })}</span>
-            <span class="now-list-item__title">{title}</span>
-          </a>
+          <PostCard
+            href={href}
+            title={title}
+            description={post.data.description}
+            dateText={formatShanghai(post.data.pubDate, { withSeconds: true })}
+            tags={post.data.tags}
+            cover={cover}
+            badge="Now"
+            showReadMore={true}
+            ariaLabel={`阅读全文：${title}`}
+          />
         );
       })}
       {latestNow.length === 0 ? <p style="color: var(--muted);">还没有 Now 内容。</p> : null}

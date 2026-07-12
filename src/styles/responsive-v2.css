@@ -143,19 +143,20 @@
   /* Cards */
   .content-card__grid.has-cover {
     grid-template-columns: 1fr;
-    gap: 10px;
+    gap: 0;
+  }
+
+  .content-card .content-card__thumb {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
   }
 
   .content-card__title-link {
     word-break: break-word;
     overflow-wrap: anywhere;
-  }
-
-  .project-card.content-card .content-card__thumb {
-    width: 100%;
-    height: auto;
-    aspect-ratio: auto;
-    margin-top: 0;
   }
 
   /* Gallery: 2-col on mobile */
