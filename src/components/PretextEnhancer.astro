@@ -222,7 +222,7 @@ async function init(): Promise<void> {
   await document.fonts.ready;
 
   // 检测字体就绪（UI 字体或 CJK 系统字体）
-  const fontReady = document.fonts.check('1em "Space Grotesk"')
+  const fontReady = document.fonts.check('1em "Plus Jakarta Sans"')
     || document.fonts.check('1em "PingFang SC"')
     || document.fonts.check('1em "Noto Sans SC"')
     || document.fonts.check('1em sans-serif');

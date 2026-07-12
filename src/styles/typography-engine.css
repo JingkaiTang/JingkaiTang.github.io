@@ -6,8 +6,8 @@
 
 :root {
   /* ── Font Stacks ── */
-  --font-display: 'Space Grotesk', system-ui, sans-serif;
-  --font-body: 'Space Grotesk', -apple-system, BlinkMacSystemFont,
+  --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, 'Noto Sans SC', 'PingFang SC',
     'Microsoft YaHei', sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo,
