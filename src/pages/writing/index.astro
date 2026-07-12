@@ -29,6 +29,7 @@ const posts = (await getCollection('writing'))
             dateText={formatShanghai(post.data.pubDate, { withSeconds: true })}
             tags={post.data.tags}
             cover={cover}
+            variant="list"
           />
         );
       })}

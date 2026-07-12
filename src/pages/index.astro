@@ -15,7 +15,7 @@ const now = (await getCollection('now')).filter((p) => !p.data.draft);
 
 const latestWriting = writing
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
-  .slice(0, 7);
+  .slice(0, 13);
 
 const latestNow = now
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())

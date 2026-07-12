@@ -30,6 +30,7 @@ const posts = (await getCollection('now'))
             cover={cover}
             showReadMore={true}
             ariaLabel={`阅读全文：${title}`}
+            variant="list"
           />
         );
       })}

@@ -281,12 +281,11 @@
 }
 
 .post-content img {
-  max-width: min(100%, calc(100vw - 4rem));
-  margin-left: auto;
-  margin-right: auto;
+  margin: 18px auto;
+  border-radius: 14px;
+  border: 1px solid var(--image-border);
 }
 
-/* ── Tables ── */
 .post-content table {
   width: 100%;
   border-collapse: collapse;
