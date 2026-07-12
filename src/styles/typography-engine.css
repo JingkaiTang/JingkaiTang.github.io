@@ -19,14 +19,14 @@
      preferred = min + (max - min) * (100vw - 375px) / (1200px - 375px)
      简化为: min + slope * vw
   */
-  --fs-xs:   clamp(0.625rem, 0.58rem + 0.18vw,  0.72rem);   /* 10px → 11.5px */
-  --fs-sm:   clamp(0.8rem,   0.74rem + 0.22vw,  0.88rem);   /* 12.8px → 14px */
-  --fs-base: clamp(0.938rem, 0.87rem + 0.28vw,  1.08rem);   /* 15px → 17.3px */
-  --fs-md:   clamp(1.063rem, 0.97rem + 0.38vw,  1.25rem);   /* 17px → 20px */
-  --fs-lg:   clamp(1.25rem,  1.1rem  + 0.55vw,  1.563rem);  /* 20px → 25px */
-  --fs-xl:   clamp(1.438rem, 1.24rem + 0.75vw,  1.953rem);  /* 23px → 31px */
-  --fs-2xl:  clamp(1.625rem, 1.35rem + 1.05vw,  2.441rem);  /* 26px → 39px */
-  --fs-3xl:  clamp(1.8rem,   1.45rem + 1.4vw,   3.052rem);  /* 28.8px → 49px */
+  --fs-xs:   clamp(0.625rem, 0.60rem + 0.10vw,  0.688rem);  /* 10px → 11px */
+  --fs-sm:   clamp(0.75rem,  0.71rem + 0.15vw,  0.875rem);  /* 12px → 14px */
+  --fs-base: clamp(1rem,     0.95rem + 0.15vw,  1.125rem);  /* 16px → 18px */
+  --fs-md:   clamp(1.125rem, 1.04rem + 0.35vw,  1.5rem);    /* 18px → 24px */
+  --fs-lg:   clamp(1.5rem,   1.38rem + 0.50vw,  2rem);      /* 24px → 32px */
+  --fs-xl:   clamp(2rem,     1.80rem + 0.80vw,  2.75rem);   /* 32px → 44px */
+  --fs-2xl:  clamp(2.75rem,  2.40rem + 1.20vw,  3.75rem);   /* 44px → 60px */
+  --fs-3xl:  clamp(3.75rem,  3.30rem + 1.70vw,  5.5rem);    /* 60px → 88px */
 
   /* ── Line Heights ── */
   --lh-tight:      1.2;    /* headings */
