@@ -456,3 +456,178 @@
 .content-card__desc {
   transition: line-height 0.15s ease;
 }
+
+/* ══════════════════════════════════════════════════
+   Homepage Magazine Layout
+   ══════════════════════════════════════════════════ */
+
+/* ── Hero Label ── */
+.hero-label {
+  font-size: 0.75rem;
+  color: var(--primary);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+/* ── Section Head ── */
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 24px;
+}
+
+.section-head h2 {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.section-head-label {
+  font-size: var(--fs-xs);
+  color: var(--primary);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.section-head-more {
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.section-head-more:hover {
+  color: var(--text);
+}
+
+/* ── Featured Card ── */
+.featured-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--theme-radius-lg);
+  overflow: hidden;
+}
+
+.featured-card__cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.featured-card__body {
+  padding: 28px 28px 28px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.featured-card__label {
+  font-size: var(--fs-xs);
+  color: var(--primary);
+  letter-spacing: 0.15em;
+  margin-bottom: 10px;
+}
+
+.featured-card__title {
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 10px;
+}
+
+.featured-card__title a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.featured-card__title a:hover {
+  color: var(--primary);
+}
+
+.featured-card__desc {
+  font-size: var(--fs-base);
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0 0 14px;
+  font-weight: 300;
+}
+
+.featured-card__meta {
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+
+.featured-card__meta a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.featured-card__meta a:hover {
+  color: var(--primary);
+}
+
+/* ── Writing Grid ── */
+.writing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* ── Now List ── */
+.now-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.now-list-item {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.now-list-item:hover {
+  background: var(--surface);
+  margin: 0 -12px;
+  padding: 14px 12px;
+  border-radius: 8px;
+}
+
+.now-list-item__date {
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  white-space: nowrap;
+  min-width: 90px;
+}
+
+.now-list-item__title {
+  font-size: var(--fs-base);
+  color: var(--text);
+  font-weight: 400;
+}
+
+/* ── Magazine Responsive ── */
+@media (max-width: 640px) {
+  .writing-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .featured-card {
+    grid-template-columns: 1fr;
+  }
+
+  .featured-card__body {
+    padding: 20px;
+  }
+}
