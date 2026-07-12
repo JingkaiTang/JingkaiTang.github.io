@@ -29,17 +29,17 @@
   --fs-3xl:  clamp(3.75rem,  3.30rem + 1.70vw,  5.5rem);    /* 60px → 88px */
 
   /* ── Line Heights ── */
-  --lh-tight:      1.2;    /* headings */
-  --lh-body:       1.75;   /* Latin-dominant body */
+  --lh-tight:      1.15;   /* headings */
+  --lh-body:       1.85;   /* Latin-dominant body */
   --lh-body-cjk:   1.95;   /* CJK-dominant body */
-  --lh-body-mixed: 1.85;   /* mixed CJK/Latin */
+  --lh-body-mixed: 1.88;   /* mixed CJK/Latin */
   --lh-loose:      2.0;    /* blockquotes, captions */
-  --lh-code:       1.55;   /* code blocks */
+  --lh-code:       1.6;    /* code blocks */
 
   /* ── CJK 小屏行高变体 ──
      在小视口上 CJK 行高可以稍紧凑，避免行距过大 */
   --lh-body-cjk-compact:   1.88;
-  --lh-body-mixed-compact: 1.8;
+  --lh-body-mixed-compact: 1.82;
 
   /* ── Spacing (vertical rhythm) ── */
   --space-prose:         1.25em;

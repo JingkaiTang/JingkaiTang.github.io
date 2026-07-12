@@ -17,6 +17,8 @@
 .post-title {
   font-size: var(--fs-2xl);
   line-height: var(--lh-tight);
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 /* ── Post Meta ── */
@@ -45,7 +47,6 @@
   box-sizing: border-box;
   min-width: 0;
   overflow-wrap: anywhere;
-  /* 容器查询锚点 (responsive-v2.css 使用) */
   container-type: inline-size;
   container-name: article;
 }
@@ -71,21 +72,24 @@
   margin-top: var(--space-heading-above);
   margin-bottom: var(--space-heading-below);
   line-height: var(--lh-tight);
-  letter-spacing: 0.02em;
+  letter-spacing: -0.01em;
 }
 
 .post-content h2 {
   font-size: var(--fs-xl);
+  font-weight: 700;
 }
 
 .post-content h3 {
   font-size: var(--fs-lg);
   color: var(--text-strong);
+  font-weight: 600;
 }
 
 .post-content h4 {
   font-size: var(--fs-md);
   color: var(--text-strong);
+  font-weight: 500;
 }
 
 /* First element after heading gets less top margin */
