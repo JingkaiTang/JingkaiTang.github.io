@@ -42,11 +42,11 @@
   --lh-body-mixed-compact: 1.82;
 
   /* ── Spacing (vertical rhythm) ── */
-  --space-prose:         1.25em;
-  --space-heading-above: 2em;
-  --space-heading-below: 0.5em;
-  --space-list-item:     0.35em;
-  --space-block:         1.5em;
+  --space-prose:         1.5em;
+  --space-heading-above: 3em;
+  --space-heading-below: 0.75em;
+  --space-list-item:     0.4em;
+  --space-block:         2em;
 
   /* ── Container Padding Tokens ── */
   --container-pad:       clamp(12px, 2vw + 8px, 32px);

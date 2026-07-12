@@ -4,6 +4,7 @@
 
 main {
   padding-top: 0;
+  gap: 96px;
 }
 
 .content-card {
