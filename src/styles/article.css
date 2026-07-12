@@ -6,8 +6,8 @@
 /* ── Post Shell / Layout ── */
 .post-shell {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 220px;
-  gap: 28px;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 32px;
   align-items: start;
   max-width: 100%;
   box-sizing: border-box;
@@ -43,7 +43,8 @@
   color: var(--text);
   font-size: var(--fs-base);
   line-height: var(--lh-body);
-  max-width: 100%;
+  max-width: 40rem;
+  margin-inline: auto;
   box-sizing: border-box;
   min-width: 0;
   overflow-wrap: anywhere;
@@ -209,6 +210,26 @@
   word-break: normal;
 }
 
+/* ── Full-Bleed: Code & Images ── */
+/* Full-bleed: background spans full width, content aligns with body column */
+.post-content pre {
+  width: 100vw;
+  max-width: none;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  padding: 24px calc(50vw - 50% + 20px);
+  box-sizing: border-box;
+}
+
+.post-content img {
+  max-width: min(100%, calc(100vw - 4rem));
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* ── Tables ── */
 .post-content table {
   width: 100%;
@@ -283,6 +304,7 @@
   border: 1px solid var(--image-border);
   border-radius: 16px;
   padding: 14px;
+  order: -1;
 }
 
 /* details/summary for collapsible TOC */

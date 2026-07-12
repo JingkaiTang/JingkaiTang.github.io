@@ -278,11 +278,13 @@
 
   /* 代码块: 滚动 + 优化间距 */
   & pre {
+    width: 100%;
+    max-width: 100%;
     margin-left: 0;
     margin-right: 0;
     border-radius: 12px;
+    border: 1px solid var(--code-border);
     overflow-x: auto;
-    max-width: 100%;
     padding: 12px 14px;
     font-size: var(--fs-sm);
   }
@@ -484,11 +486,13 @@
     }
 
     .post-content pre {
+      width: 100%;
+      max-width: 100%;
       margin-left: 0;
       margin-right: 0;
       border-radius: 12px;
+      border: 1px solid var(--code-border);
       overflow-x: auto;
-      max-width: 100%;
       padding: 12px 14px;
     }
 
