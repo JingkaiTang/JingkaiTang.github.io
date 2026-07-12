@@ -26,23 +26,30 @@ const {
 } = Astro.props as PostCardProps;
 ---
 
-<article class="project-card content-card">
-  <div class={`content-card__grid ${cover ? 'has-cover' : ''}`}>
-    {
-      cover ? (
-        <a href={href} class="content-card__thumb-link">
-          <img
-            class="content-card__thumb"
-            src={cover}
-            alt={title}
-            loading="lazy"
-            decoding="async"
-            fetchpriority="low"
-          />
-        </a>
-      ) : null
-    }
-
+{cover ? (
+  <!-- Cover Card: 图片铺满, 标题描边叠加, hover 显示详情 -->
+  <article class="content-card content-card--cover">
+    <a href={href} class="content-card__cover-link" aria-label={ariaLabel ?? `查看详情：${title}`}>
+      <img
+        class="content-card__cover-img"
+        src={cover}
+        alt={title}
+        loading="lazy"
+        decoding="async"
+        fetchpriority="low"
+      />
+      <div class="content-card__cover-overlay">
+        <h3 class="content-card__cover-title">{title}</h3>
+        <div class="content-card__cover-detail">
+          {description ? <p class="content-card__cover-desc">{description}</p> : null}
+          {dateText ? <span class="content-card__cover-meta">{dateText}</span> : null}
+        </div>
+      </div>
+    </a>
+  </article>
+) : (
+  <!-- Text Card: 无封面时的简洁卡片 -->
+  <article class="content-card content-card--text">
     <div class="content-card__body">
       <div class="content-card__title-row">
         <h3 class="content-card__title">
@@ -77,5 +84,5 @@ const {
         </div>
       ) : null}
     </div>
-  </div>
-</article>
+  </article>
+)}
