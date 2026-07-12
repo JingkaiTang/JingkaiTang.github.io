@@ -37,6 +37,49 @@
   color: var(--primary);
 }
 
+/* ── Cover Header ── */
+.post-cover-header {
+  padding: 0 0 28px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+
+.post-cover-label {
+  font-size: var(--fs-xs);
+  color: var(--primary);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.post-cover-subtitle {
+  font-size: var(--fs-md);
+  color: var(--muted);
+  font-weight: 300;
+  line-height: 1.6;
+  margin: 0 0 20px;
+  max-width: 480px;
+}
+
+.post-cover-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 10px;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  padding-top: 18px;
+}
+
+.post-cover-meta a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.post-cover-meta a:hover {
+  color: var(--primary);
+}
+
 /* ── Post Content: Base ── */
 .post-content {
   margin-top: 22px;
@@ -110,19 +153,32 @@
   filter: brightness(1.1);
 }
 
-/* ── Blockquotes ── */
+/* ── Blockquotes / Pull Quotes ── */
 .post-content blockquote {
-  border-left: 3px solid var(--blockquote-border);
-  padding: 0.75em 1.25em;
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: var(--space-block);
-  margin-bottom: var(--space-block);
-  color: var(--blockquote-text);
-  background: var(--blockquote-bg);
+  position: relative;
+  border-left: 3px solid var(--primary);
+  padding: 1.25em 1.25em 1.25em 1.5em;
+  margin: var(--space-block) 0;
+  color: var(--text);
+  background: var(--blockquote-bg, rgba(124, 249, 255, 0.04));
   border-radius: 0 12px 12px 0;
-  line-height: var(--lh-loose);
+  font-size: 1.05em;
+  font-weight: 500;
+  line-height: 1.55;
   overflow: hidden;
+}
+
+.post-content blockquote::before {
+  content: '\201C';
+  font-size: 4.5em;
+  position: absolute;
+  left: 0.15em;
+  top: -0.25em;
+  color: var(--primary);
+  opacity: 0.1;
+  font-family: Georgia, serif;
+  line-height: 1;
+  pointer-events: none;
 }
 
 .post-content blockquote > * {

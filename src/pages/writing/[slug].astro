@@ -62,35 +62,33 @@ const { words, minutes } = calculateReadingTime(postBody);
   <section class="section glass post-article">
     <div class="post-shell">
       <article class="post">
-        <div class="post-title-row">
+        <header class="post-cover-header">
+          <div class="post-cover-label">Writing</div>
           <h1 class="post-title post-title-plain">{post.data.title}</h1>
+          {post.data.description ? (
+            <p class="post-cover-subtitle">{post.data.description}</p>
+          ) : null}
           {isDraft ? (
             <span class="post-draft-badge">草稿</span>
           ) : null}
-        </div>
-
-        {isDraft ? (
-          <p class="post-draft-note">
-            这是一篇草稿：仅用于预览，不会出现在首页/列表流中。
-          </p>
-        ) : null}
-        <p class="post-meta">
-          {formatShanghai(post.data.pubDate, { withSeconds: true })}
-          {post.data.updatedDate ? (
-            <>
-              {' '}· 更新于 {formatShanghai(post.data.updatedDate, { withSeconds: true })}
-            </>
-          ) : null}
-          {post.data.tags.length ? (
-            <> · {post.data.tags.map((t, i) => (
+          <div class="post-cover-meta">
+            {formatShanghai(post.data.pubDate, { withSeconds: true })}
+            {post.data.updatedDate ? (
               <>
-                <a href={`/tags/${encodeURIComponent(t)}/`}>{t}</a>
-                {i < post.data.tags.length - 1 ? ' / ' : ''}
+                {' '}· 更新于 {formatShanghai(post.data.updatedDate, { withSeconds: true })}
               </>
-            ))}</>
-          ) : null}
-          <> · {words} 字 · 约 {minutes} 分钟阅读</>
-        </p>
+            ) : null}
+            <> · {words} 字 · 约 {minutes} 分钟阅读</>
+            {post.data.tags.length ? (
+              <> · {post.data.tags.map((t, i) => (
+                <>
+                  <a href={`/tags/${encodeURIComponent(t)}/`}>{t}</a>
+                  {i < post.data.tags.length - 1 ? ' / ' : ''}
+                </>
+              ))}</>
+            ) : null}
+          </div>
+        </header>
 
         <div class="post-content">
           <Content />
