@@ -519,6 +519,13 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  filter: saturate(0.88) contrast(1.03);
+  transition: filter 0.3s ease, transform 0.5s ease;
+}
+
+.featured-card:hover .featured-card__cover img {
+  filter: saturate(0.96) contrast(1.04);
+  transform: scale(1.015);
 }
 
 .featured-card__body {

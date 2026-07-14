@@ -15,13 +15,13 @@ const now = (await getCollection('now')).filter((p) => !p.data.draft);
 
 const latestWriting = writing
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
-  .slice(0, 13);
+  .slice(0, 7);
 
 const latestNow = now
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
-  .slice(0, 7);
+  .slice(0, 3);
 
-const pinned = (pinsData?.pins || []).slice(0, 6);
+const pinned = (pinsData?.pins || []).slice(0, 3);
 ---
 
 <BaseLayout title={title} description={description}>
@@ -239,7 +239,7 @@ const pinned = (pinsData?.pins || []).slice(0, 6);
 
         // Mobile stays simple (2-col grid) and naturally grows; no need to force a flat bottom.
         if (isMobile) {
-          const N = 14;
+          const N = 8;
           function applySize(img, kind) {
             clearSize(img);
             if (!kind) return;

@@ -59,6 +59,17 @@ main {
   filter: brightness(0.6);
 }
 
+#writing-grid .content-card__cover-img,
+#now-list .content-card__cover-img {
+  filter: saturate(0.84) contrast(1.04);
+}
+
+#writing-grid .content-card--cover:hover .content-card__cover-img,
+#now-list .content-card--cover:hover .content-card__cover-img {
+  transform: scale(1.05);
+  filter: saturate(0.92) contrast(1.05) brightness(0.62);
+}
+
 .content-card__cover-overlay {
   position: absolute;
   inset: 0;
@@ -89,6 +100,11 @@ main {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+#writing-grid .content-card__cover-title,
+#now-list .content-card__cover-title {
+  font-size: clamp(1.05rem, 1rem + 0.45vw, 1.35rem);
 }
 
 .content-card__cover-detail {
@@ -392,8 +408,8 @@ main {
   display: grid;
   grid-auto-flow: dense;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(3, 110px);
-  gap: 10px;
+  grid-template-rows: repeat(3, 78px);
+  gap: 8px;
   overflow: hidden;
   border-radius: var(--theme-radius-lg);
 }
@@ -430,4 +446,3 @@ main {
   grid-column: span 4;
   grid-row: span 2;
 }
-
