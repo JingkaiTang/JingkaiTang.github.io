@@ -4,10 +4,13 @@
 const dialog = document.getElementById('quick-search');
 const rootSelector = '#quick-search-root';
 const closeBtn = dialog?.querySelector('.quick-search__close');
+const status = dialog?.querySelector('.quick-search__status');
+const triggers = [...document.querySelectorAll('[data-search-trigger]')];
 
 const BASE_URL = (document.body?.dataset?.baseUrl || '/').trim();
 
 let initPromise = null;
+let returnFocus = null;
 
 function isMac() {
   const platform =
@@ -52,22 +55,45 @@ function ensurePagefindUI() {
 
     new UI({
       element: rootSelector,
-      showSubResults: true,
+      showImages: false,
+      showSubResults: false,
+      pageSize: 6,
+      excerptLength: 18,
     });
+
+    const input = mount.querySelector('.pagefind-ui__search-input');
+    if (input) {
+      input.placeholder = '搜索文章、Now 与标签…';
+      input.setAttribute('aria-describedby', 'quick-search-shortcuts');
+    }
+
+    status?.setAttribute('hidden', '');
   })();
 
+  initPromise.catch(() => {
+    initPromise = null;
+  });
   return initPromise;
 }
 
-async function openQuickSearch() {
+async function openQuickSearch(trigger = document.activeElement) {
   if (!dialog) return;
-  if (!dialog.open) dialog.showModal();
+  if (!dialog.open) {
+    returnFocus = trigger instanceof HTMLElement ? trigger : null;
+    dialog.showModal();
+    triggers.forEach((item) => item.setAttribute('aria-expanded', 'true'));
+  }
 
   try {
     await ensurePagefindUI();
     const input = dialog.querySelector('.pagefind-ui__search-input');
     input?.focus();
   } catch (e) {
+    if (status) {
+      status.hidden = false;
+      status.dataset.state = 'error';
+      status.textContent = '搜索组件加载失败，请刷新页面后重试。';
+    }
     console.error('[quick-search] init failed', e);
   }
 }
@@ -77,6 +103,20 @@ function closeQuickSearch() {
   if (dialog.open) dialog.close();
 }
 
+function moveResultFocus(direction) {
+  if (!dialog) return;
+  const links = [...dialog.querySelectorAll('.pagefind-ui__result-link')];
+  if (!links.length) return;
+
+  const current = links.indexOf(document.activeElement);
+  const next = current === -1
+    ? direction > 0 ? 0 : links.length - 1
+    : (current + direction + links.length) % links.length;
+
+  links[next].focus();
+  links[next].scrollIntoView({ block: 'nearest' });
+}
+
 // Global hotkeys
 
 document.addEventListener('keydown', (e) => {
@@ -84,11 +124,12 @@ document.addEventListener('keydown', (e) => {
   const want = key === 'k' && (e.metaKey || e.ctrlKey);
   if (want) {
     e.preventDefault();
-    openQuickSearch();
+    openQuickSearch(document.activeElement);
   }
-  if (key === 'escape' && dialog?.open) {
-    closeQuickSearch();
-  }
+});
+
+triggers.forEach((trigger) => {
+  trigger.addEventListener('click', () => openQuickSearch(trigger));
 });
 
 closeBtn?.addEventListener('click', closeQuickSearch);
@@ -96,7 +137,29 @@ dialog?.addEventListener('click', (e) => {
   // click backdrop to close
   if (e.target === dialog) closeQuickSearch();
 });
+dialog?.addEventListener('cancel', (e) => {
+  e.preventDefault();
+  closeQuickSearch();
+});
+dialog?.addEventListener('close', () => {
+  triggers.forEach((item) => item.setAttribute('aria-expanded', 'false'));
+  returnFocus?.focus();
+  returnFocus = null;
+});
+dialog?.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    moveResultFocus(1);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    moveResultFocus(-1);
+  }
+});
 
 // Platform hint
 const hint = dialog?.querySelector('.quick-search__hint');
-if (hint) hint.textContent = `${isMac() ? 'Cmd' : 'Ctrl'}+K · Esc 关闭`;
+const shortcut = isMac() ? '⌘K' : 'Ctrl K';
+if (hint) hint.textContent = `${shortcut} · Esc 关闭`;
+document.querySelectorAll('[data-search-shortcut]').forEach((item) => {
+  item.textContent = shortcut;
+});

@@ -316,6 +316,55 @@ body {
   color: var(--primary);
 }
 
+.search-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 5px 8px 5px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font: inherit;
+  font-size: var(--fs-sm);
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.search-trigger:hover,
+.search-trigger:focus-visible {
+  border-color: var(--primary);
+  color: var(--text);
+  background: var(--panel-bg-strong);
+}
+
+.search-trigger:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.search-trigger svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-width: 1.8;
+}
+
+.search-trigger kbd,
+.quick-search kbd,
+.search-page kbd {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--field-bg);
+  color: var(--muted);
+  padding: 2px 5px;
+  font: inherit;
+  font-size: 0.72rem;
+  line-height: 1.2;
+  box-shadow: 0 1px 0 var(--modal-divider);
+}
+
 .cta {
   background: linear-gradient(120deg, var(--primary), var(--accent));
   border: none;
@@ -651,12 +700,20 @@ main {
 /* -------- Quick Search (Cmd/Ctrl+K) -------- */
 .quick-search {
   width: min(880px, calc(100vw - 32px));
+  max-height: min(760px, calc(100dvh - 48px));
+  margin: auto;
   border: 1px solid var(--modal-border);
   border-radius: 18px;
   padding: 0;
+  overflow: hidden;
   background: var(--modal-bg);
   color: var(--text);
   box-shadow: 0 40px 120px rgba(0, 0, 0, 0.55);
+}
+
+.quick-search[open] {
+  display: flex;
+  flex-direction: column;
 }
 
 .quick-search::backdrop {
@@ -665,6 +722,7 @@ main {
 }
 
 .quick-search__bar {
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -688,8 +746,63 @@ main {
   cursor: pointer;
 }
 
+.quick-search__close:hover,
+.quick-search__close:focus-visible {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.quick-search__close:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.quick-search__status {
+  margin: 0;
+  padding: 20px 18px;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+.quick-search__status[data-state='error'] {
+  color: var(--text);
+}
+
 .quick-search__root {
-  padding: 14px;
+  min-height: 84px;
+  padding: 14px 16px 18px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  --pagefind-ui-primary: var(--primary);
+  --pagefind-ui-text: var(--text);
+  --pagefind-ui-background: var(--field-bg);
+  --pagefind-ui-border: var(--border);
+  --pagefind-ui-tag: var(--stack-bg);
+  --pagefind-ui-scale: 0.86;
+  --pagefind-ui-border-width: 1px;
+}
+
+.quick-search__footer {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--modal-divider);
+  color: var(--muted);
+  font-size: var(--fs-xs);
+}
+
+.quick-search__footer span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.quick-search__footer a {
+  color: var(--primary);
+  text-decoration: none;
 }
 
 /* Tweak Pagefind UI inside modal */
@@ -698,6 +811,134 @@ main {
   border: 1px solid var(--border);
   border-radius: 14px;
   color: var(--text);
+  font-size: max(16px, calc(21px * var(--pagefind-ui-scale)));
+}
+
+.quick-search .pagefind-ui__message {
+  height: auto;
+  min-height: 24px;
+  padding: 14px 2px 8px;
+  color: var(--muted);
+}
+
+.quick-search .pagefind-ui__result {
+  padding: 14px 2px 16px;
+}
+
+.quick-search .pagefind-ui__result-title {
+  font-size: 1rem;
+}
+
+.quick-search .pagefind-ui__result-excerpt {
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+}
+
+.quick-search .pagefind-ui__result-link:focus-visible {
+  border-radius: 4px;
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+}
+
+.quick-search .pagefind-ui__button {
+  margin-top: 18px;
+}
+
+/* -------- Dedicated Search Page -------- */
+.search-page {
+  width: 100%;
+  max-width: 980px;
+  --pagefind-ui-primary: var(--primary);
+  --pagefind-ui-text: var(--text);
+  --pagefind-ui-background: var(--field-bg);
+  --pagefind-ui-border: var(--border);
+  --pagefind-ui-tag: var(--stack-bg);
+  --pagefind-ui-scale: 0.92;
+  --pagefind-ui-border-width: 1px;
+}
+
+.search-page__intro {
+  display: grid;
+  gap: 8px;
+}
+
+.search-page__intro .post-title,
+.search-page__intro .post-meta {
+  margin: 0;
+}
+
+.search-page .pagefind-ui__search-input {
+  color: var(--text);
+  font-size: max(16px, calc(21px * var(--pagefind-ui-scale)));
+}
+
+.search-page .pagefind-ui__result-link {
+  color: var(--text);
+}
+
+.search-page .pagefind-ui__result-excerpt,
+.search-page .pagefind-ui__message {
+  color: var(--muted);
+}
+
+.search-page .pagefind-ui__result-image {
+  border: 1px solid var(--image-border);
+  object-fit: cover;
+}
+
+.search-page__tip {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--fs-xs);
+}
+
+@media (max-width: 640px) {
+  .search-trigger__label,
+  .search-trigger kbd {
+    display: none;
+  }
+
+  .search-trigger {
+    justify-content: center;
+    width: 36px;
+    padding: 5px;
+  }
+
+  .quick-search {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .quick-search__bar {
+    padding: 14px 12px;
+  }
+
+  .quick-search__hint {
+    display: none;
+  }
+
+  .quick-search__root {
+    flex: 1 1 auto;
+    padding: 12px;
+  }
+
+  .quick-search__footer {
+    padding: 10px 12px max(10px, env(safe-area-inset-bottom));
+  }
+
+  .quick-search__footer span {
+    display: none;
+  }
+
+  .quick-search__footer a {
+    margin-left: auto;
+  }
 }
 
 /* Spring Theme Decorations - Cherry Blossom Petals */
@@ -1013,4 +1254,3 @@ main {
     animation-duration: 0s;
   }
 }
-

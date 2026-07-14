@@ -15,7 +15,8 @@ npm run dev
 ```
 
 说明：
-- `npm run dev` 前会自动执行 `sync:assets`（由 `predev` 触发）。
+- `npm run dev` 前会自动同步资源，并生成一次 Pagefind 开发索引（由 `predev` 触发）。
+- 修改内容后如需刷新搜索索引，重启 `npm run dev` 或手动运行 `npm run search:dev`。
 - 如需开发时监听内容目录并自动同步资源，可用 `npm run dev:watch`。
 
 ## 构建与预览

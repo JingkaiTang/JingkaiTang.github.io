@@ -3,9 +3,10 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "predev": "npm run sync:assets",
+    "predev": "npm run sync:assets && npm run search:dev",
     "dev": "astro dev",
     "dev:watch": "node scripts/dev-watch.mjs",
+    "search:dev": "astro build && pagefind --site dist",
     "sync:assets": "node scripts/sync-writing-assets.mjs",
     "new:post": "node scripts/new-post.mjs",
     "new:now": "node scripts/new-now.mjs",

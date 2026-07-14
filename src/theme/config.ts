@@ -33,5 +33,4 @@ export const THEME_NAV_ITEMS: ThemeNavItem[] = [
   { href: '/tags/ai/', label: 'AI' },
   { href: '/tags/game/', label: '游戏' },
   { href: '/tags/life/', label: '生活' },
-  { href: '/search', label: 'Search' },
 ];

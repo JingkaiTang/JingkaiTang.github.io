@@ -186,13 +186,23 @@ const BASE_URL = import.meta.env.BASE_URL;
     <SiteFooter />
 
     <!-- Cmd/Ctrl+K Quick Search -->
-    <dialog id="quick-search" class="quick-search" data-pagefind-ignore>
+    <dialog
+      id="quick-search"
+      class="quick-search"
+      aria-labelledby="quick-search-title"
+      data-pagefind-ignore
+    >
       <div class="quick-search__bar">
-        <strong>Search</strong>
+        <strong id="quick-search-title">搜索本站</strong>
         <span class="quick-search__hint"></span>
-        <button type="button" class="quick-search__close" aria-label="Close">×</button>
+        <button type="button" class="quick-search__close" aria-label="关闭搜索">×</button>
       </div>
+      <p class="quick-search__status" role="status" aria-live="polite">正在准备搜索…</p>
       <div id="quick-search-root" class="quick-search__root"></div>
+      <div class="quick-search__footer" id="quick-search-shortcuts">
+        <span><kbd>↑</kbd><kbd>↓</kbd> 选择 <kbd>Enter</kbd> 打开</span>
+        <a href={`${BASE_URL}search/`}>打开完整搜索 →</a>
+      </div>
     </dialog>
 
     <script is:inline type="module" src={`${BASE_URL}quick-search.mjs`}></script>
