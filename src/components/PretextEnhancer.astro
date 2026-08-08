@@ -219,6 +219,10 @@ function handleResize(): void {
 }
 
 async function init(): Promise<void> {
+  const currentMain = document.querySelector('main');
+  if (currentMain === initializedMain) return;
+  initializedMain = currentMain;
+
   await document.fonts.ready;
 
   // 检测字体就绪（UI 字体或 CJK 系统字体）
@@ -230,12 +234,15 @@ async function init(): Promise<void> {
   if (!fontReady) return;
 
   enhance();
-  window.addEventListener('resize', debounce(handleResize, 250));
+  if (!resizeBound) {
+    window.addEventListener('resize', debounce(handleResize, 250));
+    resizeBound = true;
+  }
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => init());
-} else {
-  init();
-}
+let initializedMain: Element | null = null;
+let resizeBound = false;
+
+init();
+document.addEventListener('astro:page-load', init);
 </script>

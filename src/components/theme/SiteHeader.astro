@@ -59,27 +59,32 @@ import {
   (() => {
     const allowed = new Set(THEME_KEYS);
     const root = document.documentElement;
-    const body = document.body;
     const select = document.getElementById('theme-select');
 
     function applyTheme(value) {
       const next = allowed.has(value) ? value : DEFAULT_THEME;
       root.dataset.theme = next;
-      if (body) body.dataset.theme = next;
+      if (document.body) document.body.dataset.theme = next;
       return next;
     }
 
-    let saved = '';
-    try {
-      saved = localStorage.getItem(THEME_STORAGE_KEY) || '';
-    } catch {
-      // ignore storage errors (private mode / blocked)
+    function readSavedTheme() {
+      try {
+        return localStorage.getItem(THEME_STORAGE_KEY) || '';
+      } catch {
+        return '';
+      }
     }
 
-    const current = applyTheme(root.dataset.theme || saved || DEFAULT_THEME);
+    function restoreTheme() {
+      const current = applyTheme(readSavedTheme() || root.dataset.theme || DEFAULT_THEME);
+      if (select) select.value = current;
+    }
+
+    restoreTheme();
+    document.addEventListener('astro:page-load', restoreTheme);
 
     if (select) {
-      select.value = current;
       select.addEventListener('change', (event) => {
         // Compute spread origin: mouse position if available, otherwise select element center
         const rect = select.getBoundingClientRect();

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import MusicPlayer from '../components/MusicPlayer.astro';
 import PostCard from '../components/PostCard.astro';
 import { getCollection } from 'astro:content';
 import { pickCover, resolveMaybeRelativeUrl } from '../utils/contentPreview';
@@ -24,7 +25,7 @@ const latestNow = now
 const pinned = (pinsData?.pins || []).slice(0, 3);
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} musicPlayerInline={true}>
   <section class="hero" style="padding-top: 12px;">
     <div class="hero-content">
       <div class="hero-intro">
@@ -111,6 +112,8 @@ const pinned = (pinsData?.pins || []).slice(0, 3);
       {latestWriting.length <= 1 ? <p style="color: var(--muted);">还没有更多 Writing 内容。</p> : null}
     </div>
   </section>
+
+  <MusicPlayer />
 
   {/* Now — PostCard cards */}
   <section id="now-list" class="section">
@@ -213,7 +216,7 @@ const pinned = (pinsData?.pins || []).slice(0, 3);
       ))}
     </div>
 
-    <script is:inline>
+    <script is:inline data-astro-rerun>
       (function () {
         const grid = document.getElementById('footer-gallery-grid');
         if (!grid) return;

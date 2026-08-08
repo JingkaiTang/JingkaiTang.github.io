@@ -25,7 +25,7 @@ const BASE_URL = import.meta.env.BASE_URL;
     <p class="search-page__tip">提示：在任意页面按 <kbd>Cmd</kbd>/<kbd>Ctrl</kbd> + <kbd>K</kbd> 可快速搜索。</p>
   </section>
 
-  <script is:inline type="module" define:vars={{ BASE_URL }}>
+  <script is:inline type="module" define:vars={{ BASE_URL }} data-astro-rerun>
     // Pagefind UI script is NOT an ES module; it attaches PagefindUI to window.
     // Load it by injecting a script tag, then instantiate window.PagefindUI.
     (async () => {
@@ -33,14 +33,16 @@ const BASE_URL = import.meta.env.BASE_URL;
       try {
         const uiUrl = `${base}pagefind/pagefind-ui.js`;
 
-        await new Promise((resolve, reject) => {
-          const s = document.createElement('script');
-          s.src = uiUrl;
-          s.async = true;
-          s.onload = () => resolve(null);
-          s.onerror = () => reject(new Error(`Failed to load ${uiUrl}`));
-          document.head.appendChild(s);
-        });
+        if (!window.PagefindUI) {
+          await new Promise((resolve, reject) => {
+            const s = document.createElement('script');
+            s.src = uiUrl;
+            s.async = true;
+            s.onload = () => resolve(null);
+            s.onerror = () => reject(new Error(`Failed to load ${uiUrl}`));
+            document.head.appendChild(s);
+          });
+        }
 
         const UI = window.PagefindUI;
         if (!UI) throw new Error('PagefindUI not found on window after loading script');

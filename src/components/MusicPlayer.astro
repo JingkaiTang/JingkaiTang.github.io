@@ -1,0 +1,384 @@
+---
+const playlistUrl = 'https://music.163.com/#/playlist?id=17657540756';
+const coverUrl = '/writing/补档-欢迎光临-臭屁宝/cover.jpg';
+const tracks = [
+  { id: 3337521376, title: '欢迎光临，臭屁宝', artist: '克里兹·雪特' },
+  { id: 3337696067, title: '全家总动员：臭屁宝联盟', artist: '克里兹·雪特' },
+  { id: 3337684427, title: '第一声“爸妈” Ver.2', artist: '克里兹·雪特' },
+  { id: 3337696066, title: '尿布侠', artist: '克里兹·雪特' },
+  { id: 3337696062, title: '臭屁宝的探险日记', artist: '克里兹·雪特' },
+  { id: 3337679104, title: '臭屁宝的星星船', artist: '克里兹·雪特' },
+  { id: 3337682619, title: '第一声“爸妈”', artist: '克里兹·雪特' },
+  { id: 3337698788, title: '功夫臭屁宝 Ver.2', artist: '克里兹·雪特' },
+].map((track) => ({
+  ...track,
+  src: `https://music.163.com/song/media/outer/url?id=${track.id}.mp3`,
+  cover: coverUrl,
+}));
+
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+const homePath = `${basePath}/`;
+const isHome = Astro.url.pathname === homePath;
+---
+
+<section
+  id="music"
+  class="section music-section"
+  data-music-player
+  data-tracks={JSON.stringify(tracks)}
+  data-home-path={homePath}
+  data-page={isHome ? 'home' : 'compact'}
+  data-playing="false"
+  data-pagefind-ignore
+  transition:persist="music-player"
+>
+  <div class="section-head music-section__head">
+    <div>
+      <div class="section-head-label">Now playing</div>
+      <h2>臭屁宝电台</h2>
+    </div>
+    <a href={playlistUrl} target="_blank" rel="noreferrer">网易云歌单 →</a>
+  </div>
+
+  <article class="music-card">
+    <div class="music-disc music-disc--card" aria-hidden="true">
+      <img src={coverUrl} alt="" loading="lazy" decoding="async" />
+    </div>
+
+    <div class="music-card__body">
+      <p class="music-card__eyebrow">臭屁宝精选 · 8 首</p>
+      <h3 data-music-title>{tracks[0].title}</h3>
+      <p class="music-card__artist" data-music-artist>{tracks[0].artist}</p>
+
+      <label class="music-card__select">
+        <span>选择歌曲</span>
+        <select data-music-select aria-label="选择臭屁宝精选曲目">
+          {tracks.map((track, index) => <option value={index}>{String(index + 1).padStart(2, '0')} · {track.title}</option>)}
+        </select>
+      </label>
+
+      <audio src={tracks[0].src} controls preload="none" data-music-audio>
+        你的浏览器不支持音频播放。
+      </audio>
+
+      <p class="music-card__status" data-music-status aria-live="polite">点击播放，听听臭屁宝的专属歌单。</p>
+    </div>
+  </article>
+
+  <button
+    type="button"
+    class="music-float"
+    data-music-float
+    aria-label={`播放 ${tracks[0].title}`}
+    aria-pressed="false"
+  >
+    <span class="music-disc music-disc--float" aria-hidden="true">
+      <img src={coverUrl} alt="" loading="lazy" decoding="async" />
+    </span>
+    <span class="music-float__glyph" aria-hidden="true">
+      <span data-music-play-icon>▶</span>
+      <span data-music-pause-icon>Ⅱ</span>
+    </span>
+    <span class="music-float__tooltip" data-music-float-title>{tracks[0].title}</span>
+  </button>
+</section>
+
+<script>
+  type Track = { title: string; artist: string; src: string; cover: string };
+
+  const player = document.querySelector<HTMLElement>('[data-music-player]');
+
+  if (player && !player.dataset.initialized) {
+    player.dataset.initialized = 'true';
+
+    const tracks = JSON.parse(player.dataset.tracks || '[]') as Track[];
+    const audio = player.querySelector<HTMLAudioElement>('[data-music-audio]');
+    const select = player.querySelector<HTMLSelectElement>('[data-music-select]');
+    const title = player.querySelector<HTMLElement>('[data-music-title]');
+    const artist = player.querySelector<HTMLElement>('[data-music-artist]');
+    const status = player.querySelector<HTMLElement>('[data-music-status]');
+    const float = player.querySelector<HTMLButtonElement>('[data-music-float]');
+    const floatTitle = player.querySelector<HTMLElement>('[data-music-float-title]');
+    const card = player.querySelector<HTMLElement>('.music-card');
+    const covers = player.querySelectorAll<HTMLImageElement>('.music-disc img');
+
+    if (audio && select && float && tracks.length > 0) {
+      let observer: IntersectionObserver | null = null;
+      const currentTrack = () => tracks[Number(select.value)] || tracks[0];
+
+      const setStatus = (message: string) => {
+        if (status) status.textContent = message;
+      };
+
+      const syncState = () => {
+        const track = currentTrack();
+        const playing = !audio.paused && !audio.ended;
+        player.dataset.playing = String(playing);
+        float.setAttribute('aria-pressed', String(playing));
+        float.setAttribute('aria-label', `${playing ? '暂停' : '播放'} ${track.title}`);
+        setStatus(playing ? `正在播放：${track.title}` : '播放已暂停。');
+      };
+
+      const selectTrack = async (shouldPlay: boolean) => {
+        const track = currentTrack();
+        audio.src = track.src;
+        if (title) title.textContent = track.title;
+        if (artist) artist.textContent = track.artist;
+        if (floatTitle) floatTitle.textContent = track.title;
+        covers.forEach((cover) => { cover.src = track.cover; });
+        float.setAttribute('aria-label', `播放 ${track.title}`);
+        if (!shouldPlay) return;
+        try {
+          await audio.play();
+        } catch {
+          setStatus('当前歌曲暂时无法播放，请前往网易云音乐收听。');
+        }
+      };
+
+      const updateRouteMode = () => {
+        const isHome = window.location.pathname === player.dataset.homePath;
+        player.dataset.page = isHome ? 'home' : 'compact';
+        observer?.disconnect();
+        observer = null;
+
+        if (!isHome || !card || !('IntersectionObserver' in window)) {
+          float.classList.add('is-visible');
+          return;
+        }
+
+        float.classList.remove('is-visible');
+        observer = new IntersectionObserver(([entry]) => {
+          float.classList.toggle('is-visible', !entry.isIntersecting);
+        }, { threshold: 0.1 });
+        observer.observe(card);
+      };
+
+      select.addEventListener('change', () => selectTrack(true));
+      float.addEventListener('click', async () => {
+        if (!audio.paused) {
+          audio.pause();
+          return;
+        }
+        try {
+          await audio.play();
+        } catch {
+          setStatus('当前歌曲暂时无法播放，请前往网易云音乐收听。');
+        }
+      });
+
+      audio.addEventListener('play', syncState);
+      audio.addEventListener('pause', syncState);
+      audio.addEventListener('error', () => {
+        syncState();
+        setStatus('当前歌曲暂时无法播放，请前往网易云音乐收听。');
+      });
+      audio.addEventListener('ended', () => {
+        select.value = String((Number(select.value) + 1) % tracks.length);
+        selectTrack(true);
+      });
+
+      float.classList.add('is-ready');
+      updateRouteMode();
+      document.addEventListener('astro:page-load', updateRouteMode);
+    }
+  }
+</script>
+
+<style>
+  .music-section { position: relative; }
+  .music-section[data-page='compact'] {
+    width: 0;
+    max-width: none;
+    height: 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+  .music-section[data-page='compact'] > :not(.music-float) { display: none; }
+
+  .music-section__head > div { display: grid; gap: 4px; }
+  .music-section__head h2,
+  .music-section__head a { margin: 0; }
+  .music-section__head a {
+    color: var(--primary);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .music-section__head a:hover { text-decoration: underline; text-underline-offset: 0.24em; }
+
+  .music-card {
+    display: grid;
+    grid-template-columns: minmax(150px, 210px) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(24px, 5vw, 56px);
+    padding: clamp(26px, 5vw, 52px);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--theme-radius-lg);
+    background:
+      radial-gradient(circle at 15% 25%, var(--panel-accent-soft), transparent 40%),
+      var(--panel-bg-strong);
+    box-shadow: 0 22px 55px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(18px);
+  }
+
+  .music-card__body { min-width: 0; }
+  .music-card p,
+  .music-card h3 { margin: 0; }
+  .music-card__eyebrow {
+    color: var(--primary);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .music-card h3 {
+    margin-top: 10px;
+    color: var(--text-strong);
+    font-size: clamp(1.35rem, 1.1rem + 0.9vw, 2rem);
+    line-height: 1.2;
+  }
+  .music-card__artist { margin-top: 8px !important; color: var(--muted); font-size: var(--fs-sm); }
+
+  .music-card__select {
+    display: grid;
+    gap: 6px;
+    margin-top: 22px;
+    color: var(--muted);
+    font-size: var(--fs-xs);
+  }
+  .music-card__select select {
+    width: 100%;
+    padding: 9px 34px 9px 11px;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--field-bg);
+  }
+  .music-card audio { width: 100%; margin-top: 14px; color-scheme: light dark; }
+  .music-card__status { min-height: 1.4em; margin-top: 9px !important; color: var(--muted); font-size: var(--fs-xs); }
+
+  .music-disc {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    isolation: isolate;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle, #151515 0 18%, #050505 18.5% 62%, #111 63% 64%, #030303 65% 100%);
+    box-shadow:
+      0 18px 38px rgba(0, 0, 0, 0.42),
+      0 0 0 1px rgba(255, 255, 255, 0.12),
+      inset 0 0 20px rgba(255, 255, 255, 0.05);
+    animation: music-disc-spin 12s linear infinite;
+    animation-play-state: paused;
+  }
+  [data-playing='true'] .music-disc { animation-play-state: running; }
+  .music-disc--card { width: min(100%, 210px); aspect-ratio: 1; }
+  .music-disc img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    width: 58%;
+    height: 58%;
+    display: block;
+    object-fit: cover;
+    border-radius: 50%;
+    filter: saturate(0.92) brightness(0.9);
+    box-shadow: 0 0 0 2px #090909, 0 0 0 3px rgba(255, 255, 255, 0.12);
+    transform: translate(-50%, -50%);
+  }
+  .music-disc::before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    border-radius: inherit;
+    background:
+      conic-gradient(from 18deg, transparent 0 22%, rgba(255, 255, 255, 0.08) 27%, transparent 34% 69%, rgba(255, 255, 255, 0.05) 75%, transparent 82%),
+      repeating-radial-gradient(circle, transparent 0 4px, rgba(255, 255, 255, 0.055) 5px, transparent 6px);
+    box-shadow: inset 0 0 26px rgba(0, 0, 0, 0.5);
+  }
+  .music-float {
+    position: fixed;
+    right: max(22px, env(safe-area-inset-right));
+    bottom: max(22px, env(safe-area-inset-bottom));
+    z-index: 30;
+    width: 66px;
+    height: 66px;
+    padding: 0;
+    opacity: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.38);
+    cursor: pointer;
+    pointer-events: none;
+    transform: translateY(16px) scale(0.9);
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+  .music-float.is-ready.is-visible { opacity: 1; pointer-events: auto; transform: none; }
+  .music-float:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+  .music-disc--float { width: 100%; height: 100%; }
+  .music-float__glyph {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: grid;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    color: #fff;
+    font-size: 0.78rem;
+    text-shadow: 0 1px 5px #000;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.58);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+    transform: translate(-50%, -50%);
+  }
+  [data-music-pause-icon] { display: none; }
+  [data-playing='true'] [data-music-play-icon] { display: none; }
+  [data-playing='true'] [data-music-pause-icon] { display: inline; }
+  .music-float__tooltip {
+    position: absolute;
+    top: 50%;
+    right: calc(100% + 12px);
+    max-width: min(260px, 55vw);
+    padding: 7px 10px;
+    overflow: hidden;
+    color: var(--text);
+    font-size: var(--fs-xs);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    opacity: 0;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--modal-bg);
+    pointer-events: none;
+    transform: translate(5px, -50%);
+    transition: opacity 160ms ease, transform 160ms ease;
+  }
+  .music-float:hover .music-float__tooltip,
+  .music-float:focus-visible .music-float__tooltip { opacity: 1; transform: translate(0, -50%); }
+
+  @keyframes music-disc-spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 560px) {
+    .music-card { grid-template-columns: 96px minmax(0, 1fr); gap: 18px; padding: 22px 18px; }
+    .music-disc--card { width: 96px; }
+    .music-card h3 { font-size: 1.14rem; }
+    .music-card__select { margin-top: 16px; }
+    .music-card audio { grid-column: 1 / -1; }
+    .music-card__status { display: none; }
+    .music-float { right: max(14px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); width: 58px; height: 58px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .music-disc { animation: none; }
+    .music-float,
+    .music-float__tooltip { transition: none; }
+  }
+</style>
