@@ -218,6 +218,43 @@
   color-scheme: dark;
 }
 
+:root[data-theme='autumn'] {
+  --bg: #f3e7d2;
+  --surface: rgba(255, 250, 239, 0.84);
+  --primary: #a34f2c;
+  --accent: #c58b35;
+  --text: #38291f;
+  --muted: #756355;
+  --border: rgba(142, 78, 42, 0.22);
+  --glow: 0 0 28px rgba(192, 111, 45, 0.22);
+  --bg-orb-1: rgba(231, 157, 73, 0.12);
+  --bg-orb-2: rgba(100, 125, 72, 0.1);
+  --ambient-1: rgba(214, 133, 55, 0.09);
+  --ambient-2: rgba(100, 125, 72, 0.08);
+  --avatar-border: rgba(163, 79, 44, 0.32);
+  --hover-glow: rgba(192, 111, 45, 0.2);
+  --panel-border-soft: rgba(142, 78, 42, 0.16);
+  --panel-accent-soft: rgba(197, 139, 53, 0.1);
+  --panel-bg-strong: rgba(255, 250, 239, 0.9);
+  --stack-bg: rgba(197, 139, 53, 0.11);
+  --field-bg: rgba(255, 251, 243, 0.93);
+  --text-strong: rgba(56, 41, 31, 0.96);
+  --text-dim-strong: rgba(56, 41, 31, 0.88);
+  --blockquote-border: rgba(163, 79, 44, 0.34);
+  --blockquote-text: rgba(56, 41, 31, 0.9);
+  --blockquote-bg: rgba(197, 139, 53, 0.08);
+  --code-bg: rgba(163, 79, 44, 0.08);
+  --code-border: rgba(163, 79, 44, 0.2);
+  --pre-bg: rgba(255, 250, 239, 0.94);
+  --image-border: rgba(142, 78, 42, 0.18);
+  --toc-bg: rgba(255, 250, 239, 0.84);
+  --modal-border: rgba(142, 78, 42, 0.2);
+  --modal-bg: rgba(255, 250, 239, 0.97);
+  --modal-divider: rgba(142, 78, 42, 0.14);
+  --modal-close-border: rgba(142, 78, 42, 0.2);
+  color-scheme: light;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -1476,6 +1513,140 @@ main {
   100% { translate: 0 0; }
 }
 
+/* Autumn Theme Decorations — Late-summer Light, Hills, Reeds, Falling Leaves */
+:root[data-theme='autumn'] .autumn-scene {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #f6ead8 0%, #efd9b7 48%, #e0c99f 78%, #d6c09a 100%);
+}
+
+:root[data-theme='autumn'] .autumn-sun {
+  position: absolute;
+  top: 9%;
+  right: 13%;
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  background: rgba(226, 151, 62, 0.48);
+  box-shadow: 0 0 70px 26px rgba(226, 151, 62, 0.16);
+}
+
+:root[data-theme='autumn'] .autumn-haze {
+  position: absolute;
+  inset: 24% 0 0;
+  background: linear-gradient(to bottom, transparent, rgba(255, 245, 222, 0.34) 42%, transparent 72%);
+}
+
+:root[data-theme='autumn'] .autumn-ridge {
+  position: absolute;
+  left: -5%;
+  width: 110%;
+}
+
+:root[data-theme='autumn'] .autumn-ridge--far {
+  bottom: 7%;
+  height: 34%;
+  background: rgba(109, 118, 78, 0.16);
+  clip-path: polygon(0 70%, 13% 51%, 24% 64%, 38% 36%, 52% 62%, 68% 31%, 84% 57%, 100% 42%, 100% 100%, 0 100%);
+}
+
+:root[data-theme='autumn'] .autumn-ridge--near {
+  bottom: -1%;
+  height: 28%;
+  background: rgba(79, 84, 53, 0.14);
+  clip-path: polygon(0 55%, 17% 37%, 31% 61%, 48% 34%, 64% 58%, 82% 27%, 100% 52%, 100% 100%, 0 100%);
+}
+
+:root[data-theme='autumn'] .autumn-reeds {
+  position: absolute;
+  inset: auto 0 0;
+  height: 34%;
+}
+
+:root[data-theme='autumn'] .autumn-reed {
+  position: absolute;
+  bottom: -2%;
+  width: 2px;
+  height: 72%;
+  border-radius: 999px;
+  background: linear-gradient(to top, rgba(61, 58, 35, 0.76), rgba(105, 94, 48, 0.42));
+  transform: rotate(var(--reed-angle));
+  transform-origin: bottom center;
+}
+
+:root[data-theme='autumn'] .autumn-reed::before {
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: -3px;
+  width: 7px;
+  height: 18px;
+  border-radius: 80% 15% 70% 15%;
+  background: linear-gradient(to top, #9b6a2d, #d0a45b);
+  transform: rotate(-8deg);
+  opacity: 0.72;
+}
+
+:root[data-theme='autumn'] .autumn-reed::after {
+  content: '';
+  position: absolute;
+  top: 34%;
+  width: 16px;
+  height: 5px;
+  border-radius: 100% 0 100% 0;
+  background: rgba(91, 92, 50, 0.48);
+  transform: rotate(24deg);
+  transform-origin: left center;
+}
+
+:root[data-theme='autumn'] .autumn-reed:nth-child(1) { left: 3%; height: 75%; --reed-angle: -5deg; }
+:root[data-theme='autumn'] .autumn-reed:nth-child(2) { left: 8%; height: 50%; --reed-angle: 4deg; }
+:root[data-theme='autumn'] .autumn-reed:nth-child(3) { left: 15%; height: 64%; --reed-angle: -3deg; }
+:root[data-theme='autumn'] .autumn-reed:nth-child(4) { left: 22%; height: 42%; --reed-angle: 6deg; }
+:root[data-theme='autumn'] .autumn-reed:nth-child(5) { right: 22%; height: 48%; --reed-angle: -5deg; }
+:root[data-theme='autumn'] .autumn-reed:nth-child(6) { right: 15%; height: 70%; --reed-angle: 4deg; }
+:root[data-theme='autumn'] .autumn-reed:nth-child(7) { right: 8%; height: 54%; --reed-angle: -4deg; }
+:root[data-theme='autumn'] .autumn-reed:nth-child(8) { right: 3%; height: 78%; --reed-angle: 5deg; }
+
+:root[data-theme='autumn'] .autumn-leaves {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+:root[data-theme='autumn'] .autumn-leaf {
+  position: absolute;
+  top: -24px;
+  width: 13px;
+  height: 9px;
+  border-radius: 90% 10% 90% 10%;
+  background: linear-gradient(135deg, #b95f35, #d99a43);
+  opacity: 0;
+  animation: autumn-leaf-fall var(--fall-duration) linear infinite;
+}
+
+:root[data-theme='autumn'] .autumn-leaf:nth-child(1) { left: 7%; --fall-duration: 18s; animation-delay: -2s; }
+:root[data-theme='autumn'] .autumn-leaf:nth-child(2) { left: 19%; --fall-duration: 22s; animation-delay: -15s; scale: 0.72; }
+:root[data-theme='autumn'] .autumn-leaf:nth-child(3) { left: 34%; --fall-duration: 20s; animation-delay: -8s; scale: 0.88; }
+:root[data-theme='autumn'] .autumn-leaf:nth-child(4) { left: 48%; --fall-duration: 24s; animation-delay: -18s; scale: 0.62; }
+:root[data-theme='autumn'] .autumn-leaf:nth-child(5) { left: 63%; --fall-duration: 19s; animation-delay: -11s; }
+:root[data-theme='autumn'] .autumn-leaf:nth-child(6) { left: 76%; --fall-duration: 23s; animation-delay: -5s; scale: 0.76; }
+:root[data-theme='autumn'] .autumn-leaf:nth-child(7) { left: 88%; --fall-duration: 21s; animation-delay: -16s; scale: 0.92; }
+:root[data-theme='autumn'] .autumn-leaf:nth-child(8) { left: 96%; --fall-duration: 25s; animation-delay: -9s; scale: 0.66; }
+
+@keyframes autumn-leaf-fall {
+  0% { translate: 0 -5vh; rotate: 0deg; opacity: 0; }
+  10% { opacity: 0.48; }
+  50% { translate: 42px 52vh; rotate: 300deg; }
+  90% { opacity: 0.42; }
+  100% { translate: -28px 110vh; rotate: 680deg; opacity: 0; }
+}
+
 /* -----------------------------------------------
    View Transitions — theme switch spread animation
    ----------------------------------------------- */
@@ -1500,6 +1671,10 @@ main {
 
   :root[data-theme='summer'] .summer-fireflies,
   :root[data-theme='summer'] .summer-stars {
+    display: none;
+  }
+
+  :root[data-theme='autumn'] .autumn-leaves {
     display: none;
   }
 
