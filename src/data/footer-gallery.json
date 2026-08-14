@@ -1,9 +1,9 @@
 {
-  "builtAt": "2026-05-31T11:26:35.463Z",
+  "builtAt": "2026-08-14T11:49:27.237Z",
   "counts": {
-    "writing": 25,
+    "writing": 26,
     "huolin": 21,
-    "total": 46
+    "total": 47
   },
   "items": [
     {
@@ -56,6 +56,10 @@
     },
     {
       "url": "/writing/claude-code-source-code-leak/cover.jpg",
+      "kind": "writing-cover"
+    },
+    {
+      "url": "/writing/deepseek-harness-ui-slingshot/cover.jpg",
       "kind": "writing-cover"
     },
     {
