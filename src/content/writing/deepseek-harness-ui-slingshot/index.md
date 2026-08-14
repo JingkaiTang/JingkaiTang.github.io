@@ -3,7 +3,8 @@ title: "我给 DeepSeek Harness 写了个弹弓，专门打碎它的 UI"
 description: "我给 DeepSeek Harness 写了一个只负责搞破坏、却不会真的破坏界面的弹弓插件"
 pubDate: "2026-08-14"
 tags: ["deepseek", "dsh", "插件", "开源", "玩具"]
-draft: true
+
+draft: false
 cover: "./cover.jpg"
 
 by:
