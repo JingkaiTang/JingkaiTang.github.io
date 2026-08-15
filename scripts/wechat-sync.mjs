@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 
@@ -32,7 +33,14 @@ function escapeRegExp(s) {
 const args = parseArgs(process.argv);
 const slug = args.slug && args.slug !== 'true' ? args.slug : null;
 const repo = 'JingkaiTang/JingkaiTang.github.io';
-const publisher = '/home/t7kai/.openclaw/workspace-JingkaiTang.github.io/skills/wechat-publisher/scripts/publish.sh';
+const codexHome = process.env.CODEX_HOME || path.join(os.homedir(), '.codex');
+const publisher = process.env.WECHAT_PUBLISHER_SCRIPT || path.join(
+  codexHome,
+  'skills',
+  'jingkaitang-blog-publisher',
+  'scripts',
+  'publish-wechat.sh',
+);
 
 if (!slug) {
   console.error('Missing --slug <slug>.');
@@ -46,7 +54,7 @@ if (!fs.existsSync(postPath)) {
   console.error(`Post not found: ${postPath}`);
   process.exit(2);
 }
-if (!fs.existsSync(publisher)) {
+if (!fs.existsSync(publisher) || !fs.statSync(publisher).isFile()) {
   console.error(`Publisher script not found: ${publisher}`);
   process.exit(2);
 }
