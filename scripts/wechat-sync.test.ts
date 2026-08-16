@@ -7,6 +7,7 @@ import matter from 'gray-matter';
 import {
   buildPublishRecord,
   buildWechatMarkdown,
+  equivalentWechatMarkdown,
   extractMediaId,
   parseWritingMarkdown,
   sameSource,
@@ -58,6 +59,20 @@ draft: true
     expect(parsed.data.author).toBe('作者: A');
     expect(parsed.data.source_url).toBe('https://jingkaitang.github.io/writing/test/');
     expect(parsed.content.trim()).toBe('正文');
+  });
+
+  it('does not treat YAML quoting or key order as an artificial manual edit', () => {
+    const generated = buildWechatMarkdown({
+      title: '标题',
+      cover: './cover.jpg',
+      author: '作者',
+      sourceUrl: 'https://example.com/article/',
+      body: '正文',
+    });
+    const equivalent = `---\nsource_url: https://example.com/article/\nauthor: 作者\ncover: ./cover.jpg\ntitle: 标题\n---\n正文\n`;
+
+    expect(equivalentWechatMarkdown(generated, equivalent)).toBe(true);
+    expect(equivalentWechatMarkdown(generated, `${equivalent}\n追加内容`)).toBe(false);
   });
 
   it('extracts Media ID from publisher output', () => {

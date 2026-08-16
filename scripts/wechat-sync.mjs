@@ -5,6 +5,7 @@ import { spawnSync } from 'node:child_process';
 import {
   buildPublishRecord,
   buildWechatMarkdown,
+  equivalentWechatMarkdown,
   extractMediaId,
   hasHighRisk,
   parseArgs,
@@ -299,7 +300,7 @@ async function main() {
 
     if (fs.existsSync(safePath)) {
       const existingSafe = fs.readFileSync(safePath, 'utf8');
-      if (existingSafe !== safeMarkdown && !overwrite) {
+      if (!equivalentWechatMarkdown(existingSafe, safeMarkdown) && !overwrite) {
         fail(`已有人工修改过的 ${safePath}，默认不覆盖。确认后请使用 --overwrite。`);
       }
     }

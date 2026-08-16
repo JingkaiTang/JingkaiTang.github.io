@@ -55,6 +55,27 @@ export function buildWechatMarkdown({ title, cover, author, sourceUrl, body }) {
   });
 }
 
+function stableValue(value) {
+  if (Array.isArray(value)) return value.map(stableValue);
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.keys(value).sort().map((key) => [key, stableValue(value[key])]),
+    );
+  }
+  return value;
+}
+
+export function equivalentWechatMarkdown(first, second) {
+  try {
+    const left = matter(first);
+    const right = matter(second);
+    return left.content === right.content
+      && JSON.stringify(stableValue(left.data)) === JSON.stringify(stableValue(right.data));
+  } catch {
+    return String(first) === String(second);
+  }
+}
+
 export function extractMediaId(output) {
   const text = String(output ?? '');
   const patterns = [
