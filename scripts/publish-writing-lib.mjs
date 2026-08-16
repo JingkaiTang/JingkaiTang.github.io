@@ -72,6 +72,29 @@ export function ensureOnMainAndUpToDate() {
   sh('git', ['pull', '--ff-only', 'origin', 'main']);
 }
 
+export function ensureCleanWorkingTree() {
+  const status = shOut('git', ['status', '--porcelain=v1', '--untracked-files=all']);
+  if (status) {
+    console.error('Working tree not clean. Commit or stash changes before formal publishing.');
+    process.exit(2);
+  }
+}
+
+export function ensureOnlyAllowedChanges(allowedPrefixes) {
+  const status = shOut('git', ['status', '--porcelain=v1', '--untracked-files=all']);
+  if (!status) return;
+  const paths = status
+    .split('\n')
+    .map((line) => line.slice(3).trim())
+    .filter(Boolean);
+  const unrelated = paths.filter((file) => !allowedPrefixes.some((prefix) => file === prefix || file.startsWith(`${prefix}/`)));
+  if (unrelated.length) {
+    console.error('Working tree contains unrelated changes:');
+    unrelated.forEach((file) => console.error(`  ${file}`));
+    process.exit(2);
+  }
+}
+
 export function buildSite() {
   sh('npm', ['run', 'build']);
 }
@@ -90,8 +113,10 @@ export function pushMain(repo) {
   sh('git', ['push', `ssh://git@ssh.github.com:443/${repo}.git`, 'main']);
 }
 
-export function ensurePagesDeploy() {
-  sh('node', ['scripts/ensure-pages-deploy.mjs', '--workflow', 'pages.yml', '--branch', 'main']);
+export function ensurePagesDeploy(pathname) {
+  const args = ['scripts/ensure-pages-deploy.mjs', '--workflow', 'pages.yml', '--branch', 'main', '--wait'];
+  if (pathname) args.push('--url', `https://jingkaitang.github.io${pathname}`);
+  sh('node', args);
 }
 
 export function workingTreeStatus() {

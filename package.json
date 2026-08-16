@@ -15,6 +15,7 @@
     "publish:writing:final": "node scripts/publish-writing-final.mjs",
     "publish:writing:confirm": "node scripts/publish-writing-confirm.mjs",
     "sync:wechat": "node scripts/wechat-sync.mjs",
+    "wechat:status": "node scripts/wechat-status.mjs",
     "edit:writing": "node scripts/edit-writing.mjs",
     "edit:now": "node scripts/edit-now.mjs",
     "backfill:pubdate": "node scripts/backfill-pubdate-time.mjs",
@@ -40,7 +41,7 @@
   "packageManager": "npm@10.8.2",
   "devDependencies": {
     "@astrojs/check": "^0.9.8",
-    "@mermaid-js/mermaid-cli": "^11.12.0",
+    "@mermaid-js/mermaid-cli": "11.12.0",
     "gray-matter": "^4.0.3",
     "typescript": "^5.9.3",
     "vitest": "^4.1.0"

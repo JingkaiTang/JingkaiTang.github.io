@@ -2,6 +2,7 @@ import {
   buildSite,
   commitIfNeeded,
   ensureDraftState,
+  ensureCleanWorkingTree,
   ensureOnMainAndUpToDate,
   ensurePagesDeploy,
   ensurePostExists,
@@ -23,6 +24,7 @@ if (!slug) {
 }
 
 const { postDir, postPath } = ensurePostExists(slug);
+ensureCleanWorkingTree();
 ensureOnMainAndUpToDate();
 ensureDraftState(postPath, true);
 replaceDraftFlag(postPath, false);
@@ -36,6 +38,6 @@ const msg = message
 
 commitIfNeeded(msg, [postDir, 'src/data/footer-gallery.json']);
 pushMain(repo);
-ensurePagesDeploy();
+ensurePagesDeploy(`/writing/${slug}/`);
 
 console.log(`Published Writing: /writing/${slug}/`);

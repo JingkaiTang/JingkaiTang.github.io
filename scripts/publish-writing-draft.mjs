@@ -2,6 +2,7 @@ import {
   buildSite,
   commitIfNeeded,
   ensureDraftState,
+  ensureOnlyAllowedChanges,
   ensureOnMainAndUpToDate,
   ensurePagesDeploy,
   ensurePostExists,
@@ -23,12 +24,13 @@ if (!slug) {
 const { postDir, postPath } = ensurePostExists(slug);
 ensureDraftState(postPath, true);
 
+ensureOnlyAllowedChanges([postDir, 'src/data/footer-gallery.json']);
 ensureOnMainAndUpToDate();
 buildSite();
 
 const msg = title ? `Draft: ${title}` : `Draft: ${slug}`;
 commitIfNeeded(msg, [postDir, 'src/data/footer-gallery.json']);
 pushMain(repo);
-ensurePagesDeploy();
+ensurePagesDeploy(`/writing/${slug}/`);
 
 console.log(`Draft published (hidden from feed): /writing/${slug}/`);
