@@ -1,4 +1,6 @@
 import crypto from 'node:crypto';
+import fs from 'node:fs';
+import path from 'node:path';
 import matter from 'gray-matter';
 
 export function parseArgs(argv) {
@@ -74,6 +76,44 @@ export function equivalentWechatMarkdown(first, second) {
   } catch {
     return String(first) === String(second);
   }
+}
+
+function localImageReference(reference) {
+  const trimmed = String(reference ?? '').trim().replace(/^<|>$/g, '');
+  if (!trimmed || /^(?:https?:|data:|file:|blob:|\/\/)/i.test(trimmed)) return null;
+  return trimmed.split(/[?#]/, 1)[0];
+}
+
+export function copyPreviewAssets(markdown, sourceDir, previewDir) {
+  const parsed = matter(markdown);
+  const references = [];
+  if (typeof parsed.data.cover === 'string') references.push(parsed.data.cover);
+  for (const match of parsed.content.matchAll(/!\[[^\]]*\]\(\s*(<[^>]+>|[^)\s]+)(?:\s+["'][^)]*["'])?\s*\)/g)) {
+    references.push(match[1]);
+  }
+
+  const sourceRoot = path.resolve(sourceDir);
+  const previewRoot = path.resolve(previewDir);
+  const copied = [];
+  for (const reference of new Set(references)) {
+    const relativeReference = localImageReference(reference);
+    if (!relativeReference || path.isAbsolute(relativeReference)) continue;
+
+    const sourcePath = path.resolve(sourceRoot, relativeReference);
+    const relativePath = path.relative(sourceRoot, sourcePath);
+    if (relativePath.startsWith('..') || path.isAbsolute(relativePath)) {
+      throw new Error(`预览资源超出文章目录：${reference}`);
+    }
+    if (!fs.existsSync(sourcePath) || !fs.statSync(sourcePath).isFile()) {
+      throw new Error(`预览资源不存在：${reference}`);
+    }
+
+    const targetPath = path.resolve(previewRoot, relativePath);
+    fs.mkdirSync(path.dirname(targetPath), { recursive: true });
+    fs.copyFileSync(sourcePath, targetPath);
+    copied.push(relativePath);
+  }
+  return copied;
 }
 
 export function extractMediaId(output) {

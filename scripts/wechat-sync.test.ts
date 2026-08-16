@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { chmodSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -7,6 +7,7 @@ import matter from 'gray-matter';
 import {
   buildPublishRecord,
   buildWechatMarkdown,
+  copyPreviewAssets,
   equivalentWechatMarkdown,
   extractMediaId,
   parseWritingMarkdown,
@@ -73,6 +74,22 @@ draft: true
 
     expect(equivalentWechatMarkdown(generated, equivalent)).toBe(true);
     expect(equivalentWechatMarkdown(generated, `${equivalent}\n追加内容`)).toBe(false);
+  });
+
+  it('copies local cover and body images beside the standalone preview HTML', () => {
+    const sourceDir = mkdtempSync(join(tmpdir(), 'jingkaitang-wechat-assets-'));
+    const previewDir = join(sourceDir, 'preview');
+    mkdirSync(join(sourceDir, 'assets'));
+    writeFileSync(join(sourceDir, 'cover.jpg'), 'cover');
+    writeFileSync(join(sourceDir, 'assets', 'demo.gif'), 'gif');
+
+    const markdown = `---\ncover: ./cover.jpg\n---\n\n![demo](./assets/demo.gif)`;
+    const copied = copyPreviewAssets(markdown, sourceDir, previewDir);
+
+    expect(copied).toEqual(['cover.jpg', 'assets/demo.gif']);
+    expect(existsSync(join(previewDir, 'cover.jpg'))).toBe(true);
+    expect(existsSync(join(previewDir, 'assets', 'demo.gif'))).toBe(true);
+    rmSync(sourceDir, { recursive: true, force: true });
   });
 
   it('extracts Media ID from publisher output', () => {

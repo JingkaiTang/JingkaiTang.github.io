@@ -5,6 +5,7 @@ import { spawnSync } from 'node:child_process';
 import {
   buildPublishRecord,
   buildWechatMarkdown,
+  copyPreviewAssets,
   equivalentWechatMarkdown,
   extractMediaId,
   hasHighRisk,
@@ -185,10 +186,15 @@ function convertSvgRefs(body, postDir) {
 
 function renderWechat(file, slug, theme, highlight, safeDigest) {
   const result = run('wenyan', ['render', '-f', file, '-t', theme, '-h', highlight], { capture: true });
-  const previewDir = path.join(os.tmpdir(), 'jingkaitang-wechat-preview');
-  fs.mkdirSync(previewDir, { recursive: true, mode: 0o700 });
   const safeSlug = slug.replace(/[^A-Za-z0-9._-]+/g, '-').replace(/^-+|-+$/g, '') || 'article';
-  const previewPath = path.join(previewDir, `${safeSlug}-${safeDigest.slice(0, 12)}.html`);
+  const previewDir = path.join(
+    os.tmpdir(),
+    'jingkaitang-wechat-preview',
+    `${safeSlug}-${safeDigest.slice(0, 12)}`,
+  );
+  fs.mkdirSync(previewDir, { recursive: true, mode: 0o700 });
+  copyPreviewAssets(fs.readFileSync(file, 'utf8'), path.dirname(file), previewDir);
+  const previewPath = path.join(previewDir, 'index.html');
   fs.writeFileSync(previewPath, result.stdout ?? '', 'utf8');
   return previewPath;
 }
