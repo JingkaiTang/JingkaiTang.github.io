@@ -12,6 +12,12 @@ export function shOut(cmd, args, opts = {}) {
   return String(r.stdout).trim();
 }
 
+function shOutRaw(cmd, args, opts = {}) {
+  const r = spawnSync(cmd, args, { encoding: 'utf8', ...opts });
+  if (r.status !== 0) throw new Error(r.stderr || `Command failed: ${cmd} ${args.join(' ')}`);
+  return String(r.stdout);
+}
+
 export function parseArgs(argv) {
   const out = {};
   for (let i = 2; i < argv.length; i++) {
@@ -81,11 +87,12 @@ export function ensureCleanWorkingTree() {
 }
 
 export function ensureOnlyAllowedChanges(allowedPrefixes) {
-  const status = shOut('git', ['status', '--porcelain=v1', '--untracked-files=all']);
-  if (!status) return;
+  // NUL-delimited status output avoids quote/encoding edge cases in paths.
+  const status = shOutRaw('git', ['status', '--porcelain=v1', '-z', '--untracked-files=all']);
+  if (!status.trim()) return;
   const paths = status
-    .split('\n')
-    .map((line) => line.slice(3).trim())
+    .split('\0')
+    .map((entry) => entry.slice(3))
     .filter(Boolean);
   const unrelated = paths.filter((file) => !allowedPrefixes.some((prefix) => file === prefix || file.startsWith(`${prefix}/`)));
   if (unrelated.length) {
