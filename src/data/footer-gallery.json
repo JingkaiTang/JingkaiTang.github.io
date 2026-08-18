@@ -1,9 +1,9 @@
 {
-  "builtAt": "2026-08-14T11:49:27.237Z",
+  "builtAt": "2026-08-18T13:13:34.473Z",
   "counts": {
-    "writing": 26,
+    "writing": 27,
     "huolin": 21,
-    "total": 47
+    "total": 48
   },
   "items": [
     {
@@ -104,6 +104,10 @@
     },
     {
       "url": "/writing/我雇了个-ai-打工人-一次跑通-github-pages-pr-ci-的完整工作流/cover.jpg",
+      "kind": "writing-cover"
+    },
+    {
+      "url": "/writing/拯救梁子-把广告拍卖行搬进deepseek机房/cover.png",
       "kind": "writing-cover"
     },
     {
