@@ -13,6 +13,11 @@
   box-sizing: border-box;
 }
 
+/* Articles without a table of contents should use the full content column. */
+.post-shell:not(:has(> .toc)) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 /* ── Post Title ── */
 .post-title {
   font-size: var(--fs-2xl);
