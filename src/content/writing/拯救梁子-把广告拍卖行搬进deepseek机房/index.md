@@ -3,7 +3,8 @@ title: "拯救梁子-把广告拍卖行搬进DeepSeek机房"
 description: "DeepSeek 涨价之后，我把广告拍卖的竞价、deadline 和保底机制搬进机房，给算力定价想了个不那么像价格屠夫的方案"
 pubDate: "2026-08-18"
 tags: ["ai", "deepseek", "定价", "拍卖", "胡说八道"]
-draft: true
+
+draft: false
 cover: "./cover.png"
 
 by:
