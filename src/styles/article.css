@@ -272,20 +272,6 @@
   word-break: normal;
 }
 
-/* ── Full-Bleed: Code & Images ── */
-/* Full-bleed: background spans full width, content aligns with body column */
-.post-content pre {
-  width: 100vw;
-  max-width: none;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-  border-radius: 0;
-  border-left: none;
-  border-right: none;
-  padding: 24px calc(50vw - 50%);
-  box-sizing: border-box;
-}
-
 .post-content pre::-webkit-scrollbar {
   width: 8px;
   height: 8px;
