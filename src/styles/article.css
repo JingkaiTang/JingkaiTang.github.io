@@ -253,6 +253,7 @@
   padding: 14px 16px;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  scrollbar-color: var(--code-border) var(--pre-bg);
   max-width: 100%;
   box-sizing: border-box;
   min-width: 0;
@@ -281,8 +282,26 @@
   border-radius: 0;
   border-left: none;
   border-right: none;
-  padding: 24px calc(50vw - 50% + 20px);
+  padding: 24px calc(50vw - 50%);
   box-sizing: border-box;
+}
+
+.post-content pre::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.post-content pre::-webkit-scrollbar-track {
+  background: var(--pre-bg);
+}
+
+.post-content pre::-webkit-scrollbar-thumb {
+  background: var(--code-border);
+  border-radius: 999px;
+}
+
+.post-content pre::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
 }
 
 .post-content img {
