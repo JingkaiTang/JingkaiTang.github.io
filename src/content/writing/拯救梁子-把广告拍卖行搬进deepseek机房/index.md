@@ -5,7 +5,7 @@ pubDate: "2026-08-18"
 tags: ["ai", "deepseek", "定价", "拍卖", "胡说八道"]
 
 draft: false
-cover: "./cover.png"
+cover: "./cover.jpg"
 
 by:
   role: coauthored

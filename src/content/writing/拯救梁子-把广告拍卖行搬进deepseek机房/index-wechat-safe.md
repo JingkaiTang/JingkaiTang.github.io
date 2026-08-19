@@ -1,6 +1,6 @@
 ---
 title: 拯救梁子-把广告拍卖行搬进DeepSeek机房
-cover: ./cover.png
+cover: ./cover.jpg
 author: 唐靖凯
 source_url: 'https://jingkaitang.github.io/writing/拯救梁子-把广告拍卖行搬进deepseek机房/'
 ---
