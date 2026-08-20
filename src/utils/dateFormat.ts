@@ -24,3 +24,7 @@ export function formatShanghai(date: Date, opts?: { withSeconds?: boolean }) {
     ? `${yyyy}-${mm}-${dd} ${hh}:${mi}:${ss}`
     : `${yyyy}-${mm}-${dd} ${hh}:${mi}`;
 }
+
+export function formatShanghaiDate(date: Date) {
+  return formatShanghai(date, { withSeconds: false }).slice(0, 10);
+}

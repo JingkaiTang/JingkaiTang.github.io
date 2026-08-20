@@ -4,7 +4,7 @@ import MusicPlayer from '../components/MusicPlayer.astro';
 import PostCard from '../components/PostCard.astro';
 import { getCollection } from 'astro:content';
 import { pickCover, resolveMaybeRelativeUrl } from '../utils/contentPreview';
-import { formatShanghai } from '../utils/dateFormat';
+import { formatShanghai, formatShanghaiDate } from '../utils/dateFormat';
 import pinsData from '../data/github-pins.json';
 import galleryData from '../data/footer-gallery.json';
 
@@ -56,8 +56,8 @@ const pinned = (pinsData?.pins || []).slice(0, 3);
           return (
             <article class="featured-card">
               {cover ? (
-                <a href={href} class="featured-card__cover">
-                  <img src={cover} alt="" loading="lazy" decoding="async" />
+                <a href={href} class="featured-card__cover" aria-label={`阅读全文：${post.data.title}`}>
+                  <img src={cover} alt={post.data.title} loading="lazy" decoding="async" />
                 </a>
               ) : null}
               <div class="featured-card__body">
@@ -69,7 +69,7 @@ const pinned = (pinsData?.pins || []).slice(0, 3);
                   <p class="featured-card__desc">{post.data.description}</p>
                 ) : null}
                 <div class="featured-card__meta">
-                  {formatShanghai(post.data.pubDate, { withSeconds: true })}
+                  {formatShanghaiDate(post.data.pubDate)}
                   {post.data.tags?.length ? (
                     <> · {post.data.tags.slice(0, 3).map((t, i) => (
                       <><a href={`/tags/${encodeURIComponent(t)}/`}>{t}</a>{i < Math.min(post.data.tags.length, 3) - 1 ? ' / ' : ''}</>
@@ -100,7 +100,7 @@ const pinned = (pinsData?.pins || []).slice(0, 3);
             href={href}
             title={post.data.title}
             description={post.data.description}
-            dateText={formatShanghai(post.data.pubDate, { withSeconds: true })}
+            dateText={formatShanghaiDate(post.data.pubDate)}
             tags={post.data.tags}
             cover={cover}
             badge="Writing"
@@ -132,7 +132,7 @@ const pinned = (pinsData?.pins || []).slice(0, 3);
             href={href}
             title={title}
             description={post.data.description}
-            dateText={formatShanghai(post.data.pubDate, { withSeconds: true })}
+            dateText={formatShanghai(post.data.pubDate, { withSeconds: false })}
             tags={post.data.tags}
             cover={cover}
             badge="Now"

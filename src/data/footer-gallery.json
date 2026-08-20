@@ -1,9 +1,9 @@
 {
-  "builtAt": "2026-08-19T02:22:31.864Z",
+  "builtAt": "2026-08-20T06:05:38.022Z",
   "counts": {
-    "writing": 27,
+    "writing": 25,
     "huolin": 21,
-    "total": 48
+    "total": 46
   },
   "items": [
     {
@@ -28,10 +28,6 @@
     },
     {
       "url": "/writing/agent-tool-calling-principles/cover.jpg",
-      "kind": "writing-cover"
-    },
-    {
-      "url": "/writing/ai-office-wechat-20260322/cover.jpg",
       "kind": "writing-cover"
     },
     {
@@ -88,10 +84,6 @@
     },
     {
       "url": "/writing/wo-zheng-zai-bei-ai-xun-hua/cover.jpg",
-      "kind": "writing-cover"
-    },
-    {
-      "url": "/writing/wo-zheng-zai-bei-ai-xun-hua/cover.png",
       "kind": "writing-cover"
     },
     {

@@ -134,9 +134,13 @@ triggers.forEach((trigger) => {
 
 closeBtn?.addEventListener('click', closeQuickSearch);
 dialog?.addEventListener('click', (e) => {
+  if (e.target instanceof Element && e.target.closest('.pagefind-ui__result-link')) {
+    closeQuickSearch();
+    return;
+  }
   // click backdrop to close
   if (e.target === dialog) closeQuickSearch();
-});
+}, { capture: true });
 dialog?.addEventListener('cancel', (e) => {
   e.preventDefault();
   closeQuickSearch();

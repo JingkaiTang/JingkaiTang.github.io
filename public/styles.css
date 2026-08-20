@@ -38,7 +38,7 @@
 :root[data-theme='day'] {
   --bg: #f4f7fb;
   --surface: rgba(255, 255, 255, 0.9);
-  --primary: #0f7ea8;
+  --primary: #0d7399;
   --accent: #f97316;
   --text: #142334;
   --muted: #56667b;
@@ -149,7 +149,7 @@
 :root[data-theme='spring'] {
   --bg: #f8faf6;
   --surface: rgba(255, 255, 255, 0.88);
-  --primary: #7cb342;
+  --primary: #527d28;
   --accent: #ffb7c5;
   --text: #2d3436;
   --muted: #6b7280;
@@ -275,6 +275,28 @@ body {
   overflow-wrap: break-word;
 }
 
+.skip-link {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 100;
+  padding: 9px 12px;
+  color: var(--bg);
+  text-decoration: none;
+  border-radius: 8px;
+  background: var(--primary);
+  transform: translateY(-160%);
+  transition: transform 160ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+main:focus {
+  outline: none;
+}
+
 .ambient-glow {
   position: fixed;
   inset: 0;
@@ -315,6 +337,12 @@ body {
   font-size: var(--fs-sm);
 }
 
+.nav-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+}
+
 .theme-picker {
   display: inline-flex;
   align-items: center;
@@ -337,8 +365,10 @@ body {
   cursor: pointer;
 }
 
-.theme-picker select:focus {
-  outline: none;
+.theme-picker select:focus-visible {
+  border-radius: 4px;
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
 }
 
 .nav-links a,
@@ -349,8 +379,15 @@ body {
 }
 
 .nav-links a:hover,
+.nav-links a.is-active,
 .site-footer a:hover {
   color: var(--primary);
+}
+
+.nav-links a.is-active {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.42em;
 }
 
 .search-trigger {
@@ -957,7 +994,8 @@ main {
 
 .quick-search .pagefind-ui .pagefind-ui__result-link:focus-visible {
   border-radius: 4px;
-  outline: none;
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
   color: var(--primary);
 }
 
@@ -1106,6 +1144,10 @@ main {
   font-size: var(--fs-sm);
   line-height: 1.65;
   overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
 }
 
 .search-page .pagefind-ui .pagefind-ui__result .pagefind-ui__result-thumb {

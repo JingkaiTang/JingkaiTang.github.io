@@ -64,7 +64,13 @@ const {
       <div class="content-card__list-body">
         <h3 class="content-card__list-title">{title}</h3>
         {description ? <p class="content-card__list-desc">{description}</p> : null}
-        <span class="content-card__list-meta">{dateText}</span>
+        {badge || dateText || tags.length ? (
+          <div class="content-card__list-meta">
+            {badge ? <span class="content-card__list-badge">{badge}</span> : null}
+            {dateText ? <time>{dateText}</time> : null}
+            {tags.slice(0, 2).map((tag) => <span>#{tag}</span>)}
+          </div>
+        ) : null}
       </div>
     </a>
   </article>

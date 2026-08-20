@@ -56,7 +56,9 @@ const isHome = Astro.url.pathname === homePath;
           {tracks.map((track, index) => <option value={index}>{String(index + 1).padStart(2, '0')} · {track.title}</option>)}
         </select>
       </label>
+    </div>
 
+    <div class="music-card__controls">
       <audio src={tracks[0].src} controls preload="none" data-music-audio>
         你的浏览器不支持音频播放。
       </audio>
@@ -105,6 +107,7 @@ const isHome = Astro.url.pathname === homePath;
     if (audio && select && float && tracks.length > 0) {
       let observer: IntersectionObserver | null = null;
       const currentTrack = () => tracks[Number(select.value)] || tracks[0];
+      const engageFloat = () => float.classList.add('is-engaged');
 
       const setStatus = (message: string) => {
         if (status) status.textContent = message;
@@ -166,7 +169,10 @@ const isHome = Astro.url.pathname === homePath;
         }
       });
 
-      audio.addEventListener('play', syncState);
+      audio.addEventListener('play', () => {
+        engageFloat();
+        syncState();
+      });
       audio.addEventListener('pause', syncState);
       audio.addEventListener('error', () => {
         syncState();
@@ -212,7 +218,8 @@ const isHome = Astro.url.pathname === homePath;
     display: grid;
     grid-template-columns: minmax(150px, 210px) minmax(0, 1fr);
     align-items: center;
-    gap: clamp(24px, 5vw, 56px);
+    column-gap: clamp(24px, 5vw, 56px);
+    row-gap: 14px;
     padding: clamp(26px, 5vw, 52px);
     overflow: hidden;
     border: 1px solid var(--border);
@@ -225,6 +232,7 @@ const isHome = Astro.url.pathname === homePath;
   }
 
   .music-card__body { min-width: 0; }
+  .music-card__controls { grid-column: 2; min-width: 0; }
   .music-card p,
   .music-card h3 { margin: 0; }
   .music-card__eyebrow {
@@ -257,7 +265,7 @@ const isHome = Astro.url.pathname === homePath;
     border-radius: 10px;
     background: var(--field-bg);
   }
-  .music-card audio { width: 100%; margin-top: 14px; color-scheme: light dark; }
+  .music-card audio { display: block; width: 100%; color-scheme: light dark; }
   .music-card__status { min-height: 1.4em; margin-top: 9px !important; color: var(--muted); font-size: var(--fs-xs); }
 
   .music-disc {
@@ -276,7 +284,7 @@ const isHome = Astro.url.pathname === homePath;
     animation-play-state: paused;
   }
   [data-playing='true'] .music-disc { animation-play-state: running; }
-  .music-disc--card { width: min(100%, 210px); aspect-ratio: 1; }
+  .music-disc--card { grid-row: 1 / span 2; width: min(100%, 210px); aspect-ratio: 1; }
   .music-disc img {
     position: absolute;
     top: 50%;
@@ -368,12 +376,24 @@ const isHome = Astro.url.pathname === homePath;
 
   @media (max-width: 560px) {
     .music-card { grid-template-columns: 96px minmax(0, 1fr); gap: 18px; padding: 22px 18px; }
-    .music-disc--card { width: 96px; }
+    .music-disc--card { grid-row: auto; width: 96px; }
     .music-card h3 { font-size: 1.14rem; }
     .music-card__select { margin-top: 16px; }
-    .music-card audio { grid-column: 1 / -1; }
-    .music-card__status { display: none; }
-    .music-float { right: max(14px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); width: 58px; height: 58px; }
+    .music-card__controls { grid-column: 1 / -1; }
+    .music-card__status { margin-top: 7px !important; }
+    .music-float { right: max(14px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); width: 48px; height: 48px; }
+    .music-float.is-ready.is-visible:not(.is-engaged) {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(16px) scale(0.9);
+    }
+  }
+
+  @media (max-width: 340px) {
+    .music-card { grid-template-columns: 1fr; }
+    .music-disc--card { width: 88px; justify-self: center; }
+    .music-card__body,
+    .music-card__controls { grid-column: 1; width: 100%; }
   }
 
   @media (prefers-reduced-motion: reduce) {

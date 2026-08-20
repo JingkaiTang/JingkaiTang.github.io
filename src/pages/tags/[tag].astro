@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
 import { getCollection } from 'astro:content';
 import { pickCover, resolveMaybeRelativeUrl } from '../../utils/contentPreview';
-import { formatShanghai } from '../../utils/dateFormat';
+import { formatShanghai, formatShanghaiDate } from '../../utils/dateFormat';
 
 type Item = {
   kind: 'writing' | 'now';
@@ -24,8 +24,7 @@ export async function getStaticPaths() {
     for (const t of p.data.tags ?? []) tagSet.add(t);
   }
 
-  // Ensure nav-linked tags always have a generated page, even if empty.
-  // (Otherwise /tags/<tag>/ would 404 when there are currently no posts for that tag.)
+  // Keep fixed and legacy tag routes available even when they are empty.
   for (const t of ['ai', 'game', 'life']) tagSet.add(t);
 
   return [...tagSet].map((tag) => ({
@@ -79,8 +78,8 @@ const posts = [...writingPosts, ...nowPosts].sort((a, b) => b.pubDate.getTime() 
 
 <BaseLayout title={`${tag} | Tags | 唐靖凯`} description={`标签：${tag}`}>
   <section class="section glass" style="max-width: 900px;">
-    <div class="section-head">
-      <h2>#{tag}</h2>
+    <div class="section-head page-heading">
+      <h1 class="page-title">#{tag}</h1>
       <p>{posts.length} 条</p>
     </div>
 
@@ -92,12 +91,15 @@ const posts = [...writingPosts, ...nowPosts].sort((a, b) => b.pubDate.getTime() 
             href={post.href}
             title={cleanTitle}
             description={post.description}
-            dateText={formatShanghai(post.pubDate, { withSeconds: true })}
+            dateText={post.kind === 'now'
+              ? formatShanghai(post.pubDate, { withSeconds: false })
+              : formatShanghaiDate(post.pubDate)}
             tags={post.tags}
             cover={post.cover}
             badge={post.kind === 'now' ? 'Now' : 'Writing'}
             showReadMore={true}
             ariaLabel={`阅读全文：${cleanTitle}`}
+            variant="list"
           />
         );
       })}

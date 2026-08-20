@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
 import { getCollection } from 'astro:content';
 import { pickCover, resolveMaybeRelativeUrl } from '../../utils/contentPreview';
-import { formatShanghai } from '../../utils/dateFormat';
+import { formatShanghaiDate } from '../../utils/dateFormat';
 
 const posts = (await getCollection('writing'))
   .filter((p) => !p.data.draft)
@@ -11,9 +11,13 @@ const posts = (await getCollection('writing'))
 ---
 
 <BaseLayout title="Writing | 唐靖凯" description="AI 相关文章与实践记录">
-  <section class="section glass">
-    <div class="section-head">
-      <h2>Writing</h2>
+  <section class="section glass" style="max-width: 900px;">
+    <div class="section-head page-heading">
+      <div>
+        <h1 class="page-title">Writing</h1>
+        <p class="page-description">长文、实践记录与阶段思考。</p>
+      </div>
+      <p>{posts.length} 篇</p>
     </div>
 
     <div style="display:grid; gap:16px;">
@@ -26,9 +30,10 @@ const posts = (await getCollection('writing'))
             href={href}
             title={post.data.title}
             description={post.data.description}
-            dateText={formatShanghai(post.data.pubDate, { withSeconds: true })}
+            dateText={formatShanghaiDate(post.data.pubDate)}
             tags={post.data.tags}
             cover={cover}
+            badge="Writing"
             variant="list"
           />
         );

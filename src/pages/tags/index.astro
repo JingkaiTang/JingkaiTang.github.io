@@ -15,22 +15,44 @@ for (const p of posts) {
 }
 
 const tags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+const systemTags = new Set(['now', 'mood']);
+const featuredTags = tags
+  .filter(([tag, count]) => count > 1 && !systemTags.has(tag.toLowerCase()))
+  .slice(0, 8);
 ---
 
 <BaseLayout title="Tags | 唐靖凯" description="标签（Writing + Now）">
   <section class="section glass" style="max-width: 900px;">
-    <div class="section-head">
-      <h2>Tags</h2>
-      <p>按标签浏览 Writing / Now。</p>
+    <div class="section-head page-heading">
+      <div>
+        <h1 class="page-title">Tags</h1>
+        <p class="page-description">按主题浏览 Writing / Now。</p>
+      </div>
+      <p>{tags.length} 个</p>
     </div>
 
-    <div class="tag-index-grid" style="margin-top: 16px;">
-      {tags.map(([tag, count]) => (
-        <a class="project-card tag-index-card" href={`/tags/${tag}/`}>
-          <span class="tag-index-card__name">#{tag}</span>
-          <span class="tag-index-card__count">{count}</span>
-        </a>
-      ))}
-    </div>
+    <section class="tag-featured" aria-labelledby="tag-featured-title">
+      <h2 id="tag-featured-title">热门主题</h2>
+      <div class="tag-index-grid">
+        {featuredTags.map(([tag, count]) => (
+          <a class="project-card tag-index-card" href={`/tags/${encodeURIComponent(tag)}/`}>
+            <span class="tag-index-card__name">#{tag}</span>
+            <span class="tag-index-card__count">{count}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <details class="tag-directory">
+      <summary>查看全部 {tags.length} 个标签</summary>
+      <div class="tag-index-grid tag-index-grid--all">
+        {tags.map(([tag, count]) => (
+          <a class="tag-index-card tag-index-card--compact" href={`/tags/${encodeURIComponent(tag)}/`}>
+            <span class="tag-index-card__name">#{tag}</span>
+            <span class="tag-index-card__count">{count}</span>
+          </a>
+        ))}
+      </div>
+    </details>
   </section>
 </BaseLayout>

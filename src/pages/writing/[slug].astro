@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, render } from 'astro:content';
-import { formatShanghai } from '../../utils/dateFormat';
+import { formatShanghai, formatShanghaiDate } from '../../utils/dateFormat';
 import { calculateReadingTime } from '../../utils/readingTime';
 
 export async function getStaticPaths() {
@@ -72,10 +72,10 @@ const { words, minutes } = calculateReadingTime(postBody);
             <span class="post-draft-badge">草稿</span>
           ) : null}
           <div class="post-cover-meta">
-            {formatShanghai(post.data.pubDate, { withSeconds: true })}
+            {formatShanghaiDate(post.data.pubDate)}
             {post.data.updatedDate ? (
               <>
-                {' '}· 更新于 {formatShanghai(post.data.updatedDate, { withSeconds: true })}
+                {' '}· 更新于 {formatShanghai(post.data.updatedDate, { withSeconds: false })}
               </>
             ) : null}
             <> · {words} 字 · 约 {minutes} 分钟阅读</>
@@ -115,7 +115,7 @@ const { words, minutes } = calculateReadingTime(postBody);
       </article>
 
       {toc.length ? (
-        <details class="toc" open>
+        <details class="toc" open data-responsive-toc>
           <summary>目录</summary>
           <div class="toc-title">目录</div>
           <ol>
@@ -129,4 +129,15 @@ const { words, minutes } = calculateReadingTime(postBody);
       ) : null}
     </div>
   </section>
+
+  {toc.length ? (
+    <script is:inline data-astro-rerun>
+      (() => {
+        const toc = document.querySelector('[data-responsive-toc]');
+        if (toc && window.matchMedia('(max-width: 640px)').matches) {
+          toc.removeAttribute('open');
+        }
+      })();
+    </script>
+  ) : null}
 </BaseLayout>

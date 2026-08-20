@@ -32,6 +32,6 @@ export const THEME_NAV_ITEMS: ThemeNavItem[] = [
   { href: '/writing', label: '文章' },
   { href: '/now', label: 'Now' },
   { href: '/tags/ai/', label: 'AI' },
-  { href: '/tags/game/', label: '游戏' },
+  { href: '/tags/', label: '标签' },
   { href: '/tags/life/', label: '生活' },
 ];

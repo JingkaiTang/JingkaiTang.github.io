@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { formatShanghai } from './dateFormat';
+import { formatShanghai, formatShanghaiDate } from './dateFormat';
 
 describe('formatShanghai', () => {
   it('formats a date in Asia/Shanghai timezone with seconds by default', () => {
@@ -69,5 +69,12 @@ describe('formatShanghai', () => {
     const date = new Date('2024-03-10T10:30:00Z');
     const result = formatShanghai(date);
     expect(result).toMatch(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/);
+  });
+});
+
+describe('formatShanghaiDate', () => {
+  it('formats a date-only value using the Shanghai calendar day', () => {
+    const date = new Date('2024-06-20T16:00:00Z');
+    expect(formatShanghaiDate(date)).toBe('2024-06-21');
   });
 });

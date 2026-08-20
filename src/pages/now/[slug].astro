@@ -41,10 +41,10 @@ const isDraft = Boolean(post.data.draft);
           <span class="post-draft-badge">草稿</span>
         ) : null}
         <div class="post-cover-meta">
-          {formatShanghai(post.data.pubDate, { withSeconds: true })}
+          {formatShanghai(post.data.pubDate, { withSeconds: false })}
           {post.data.updatedDate ? (
             <>
-              {' '}· 更新于 {formatShanghai(post.data.updatedDate, { withSeconds: true })}
+              {' '}· 更新于 {formatShanghai(post.data.updatedDate, { withSeconds: false })}
             </>
           ) : null}
           {post.data.tags.length ? (

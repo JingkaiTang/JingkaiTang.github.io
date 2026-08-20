@@ -8,14 +8,33 @@ import { formatShanghai } from '../../utils/dateFormat';
 const posts = (await getCollection('now'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+const recentPosts = posts.slice(0, 12);
+const archiveGroups = [...posts.slice(12).reduce((groups, post) => {
+  const month = new Intl.DateTimeFormat('zh-CN', {
+    timeZone: 'Asia/Shanghai',
+    year: 'numeric',
+    month: 'long',
+  }).format(post.data.pubDate);
+  const group = groups.get(month) ?? [];
+  group.push(post);
+  groups.set(month, group);
+  return groups;
+}, new Map<string, typeof posts>())];
 ---
 
 <BaseLayout title="Now | 唐靖凯" description="我最近在做什么（短更新）">
   <section class="section glass" style="max-width: 900px;">
-    <h2>Now</h2>
+    <div class="section-head page-heading">
+      <div>
+        <h1 class="page-title">Now</h1>
+        <p class="page-description">最近在做什么，以及一些短更新。</p>
+      </div>
+      <p>{posts.length} 条</p>
+    </div>
 
-    <div style="margin-top: 24px; display: grid; gap: 16px;">
-      {posts.map((post) => {
+    <div class="content-list">
+      {recentPosts.map((post) => {
         const href = `/now/${post.id}/`;
         const coverRaw = pickCover(post);
         const cover = coverRaw ? resolveMaybeRelativeUrl(coverRaw, href) : null;
@@ -25,9 +44,10 @@ const posts = (await getCollection('now'))
             href={href}
             title={title}
             description={post.data.description}
-            dateText={formatShanghai(post.data.pubDate, { withSeconds: true })}
+            dateText={formatShanghai(post.data.pubDate, { withSeconds: false })}
             tags={post.data.tags}
             cover={cover}
+            badge="Now"
             showReadMore={true}
             ariaLabel={`阅读全文：${title}`}
             variant="list"
@@ -37,5 +57,40 @@ const posts = (await getCollection('now'))
 
       {posts.length === 0 ? <p style="color: var(--muted);">还没有 Now 更新。</p> : null}
     </div>
+
+    {archiveGroups.length ? (
+      <section class="now-archive" aria-labelledby="now-archive-title">
+        <h2 id="now-archive-title">更早更新</h2>
+        {archiveGroups.map(([month, monthPosts]) => (
+          <details class="archive-group">
+            <summary>
+              <span>{month}</span>
+              <span>{monthPosts.length} 条</span>
+            </summary>
+            <div class="archive-group__list">
+              {monthPosts.map((post) => {
+                const href = `/now/${post.id}/`;
+                const coverRaw = pickCover(post);
+                const cover = coverRaw ? resolveMaybeRelativeUrl(coverRaw, href) : null;
+                const title = post.data.title.replace(/^Now:\s*/, '');
+                return (
+                  <PostCard
+                    href={href}
+                    title={title}
+                    description={post.data.description}
+                    dateText={formatShanghai(post.data.pubDate, { withSeconds: false })}
+                    tags={post.data.tags}
+                    cover={cover}
+                    badge="Now"
+                    ariaLabel={`阅读全文：${title}`}
+                    variant="list"
+                  />
+                );
+              })}
+            </div>
+          </details>
+        ))}
+      </section>
+    ) : null}
   </section>
 </BaseLayout>

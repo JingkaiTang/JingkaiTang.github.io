@@ -533,7 +533,8 @@
   transition: filter 0.3s ease, transform 0.5s ease;
 }
 
-.featured-card:hover .featured-card__cover img {
+.featured-card:hover .featured-card__cover img,
+.featured-card:focus-within .featured-card__cover img {
   filter: saturate(0.96) contrast(1.04);
   transform: scale(1.015);
 }

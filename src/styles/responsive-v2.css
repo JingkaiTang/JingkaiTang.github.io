@@ -13,6 +13,11 @@
 .post-content {
   container-type: inline-size;
   container-name: article;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .glass {
@@ -119,13 +124,15 @@
 
   /* Post shell: single column */
   .post-shell {
-    display: block !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr);
     width: 100%;
   }
 
-  /* TOC: hidden on mobile */
+  /* TOC: compact and collapsible on mobile */
   .toc {
-    display: none !important;
+    display: block !important;
+    margin-bottom: 20px;
   }
 
   /* Post navigation: single column */
@@ -176,6 +183,12 @@
     grid-auto-rows: 100px;
     gap: 6px;
   }
+
+  .footer-gallery__img.is-wide,
+  .footer-gallery__img.is-wide2,
+  .footer-gallery__img.is-big {
+    grid-column: span 1;
+  }
 }
 
 /* ── Hero mobile ── */
@@ -189,7 +202,18 @@
     height: 82px;
   }
   .hero-subtitle {
-    font-size: 0.98rem;
+    font-size: 0.9rem;
+    letter-spacing: 0;
+  }
+  .hero-title span {
+    display: block;
+  }
+}
+
+@media (max-width: 340px) {
+  .hero-intro {
+    display: grid;
+    grid-template-columns: 1fr;
   }
 }
 
@@ -200,55 +224,46 @@
 
 /* ── 基础移动排版 (<640px 容器) ── */
 @container article (max-width: 640px) {
-  /* 文本换行 */
-  & {
-    overflow-wrap: anywhere;
-    word-wrap: break-word;
-    word-break: break-word;
-    hyphens: auto;
-    min-width: 0;
-  }
-
   /* 块级元素约束 */
-  & > *,
-  & li,
-  & td,
-  & th,
-  & blockquote > *,
-  & details > * {
+  .post-content > *,
+  .post-content li,
+  .post-content td,
+  .post-content th,
+  .post-content blockquote > *,
+  .post-content details > * {
     max-width: 100%;
     box-sizing: border-box;
   }
 
-  & p,
-  & li,
-  & :is(h1, h2, h3, h4) {
+  .post-content p,
+  .post-content li,
+  .post-content :is(h1, h2, h3, h4) {
     width: 100%;
     overflow-wrap: anywhere;
   }
 
-  & ul,
-  & ol {
+  .post-content ul,
+  .post-content ol {
     padding-left: 1.2em;
     overflow-wrap: anywhere;
   }
 
   /* 标题 */
-  & h2 {
+  .post-content h2 {
     font-size: var(--fs-lg);
   }
 
-  & h3 {
+  .post-content h3 {
     font-size: var(--fs-md);
   }
 
-  & h4 {
+  .post-content h4 {
     font-size: var(--fs-base);
     font-weight: 600;
   }
 
   /* 图片: 安全止损 */
-  & img {
+  .post-content img {
     max-width: 100%;
     width: auto;
     height: auto;
@@ -259,7 +274,7 @@
   }
 
   /* 代码块: 滚动 + 优化间距 */
-  & pre {
+  .post-content pre {
     width: 100%;
     max-width: 100%;
     margin-left: 0;
@@ -272,7 +287,7 @@
   }
 
   /* 内联代码: 温和断行 */
-  & code {
+  .post-content code {
     overflow-wrap: break-word;
     word-break: normal;
   }
@@ -280,15 +295,15 @@
   /* 表格: 用 scroll wrapper 而不是 display: block
      由 remark 插件自动包装 .table-scroll-wrapper
      若没有 wrapper，保持 table 原样并启用横向滚动 */
-  & table {
+  .post-content table {
     display: table;
     width: 100%;
     max-width: 100%;
     font-size: var(--fs-xs);
   }
 
-  & table th,
-  & table td {
+  .post-content table th,
+  .post-content table td {
     white-space: normal;
     word-break: break-word;
     overflow-wrap: break-word;
@@ -296,7 +311,7 @@
   }
 
   /* 引用块 */
-  & blockquote {
+  .post-content blockquote {
     margin-left: 0;
     margin-right: 0;
     padding: 0.5em 0.8em;
@@ -306,26 +321,26 @@
   }
 
   /* 链接: 适度换行（不用 break-all，改为 break-word + overflow-wrap） */
-  & a {
+  .post-content a {
     word-break: break-word;
     overflow-wrap: anywhere;
   }
 
   /* 水平线 */
-  & hr {
+  .post-content hr {
     margin: 1.5em 0;
   }
 
   /* CJK 行高紧凑版 */
-  & > p.cjk-heavy  { --lh-computed: var(--lh-body-cjk-compact); }
-  & > p.cjk-mixed  { --lh-computed: var(--lh-body-mixed-compact); }
-  & > p.cjk-light  { --lh-computed: var(--lh-body-mixed-compact); }
+  .post-content > p.cjk-heavy  { --lh-computed: var(--lh-body-cjk-compact); }
+  .post-content > p.cjk-mixed  { --lh-computed: var(--lh-body-mixed-compact); }
+  .post-content > p.cjk-light  { --lh-computed: var(--lh-body-mixed-compact); }
 }
 
 /* ── 超小容器 (<480px) ── */
 @container article (max-width: 480px) {
   /* 代码块进一步缩小 */
-  & pre {
+  .post-content pre {
     font-size: clamp(0.7rem, 0.65rem + 0.2vw, 0.8rem);
     padding: 10px 12px;
     border-radius: 10px;
@@ -333,40 +348,40 @@
   }
 
   /* 列表缩进收紧 */
-  & ul,
-  & ol {
+  .post-content ul,
+  .post-content ol {
     padding-left: 1em;
   }
 
   /* 图片边距收紧 */
-  & img {
+  .post-content img {
     margin-top: 12px;
     margin-bottom: 12px;
     border-radius: 8px;
   }
 
   /* 表格极小屏优化 */
-  & table {
+  .post-content table {
     font-size: clamp(0.6rem, 0.55rem + 0.15vw, 0.7rem);
   }
 
-  & table th,
-  & table td {
+  .post-content table th,
+  .post-content table td {
     padding: 0.3em 0.4em;
   }
 
   /* 引用块 */
-  & blockquote {
+  .post-content blockquote {
     padding: 0.4em 0.6em;
     font-size: var(--fs-sm);
   }
 
   /* 垂直节奏收紧 */
-  & > * + * {
+  .post-content > * + * {
     margin-top: 1em;
   }
 
-  & :is(h2, h3, h4) {
+  .post-content :is(h2, h3, h4) {
     margin-top: 1.5em;
     margin-bottom: 0.4em;
   }
