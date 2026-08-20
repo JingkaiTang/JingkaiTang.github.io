@@ -598,9 +598,25 @@
   gap: 20px;
 }
 
+.now-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .now-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 /* ── Magazine Responsive ── */
 @media (max-width: 640px) {
   .writing-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .now-list {
     grid-template-columns: 1fr;
   }
 

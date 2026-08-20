@@ -84,7 +84,7 @@ const pinned = (pinsData?.pins || []).slice(0, 3);
     </section>
   ) : null}
 
-  {/* Writing Grid — 2 column cards */}
+  {/* Writing Grid — compact secondary cards */}
   <section id="writing-grid" class="section">
     <div class="section-head">
       <h2>Writing</h2>
@@ -104,6 +104,7 @@ const pinned = (pinsData?.pins || []).slice(0, 3);
             tags={post.data.tags}
             cover={cover}
             badge="Writing"
+            variant="list"
             showReadMore={true}
             ariaLabel={`阅读全文：${post.data.title}`}
           />
@@ -115,13 +116,13 @@ const pinned = (pinsData?.pins || []).slice(0, 3);
 
   <MusicPlayer />
 
-  {/* Now — PostCard cards */}
+  {/* Now — compact update cards */}
   <section id="now-list" class="section">
     <div class="section-head">
       <h2>Now</h2>
       <a class="section-head-more" href="/now/">查看全部 →</a>
     </div>
-    <div class="now-list" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:16px;">
+    <div class="now-list">
       {latestNow.map((post) => {
         const href = `/now/${post.id}/`;
         const title = post.data.title.replace(/^Now:\s*/, '');
@@ -136,6 +137,7 @@ const pinned = (pinsData?.pins || []).slice(0, 3);
             tags={post.data.tags}
             cover={cover}
             badge="Now"
+            variant="list"
             showReadMore={true}
             ariaLabel={`阅读全文：${title}`}
           />
