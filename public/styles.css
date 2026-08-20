@@ -1728,4 +1728,20 @@ main {
   ::view-transition-group(root) {
     animation-duration: 0s;
   }
+
+  .content-card,
+  .content-card__cover-img,
+  .content-card__cover-detail,
+  .featured-card__cover img,
+  .project-card,
+  .tag-index-card {
+    transition: none !important;
+  }
+
+  .content-card:hover,
+  .content-card:focus-within,
+  .featured-card:hover .featured-card__cover img,
+  .featured-card:focus-within .featured-card__cover img {
+    transform: none !important;
+  }
 }

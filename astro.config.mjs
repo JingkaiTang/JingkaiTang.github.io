@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import { remarkRewriteLocalAssets } from './scripts/remark-rewrite-local-assets.mjs';
 import { remarkResponsiveTables } from './scripts/remark-responsive-tables.mjs';
+import { rehypeOptimizeImages } from './scripts/rehype-optimize-images.mjs';
 
 const PAGEFIND_ROUTE = '/pagefind/';
 const PAGEFIND_DEV_DIR = resolve(fileURLToPath(new URL('./dist/pagefind/', import.meta.url)));
@@ -61,5 +62,6 @@ export default defineConfig({
   },
   markdown: {
     remarkPlugins: [remarkRewriteLocalAssets, remarkResponsiveTables],
+    rehypePlugins: [rehypeOptimizeImages],
   },
 });

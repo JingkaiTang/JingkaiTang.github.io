@@ -141,6 +141,14 @@ main {
   color: rgba(255, 255, 255, 0.6);
 }
 
+@media (hover: none), (pointer: coarse) {
+  .content-card--cover .content-card__cover-detail {
+    max-height: 80px;
+    margin-top: 4px;
+    opacity: 1;
+  }
+}
+
 /* ── Text Card (无封面时的简洁卡片) ── */
 
 .content-card--text {

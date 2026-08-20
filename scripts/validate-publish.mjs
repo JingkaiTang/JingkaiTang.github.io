@@ -68,7 +68,12 @@ function validateImages(file, data) {
   let match;
   
   while ((match = imageRegex.exec(content)) !== null) {
+    const alt = match[1].trim();
     const imagePath = match[2];
+
+    if (!alt) {
+      warnings.push(`[${data.slug}] 图片缺少替代文本：${imagePath}`);
+    }
     
     // Skip external images
     if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {

@@ -1,19 +1,31 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, render } from 'astro:content';
-import { formatShanghai } from '../../utils/dateFormat';
+import { formatShanghai, formatShanghaiDate } from '../../utils/dateFormat';
 
 export async function getStaticPaths() {
   // Include drafts so they can be previewed via direct link.
   // Drafts are still hidden from feeds/lists elsewhere.
   const posts = await getCollection('now');
-  return posts.map((p) => ({
-    params: { slug: p.id },
-    props: { post: p },
-  }));
+  const publishedPosts = posts
+    .filter((p) => !p.data.draft)
+    .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+  const postIndex = new Map(publishedPosts.map((post, index) => [post.id, index]));
+
+  return posts.map((post) => {
+    const index = postIndex.get(post.id);
+    return {
+      params: { slug: post.id },
+      props: {
+        post,
+        prevPost: index === undefined ? null : publishedPosts[index - 1] ?? null,
+        nextPost: index === undefined ? null : publishedPosts[index + 1] ?? null,
+      },
+    };
+  });
 }
 
-const { post } = Astro.props;
+const { post, prevPost, nextPost } = Astro.props;
 const { Content } = await render(post);
 const isDraft = Boolean(post.data.draft);
 ---
@@ -61,6 +73,24 @@ const isDraft = Boolean(post.data.draft);
       <div class="post-content">
         <Content />
       </div>
+
+      {(prevPost || nextPost) ? (
+        <nav class="post-nav" aria-label="相邻 Now 更新">
+          {prevPost ? (
+            <a href={`/now/${prevPost.id}/`} class="post-nav-link post-nav-link--prev">
+              <span class="post-nav-label">← 较新一条 · {formatShanghaiDate(prevPost.data.pubDate)}</span>
+              <span class="post-nav-title">{prevPost.data.title.replace(/^Now:\s*/, '')}</span>
+            </a>
+          ) : <div class="post-nav-link post-nav-link--placeholder"></div>}
+
+          {nextPost ? (
+            <a href={`/now/${nextPost.id}/`} class="post-nav-link post-nav-link--next">
+              <span class="post-nav-label">较早一条 · {formatShanghaiDate(nextPost.data.pubDate)} →</span>
+              <span class="post-nav-title">{nextPost.data.title.replace(/^Now:\s*/, '')}</span>
+            </a>
+          ) : <div class="post-nav-link post-nav-link--placeholder"></div>}
+        </nav>
+      ) : null}
 
       <p class="post-back-link"><a href="/now">← 返回 Now</a></p>
     </article>

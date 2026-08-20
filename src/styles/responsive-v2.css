@@ -95,11 +95,12 @@
   /* Main layout: fluid padding */
   main {
     padding: 0 var(--container-pad-outer) 60px;
+    gap: 64px;
     width: 100%;
   }
 
   .site-header {
-    padding: 24px var(--container-pad-outer) 48px;
+    padding: 24px var(--container-pad-outer) 28px;
   }
 
   .site-footer {
@@ -211,6 +212,26 @@
 }
 
 @media (max-width: 340px) {
+  .nav {
+    gap: 16px;
+  }
+
+  .nav-right {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px 12px;
+  }
+
+  .nav-links {
+    grid-column: 1 / -1;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .search-trigger {
+    justify-self: start;
+  }
+
   .hero-intro {
     display: grid;
     grid-template-columns: 1fr;
