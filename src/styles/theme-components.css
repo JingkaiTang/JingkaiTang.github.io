@@ -413,13 +413,13 @@ main {
 }
 
 .tag-featured h2,
-.now-archive h2 {
+.content-archive h2 {
   margin: 0;
   font-size: var(--fs-lg);
 }
 
 .tag-directory,
-.now-archive {
+.content-archive {
   margin-top: 28px;
 }
 
@@ -454,7 +454,7 @@ main {
   border-color: var(--primary);
 }
 
-.now-archive {
+.content-archive {
   display: grid;
   gap: 10px;
   padding-top: 24px;

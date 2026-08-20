@@ -59,7 +59,7 @@ const archiveGroups = [...posts.slice(12).reduce((groups, post) => {
     </div>
 
     {archiveGroups.length ? (
-      <section class="now-archive" aria-labelledby="now-archive-title">
+      <section class="content-archive" aria-labelledby="now-archive-title">
         <h2 id="now-archive-title">更早更新</h2>
         {archiveGroups.map(([month, monthPosts]) => (
           <details class="archive-group">

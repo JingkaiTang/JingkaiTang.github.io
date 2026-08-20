@@ -8,6 +8,19 @@ import { formatShanghaiDate } from '../../utils/dateFormat';
 const posts = (await getCollection('writing'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+const recentPosts = posts.slice(0, 12);
+const archiveGroups = [...posts.slice(12).reduce((groups, post) => {
+  const month = new Intl.DateTimeFormat('zh-CN', {
+    timeZone: 'Asia/Shanghai',
+    year: 'numeric',
+    month: 'long',
+  }).format(post.data.pubDate);
+  const group = groups.get(month) ?? [];
+  group.push(post);
+  groups.set(month, group);
+  return groups;
+}, new Map<string, typeof posts>())];
 ---
 
 <BaseLayout title="Writing | 唐靖凯" description="AI 相关文章与实践记录">
@@ -20,8 +33,8 @@ const posts = (await getCollection('writing'))
       <p>{posts.length} 篇</p>
     </div>
 
-    <div style="display:grid; gap:16px;">
-      {posts.map((post) => {
+    <div class="content-list">
+      {recentPosts.map((post) => {
         const href = `/writing/${post.id}/`;
         const coverRaw = pickCover(post);
         const cover = coverRaw ? resolveMaybeRelativeUrl(coverRaw, href) : null;
@@ -41,5 +54,38 @@ const posts = (await getCollection('writing'))
 
       {posts.length === 0 ? <p style="color: var(--muted);">还没有文章。</p> : null}
     </div>
+
+    {archiveGroups.length ? (
+      <section class="content-archive" aria-labelledby="writing-archive-title">
+        <h2 id="writing-archive-title">更早文章</h2>
+        {archiveGroups.map(([month, monthPosts]) => (
+          <details class="archive-group">
+            <summary>
+              <span>{month}</span>
+              <span>{monthPosts.length} 篇</span>
+            </summary>
+            <div class="archive-group__list">
+              {monthPosts.map((post) => {
+                const href = `/writing/${post.id}/`;
+                const coverRaw = pickCover(post);
+                const cover = coverRaw ? resolveMaybeRelativeUrl(coverRaw, href) : null;
+                return (
+                  <PostCard
+                    href={href}
+                    title={post.data.title}
+                    description={post.data.description}
+                    dateText={formatShanghaiDate(post.data.pubDate)}
+                    tags={post.data.tags}
+                    cover={cover}
+                    badge="Writing"
+                    variant="list"
+                  />
+                );
+              })}
+            </div>
+          </details>
+        ))}
+      </section>
+    ) : null}
   </section>
 </BaseLayout>
