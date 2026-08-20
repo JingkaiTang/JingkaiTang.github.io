@@ -3,6 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import {
+  assertOwnerOnlyFile,
   buildPublishRecord,
   buildWechatMarkdown,
   copyPreviewAssets,
@@ -72,6 +73,17 @@ function ensurePublisherAvailable(file) {
     fs.accessSync(file, fs.constants.X_OK);
   } catch {
     fail(`Codex 微信投递脚本不可执行：${file}`);
+  }
+}
+
+function ensureCredentialsPrivate() {
+  const file = process.env.WECHAT_CREDENTIALS_FILE?.trim();
+  if (!file) return;
+
+  try {
+    assertOwnerOnlyFile(file);
+  } catch (error) {
+    fail(error.message);
   }
 }
 
@@ -278,7 +290,10 @@ async function main() {
   const publisher = publisherPath();
 
   if (!fs.existsSync(postPath)) fail(`文章不存在：${postPath}`);
-  if (!dryRun) ensurePublisherAvailable(publisher);
+  if (!dryRun) {
+    ensurePublisherAvailable(publisher);
+    ensureCredentialsPrivate();
+  }
 
   const releaseLock = acquireLock(slug);
   try {

@@ -19,6 +19,20 @@ export function sha256(value) {
   return crypto.createHash('sha256').update(String(value), 'utf8').digest('hex');
 }
 
+export function assertOwnerOnlyFile(file) {
+  let stat;
+  try {
+    stat = fs.statSync(file);
+  } catch {
+    throw new Error(`凭据文件不存在：${file}`);
+  }
+
+  if (!stat.isFile()) throw new Error(`凭据路径不是文件：${file}`);
+  if ((stat.mode & 0o077) !== 0) {
+    throw new Error(`凭据文件权限必须为 owner-only（建议 chmod 600）：${file}`);
+  }
+}
+
 export function parseWritingMarkdown(raw) {
   let parsed;
   try {

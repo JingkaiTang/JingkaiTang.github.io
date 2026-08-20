@@ -152,21 +152,24 @@ draft: true
 
   it('rejects credential files with permissions wider than 600 before publishing', () => {
     const dir = mkdtempSync(join(tmpdir(), 'jingkaitang-wechat-test-'));
-    const markdown = join(dir, 'article.md');
     const credentials = join(dir, 'credentials.env');
-    writeFileSync(markdown, '---\ntitle: Test\ncover: ./cover.jpg\n---\n\n正文\n');
+    const publisher = join(dir, 'publish-wechat.sh');
     writeFileSync(credentials, 'WECHAT_APP_ID=test\nWECHAT_APP_SECRET=test\n');
+    writeFileSync(publisher, '#!/bin/sh\nexit 99\n');
     chmodSync(credentials, 0o644);
+    chmodSync(publisher, 0o700);
 
     const env = {
       ...process.env,
       WECHAT_CREDENTIALS_FILE: credentials,
+      WECHAT_PUBLISHER_SCRIPT: publisher,
       WECHAT_APP_ID: undefined,
       WECHAT_APP_SECRET: undefined,
     };
-    const result = spawnSync('bash', [
-      '/home/t7kai/.codex/skills/jingkaitang-blog-publisher/scripts/publish-wechat.sh',
-      markdown,
+    const result = spawnSync(process.execPath, [
+      'scripts/wechat-sync.mjs',
+      '--slug',
+      'deepseek-harness-ui-slingshot',
     ], { encoding: 'utf8', env });
 
     expect(result.status).toBe(2);
