@@ -2,6 +2,7 @@
 title: "别让 Agent 硬莽：给它装上 Skills"
 description: "给手搓 Agent 加上最小可用的 Skills 机制，用按需加载的任务说明书沉淀可复用工作流。"
 pubDate: "2026-05-18"
+updatedDate: "2026-08-20T17:29:39+08:00"
 tags: ["Java", "AI Agent", "Skills", "工作流"]
 
 draft: false
@@ -250,7 +251,7 @@ references / templates / scripts，需要时才读取或执行。
 
 所以正确方式是这样：
 
-![](./diagrams/flow-01.svg)
+![Skill 渐进式加载流程：先注入名称和描述，按任务需要再读取 SKILL.md、参考资料与脚本](./diagrams/flow-01.svg)
 
 真正好的 Skill，不是把所有东西一次性糊给模型。
 
@@ -301,7 +302,7 @@ def add(a, b):
 
 接下来模型再输出 review 结果，就会按 `SKILL.md` 里的结构来。
 
-![](./code-review-loaded.png)
+![Agent From Scratch 界面中 code-review Skill 已加载，并按审查规则输出代码问题](./code-review-loaded.png)
 
 这一刻，Skill 的价值就出来了。
 
@@ -329,7 +330,7 @@ demo06 没有专门实现 supporting files。
 
 然后让它帮我查今日金价。
 
-![](./browser-skill-gold-price.png)
+![Agent Browser Skill 已加载并成功查询当日国际现货黄金价格](./browser-skill-gold-price.png)
 
 结果也成功了。
 
@@ -361,7 +362,7 @@ demo06 没有专门实现 supporting files。
 
 重启后再测一下。
 
-![](./generated-skill-trigger.png)
+![Agent 自动生成并加载 fetch-wechat-article Skill 后触发工具调用](./generated-skill-trigger.png)
 
 可以成功触发。
 

@@ -11,8 +11,11 @@ function contentImagePrefix(filePath) {
 }
 
 function sourceImagePath(markdownPath, publicUrl, prefix) {
-  if (typeof publicUrl !== 'string' || !publicUrl.startsWith(prefix)) return null;
-  const relativeUrl = publicUrl.slice(prefix.length).split(/[?#]/, 1)[0];
+  if (typeof publicUrl !== 'string') return null;
+  const matchedPrefix = [prefix, encodeURI(prefix)].find((candidate) => publicUrl.startsWith(candidate));
+  if (!matchedPrefix) return null;
+
+  const relativeUrl = publicUrl.slice(matchedPrefix.length).split(/[?#]/, 1)[0];
   let decoded = relativeUrl;
   try {
     decoded = decodeURIComponent(relativeUrl);

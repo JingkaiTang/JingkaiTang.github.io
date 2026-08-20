@@ -1,7 +1,8 @@
 ---
 title: "Claude Code 泄露 51 万行源码，我用 Java 手搓了同款 Agent"
-description: ""
+description: "从 Claude Code 架构出发，用 Java 实现最小 AI Agent，拆解 ReAct 循环、工具调用、记忆与权限控制。"
 pubDate: "2026-04-01"
+updatedDate: "2026-08-20T17:32:33+08:00"
 tags: ["ai agent", "claude code", "java", "技术"]
 draft: false
 cover: "./cover.jpg"

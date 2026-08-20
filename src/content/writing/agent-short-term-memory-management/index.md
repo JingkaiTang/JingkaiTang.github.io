@@ -2,6 +2,7 @@
 title: "聊太多就忘？给Agent加上短期记忆管理"
 description: "给手搓 Agent 加上滑动窗口和 LLM 摘要压缩，让长对话不再越聊越慢，也不再轻易撞上上下文上限。"
 pubDate: "2026-04-14"
+updatedDate: "2026-08-20T17:29:39+08:00"
 tags: ["java", "ai agent", "记忆管理", "上下文"]
 
 draft: false
@@ -86,7 +87,7 @@ for (int step = 1; step <= maxSteps; step++) {
 
 ## 四、压缩流程
 
-![](./diagrams/flow-01.svg)
+![短期记忆压缩流程：保留 System 和最近三轮，将旧消息摘要后重新组装对话历史](./diagrams/flow-01.svg)
 
 几个细节：
 

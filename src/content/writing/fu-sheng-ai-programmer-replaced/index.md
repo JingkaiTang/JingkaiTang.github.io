@@ -1,8 +1,10 @@
 ---
 title: "傅盛说程序员被取代，评论区骂他卖课，但我挺他"
+description: "从 GitHub Octoverse 与 AI 编程趋势出发，讨论程序员及数字生产岗位如何被 AI 重塑，以及个人应该如何应对。"
 cover: "./cover.jpg"
 tags: ["AI", "程序员", "未来工作", "GitHub Octoverse"]
 pubDate: "2026-03-25T14:00:00+08:00"
+updatedDate: "2026-08-20T17:32:33+08:00"
 
 draft: false
 ---

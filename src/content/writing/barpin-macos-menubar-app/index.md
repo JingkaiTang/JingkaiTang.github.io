@@ -2,6 +2,7 @@
 title: "我让 AI 写了一个 macOS 摸鱼神器，它居然先劝我'假装'"
 description: "一个把任意 App 塞进菜单栏气泡的工具。AI 说：真的做不到，但我们可以假装。于是 BarPin 诞生了。"
 pubDate: "2026-04-05"
+updatedDate: "2026-08-20T17:29:39+08:00"
 tags: ["macOS", "开源项目", "AI编程"]
 
 draft: false
@@ -38,7 +39,7 @@ macOS 用户应该都有这个体验——开着七八个 App，Cmd+Tab 按出�
 
 Codex 很认真地给我分析了三条路线：
 
-![](./screenshot.png)
+![Codex 分析在 macOS 中把外部 App 窗口嵌入气泡的三种实现路线及优缺点](./screenshot.png)
 
 简单翻译一下它的结论：
 
@@ -123,7 +124,7 @@ BarPin 这个名字是"Bar"（菜单栏）+ "Pin"（固定）的组合。然后�
 
 它画了这个：
 
-![](./appicon.jpg)
+![BarPin 应用图标：红色圆头图钉与向下箭头](./appicon.jpg)
 
 嗯……这是一个红色的图钉。图钉确定不是长这样的吗？📌
 

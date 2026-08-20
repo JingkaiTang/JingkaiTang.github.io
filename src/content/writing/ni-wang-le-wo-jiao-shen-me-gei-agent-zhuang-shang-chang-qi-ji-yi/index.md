@@ -2,6 +2,7 @@
 title: "你忘了我叫什么？给Agent装上长期记忆"
 description: "用一个 Markdown 文件和两次 LLM 调用，给 Agent 做出最小可用的长期记忆：写入、检索、临时注入上下文。"
 pubDate: "2026-05-07"
+updatedDate: "2026-08-20T17:29:39+08:00"
 tags: ["AI", "Agent", "长期记忆", "OpenClaw"]
 
 draft: false
@@ -206,7 +207,7 @@ Prompt 大概约束了两类内容。
 
 所以 demo05 做了一个两步检索。
 
-![](./diagrams/flow-01.svg)
+![长期记忆两步检索流程：LLM 提取关键词后扫描 memories.md 并命中相关记忆](./diagrams/flow-01.svg)
 
 第一步，先让 LLM 从用户问题里提关键词。
 
@@ -307,7 +308,7 @@ if ("user".equals(msg.getRole()) || "system".equals(msg.getRole())) continue;
 
 是两个位置不同的补丁。
 
-![](./diagrams/flow-02.svg)
+![长期记忆检索与写入、短期记忆压缩在 AgentLoop 中的位置](./diagrams/flow-02.svg)
 
 你可以把它想成一个人工作时的两套系统。
 
@@ -368,7 +369,7 @@ Agent > 你的项目是 Maven 构建的，我可以先执行 mvn compile 看看�
 而是让它别每次都像第一次见你。
 
 
-![](./memory-demo.png)
+![Agent From Scratch 长期记忆演示：新会话检索到用户喜欢 ARPG 游戏，并据此推荐游戏](./memory-demo.png)
 演示截图中，前一个会话聊了我喜欢的游戏，后一个会话可以直接引用到
 
 ---
@@ -454,4 +455,3 @@ Agent 也一样。
 先给它一个小本本。
 
 别下次见面，又问我是谁。
-

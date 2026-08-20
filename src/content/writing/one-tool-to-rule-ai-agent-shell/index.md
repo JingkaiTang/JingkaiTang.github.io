@@ -2,6 +2,7 @@
 title: "一个工具打天下：给AI Agent装上Shell，它就能操作你的电脑"
 description: "只给 Agent 一个 exec（Shell）工具，它就能读文件、建目录、调 API、装软件——能力从“专用玩具”升级成“瑞士军刀”，但必须配套三道安全防线。"
 pubDate: "2026-04-05"
+updatedDate: "2026-08-20T17:29:39+08:00"
 tags: ["ai", "agent", "tooling", "shell"]
 
 draft: false
@@ -43,7 +44,7 @@ demo00 里我们注册了三个工具：`calculator`、`get_current_time`、`get
 
 ### 三道防线
 
-![](./diagrams/flow-01.svg)
+![exec 工具的三道安全防线流程：危险命令拦截、用户确认、超时与输出截断](./diagrams/flow-01.svg)
 
 **第一道：危险命令硬拦截。** 无论如何都不允许执行的命令，用正则匹配直接拒绝：
 

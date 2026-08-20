@@ -7,6 +7,7 @@ const JPEG_SIZE_MARKERS = new Set([
   0xc9, 0xca, 0xcb,
   0xcd, 0xce, 0xcf,
 ]);
+const PNG_SIGNATURE = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 
 function detectContext(filePath) {
   // Expect:
@@ -54,36 +55,44 @@ export function detectImageDimensions(filePath) {
     const buffer = fs.readFileSync(filePath);
     const extension = path.extname(filePath).toLowerCase();
 
-    if (extension === '.png' && buffer.length >= 24) {
+    if (buffer.length >= 24 && buffer.subarray(0, PNG_SIGNATURE.length).equals(PNG_SIGNATURE)) {
       return validDimensions(buffer.readUInt32BE(16), buffer.readUInt32BE(20));
     }
 
-    if (extension === '.gif' && buffer.length >= 10) {
+    const gifHeader = buffer.subarray(0, 6).toString('ascii');
+    if (buffer.length >= 10 && (gifHeader === 'GIF87a' || gifHeader === 'GIF89a')) {
       return validDimensions(buffer.readUInt16LE(6), buffer.readUInt16LE(8));
     }
 
-    if (extension === '.jpg' || extension === '.jpeg') {
+    if (buffer.length >= 4 && buffer[0] === 0xff && buffer[1] === 0xd8) {
       let offset = 2;
-      while (offset + 9 < buffer.length) {
-        if (buffer[offset] !== 0xff) {
-          offset += 1;
+      while (offset < buffer.length) {
+        while (offset < buffer.length && buffer[offset] !== 0xff) offset += 1;
+        while (offset < buffer.length && buffer[offset] === 0xff) offset += 1;
+        if (offset >= buffer.length) break;
+
+        const marker = buffer[offset];
+        offset += 1;
+
+        if (marker === 0x00 || marker === 0x01 || marker === 0xd8 || (marker >= 0xd0 && marker <= 0xd7)) {
           continue;
         }
-        const marker = buffer[offset + 1];
+        if (marker === 0xd9 || marker === 0xda || offset + 1 >= buffer.length) break;
+
+        const segmentLength = buffer.readUInt16BE(offset);
+        if (segmentLength < 2 || offset + segmentLength > buffer.length) return null;
+
         if (JPEG_SIZE_MARKERS.has(marker)) {
-          return validDimensions(buffer.readUInt16BE(offset + 7), buffer.readUInt16BE(offset + 5));
+          if (segmentLength < 7) return null;
+          return validDimensions(buffer.readUInt16BE(offset + 5), buffer.readUInt16BE(offset + 3));
         }
-        if (marker === 0xd8 || marker === 0xd9 || (marker >= 0xd0 && marker <= 0xd7)) {
-          offset += 2;
-          continue;
-        }
-        const segmentLength = buffer.readUInt16BE(offset + 2);
-        if (segmentLength < 2) return null;
-        offset += segmentLength + 2;
+
+        offset += segmentLength;
       }
     }
 
-    if (extension === '.svg') {
+    const header = buffer.subarray(0, 512).toString('utf8');
+    if (extension === '.svg' || /<svg\b/i.test(header)) {
       const svg = buffer.toString('utf8');
       const viewBox = svg.match(/viewBox=["']\s*[-\d.]+\s+[-\d.]+\s+([\d.]+)\s+([\d.]+)\s*["']/i);
       if (viewBox) return validDimensions(Number(viewBox[1]), Number(viewBox[2]));

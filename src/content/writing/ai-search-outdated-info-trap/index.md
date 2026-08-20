@@ -1,8 +1,10 @@
 ---
 title: "我被 AI 骗了，而且它根本不知道自己在骗我"
+description: "一次 AI 用过时资料回答最新问题的翻车记录：为什么只搜硬件会漏掉新模型，以及如何先做全景再按条件筛选。"
 cover: /huolin/ai-search-outdated-info-trap-cover.jpg
 tags: ["AI", "搜索", "踩坑", "翻车"]
 pubDate: "2026-03-31T01:30:00+08:00"
+updatedDate: "2026-08-20T17:32:33+08:00"
 draft: false
 ---
 

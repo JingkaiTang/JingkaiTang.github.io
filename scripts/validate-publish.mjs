@@ -17,9 +17,27 @@ import matter from 'gray-matter';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.join(__dirname, '..');
 const writingDir = path.join(rootDir, 'src/content/writing');
+const publicDir = path.join(rootDir, 'public');
 
 const errors = [];
 const warnings = [];
+
+export function resolveLocalAssetPath(assetPath, sourceFile) {
+  const pathOnly = assetPath.split(/[?#]/, 1)[0];
+  let decodedPath = pathOnly;
+
+  try {
+    decodedPath = decodeURIComponent(pathOnly);
+  } catch {
+    // Keep the original path so malformed URLs are reported as missing files.
+  }
+
+  if (decodedPath.startsWith('/')) {
+    return path.join(publicDir, decodedPath.replace(/^\/+/, ''));
+  }
+
+  return path.resolve(path.dirname(sourceFile), decodedPath);
+}
 
 function validateFrontmatter(file, data) {
   const { data: frontmatter } = matter(file);
@@ -51,7 +69,7 @@ function validateFrontmatter(file, data) {
 function validateCover(file, frontmatter, data) {
   if (!frontmatter.cover) return;
   
-  const coverPath = path.join(path.dirname(data.filePath), frontmatter.cover);
+  const coverPath = resolveLocalAssetPath(frontmatter.cover, data.filePath);
   if (!fs.existsSync(coverPath)) {
     errors.push(`[${data.slug}] 封面图片不存在：${frontmatter.cover}`);
   } else {
@@ -81,7 +99,7 @@ function validateImages(file, data) {
     }
     
     // Check if local image exists
-    const fullPath = path.join(path.dirname(data.filePath), imagePath);
+    const fullPath = resolveLocalAssetPath(imagePath, data.filePath);
     if (!fs.existsSync(fullPath)) {
       errors.push(`[${data.slug}] 图片不存在：${imagePath}`);
     }
@@ -193,4 +211,6 @@ async function main() {
   }
 }
 
-main().catch(console.error);
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch(console.error);
+}

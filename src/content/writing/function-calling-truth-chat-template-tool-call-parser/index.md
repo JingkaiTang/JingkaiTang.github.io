@@ -2,6 +2,7 @@
 title: "Function Calling 的真相：从 chat_template 到 tool_call_parser"
 description: "揭开 Function Calling 的底层实现：模型只是在续写文本，API 层用 chat_template 和 tool_call_parser 联手制造了结构化 API 的优雅抽象"
 pubDate: "2026-04-03"
+updatedDate: "2026-08-20T17:29:39+08:00"
 tags: ["ai", "llm", "function-calling"]
 
 draft: false
@@ -27,11 +28,11 @@ source:
 
 当你调用一个 OpenAI 兼容的 Chat Completion API，传入 `tools` 参数时，你以为的流程是这样的：
 
-![](./diagrams/flow-01.svg)
+![Function Calling 的表面流程：JSON 请求经模型理解后返回结构化 tool_calls](./diagrams/flow-01.svg)
 
 **实际发生的：**
 
-![](./diagrams/flow-02.svg)
+![Function Calling 的实际流程：chat_template 将 JSON 转为文本，模型续写，再由 parser 还原 JSON](./diagrams/flow-02.svg)
 
 **从头到尾，模型处理的都是纯文本。** "结构化 API"是输入侧和输出侧两个翻译层联手制造的抽象。
 
@@ -286,7 +287,7 @@ GPT-5、Claude 4、Gemini——它们也是这样实现的吗？
 
 ## 五、全景图：一次 Function Calling 的完整旅程
 
-![](./diagrams/flow-03.svg)
+![一次 Function Calling 的完整链路：代码、API 翻译层与模型之间完成 JSON 和文本转换](./diagrams/flow-03.svg)
 
 **三步变换，两层翻译。** 你看到的"结构化 API"，是 chat_template 和 tool_call_parser 联手制造的优雅抽象。
 
@@ -335,7 +336,7 @@ GPT-5、Claude 4、Gemini——它们也是这样实现的吗？
 
 Function Calling 不是什么高深的模型能力，它是一个**三明治结构**：
 
-![](./diagrams/flow-04.svg)
+![Function Calling 三明治结构：上下两层 JSON 翻译包裹模型文本续写](./diagrams/flow-04.svg)
 
 上层面包和下层面包是两个翻译层，负责让你用干净的 JSON 与模型交互。中间的馅料是模型的真实能力——理解上下文，续写出格式正确的文本。
 

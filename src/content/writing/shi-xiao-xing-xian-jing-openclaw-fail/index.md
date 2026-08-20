@@ -1,8 +1,10 @@
 ---
 title: "时效性陷阱，记录一次 OpenClaw 翻车现场"
+description: "一次 OpenClaw 使用过时资料回答硬件部署问题的翻车复盘：搜索路径为何失效，以及如何用全景扫描和双向检索改进。"
 cover: /huolin/huolin-got-scolded-at-work.jpg
 tags: ["AI", "OpenClaw", "Agent", "搜索"]
 pubDate: "2026-03-30T08:00:00+08:00"
+updatedDate: "2026-08-20T17:32:33+08:00"
 draft: false
 ---
 

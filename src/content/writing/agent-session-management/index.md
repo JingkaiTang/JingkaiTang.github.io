@@ -2,6 +2,7 @@
 title: "关掉窗口对话就没了？给 Agent 加上会话管理"
 description: "给手搓 Agent 补上多会话与持久化能力，把聊天记录从内存搬到磁盘，窗口关了再打开也能接着聊。"
 pubDate: "2026-04-10"
+updatedDate: "2026-08-20T17:29:39+08:00"
 tags: ["Java", "AI Agent", "会话管理", "持久化"]
 
 draft: false
@@ -143,7 +144,7 @@ void resetConversation();
 
 由 `AgentService` 作为桥梁协调两者——**SessionManager 不直接操作 AgentLoop**，所有协调逻辑都在 AgentService 里：
 
-![](./diagrams/flow-01.svg)
+![AgentService 在 SessionManager 会话数据与 AgentLoop 对话上下文之间进行协调](./diagrams/flow-01.svg)
 
 切换会话时的完整流程：
 

@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
-import { remarkRewriteLocalAssets } from './remark-rewrite-local-assets.mjs';
+import { join, resolve } from 'node:path';
+import { detectImageDimensions, remarkRewriteLocalAssets } from './remark-rewrite-local-assets.mjs';
 import { rehypeOptimizeImages } from './rehype-optimize-images.mjs';
 
 describe('remarkRewriteLocalAssets', () => {
@@ -63,6 +63,38 @@ describe('remarkRewriteLocalAssets', () => {
       decoding: 'async',
       src: 'https://example.com/image.jpg',
       alt: '示例',
+    });
+  });
+
+  it('detects JPEG dimensions from file signatures and progressive markers', () => {
+    expect(detectImageDimensions(resolve(
+      'src/content/writing/agent-short-term-memory-management/cover.png',
+    ))).toEqual({ width: 1376, height: 768 });
+
+    expect(detectImageDimensions(resolve(
+      'src/content/writing/anthropic说mythos太强了不敢发布-我觉得是太贵了/cover.jpg',
+    ))).toEqual({ width: 1280, height: 698 });
+  });
+
+  it('resolves encoded content URLs for non-ASCII slugs', () => {
+    const slug = 'anthropic说mythos太强了不敢发布-我觉得是太贵了';
+    const markdownPath = resolve(`src/content/writing/${slug}/index.md`);
+    const image = {
+      type: 'element',
+      tagName: 'img',
+      properties: { src: `/writing/${encodeURIComponent(slug)}/./cover.jpg`, alt: '封面' },
+      children: [],
+    };
+
+    rehypeOptimizeImages()({ type: 'root', children: [image] }, { path: markdownPath });
+
+    expect(image.properties).toEqual({
+      loading: 'lazy',
+      decoding: 'async',
+      width: 1280,
+      height: 698,
+      src: `/writing/${encodeURIComponent(slug)}/./cover.jpg`,
+      alt: '封面',
     });
   });
 });

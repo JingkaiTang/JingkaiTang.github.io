@@ -2,6 +2,7 @@
 title: "Anthropic说Mythos太强了不敢发布，我觉得是太贵了"
 description: "Anthropic 将 Mythos 包装成“强到不敢发布”的安全故事，但真正更像决定因素的，也许是高得离谱的推理成本。"
 pubDate: "2026-04-08"
+updatedDate: "2026-08-20T17:29:39+08:00"
 tags: [AI, Anthropic, Claude, Mythos, 商业分析]
 
 draft: false
@@ -14,7 +15,7 @@ source:
   kind: original
 ---
 
-![](./cover.jpg)
+![两个机器人站在岔路口交换齿轮的插画](./cover.jpg)
 
 前两天 Anthropic 发布了 Claude Mythos Preview——一个比 Opus 更大、更强、更贵的全新最高层级模型。
 
