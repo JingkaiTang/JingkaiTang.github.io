@@ -66,6 +66,43 @@ describe('remarkRewriteLocalAssets', () => {
     });
   });
 
+  it('marks wide local SVG diagrams as horizontally scrollable', () => {
+    const root = mkdtempSync(join(tmpdir(), 'jingkaitang-remark-test-'));
+    try {
+      const postDir = join(root, 'src', 'content', 'writing', 'demo');
+      const markdownPath = join(postDir, 'index.md');
+      const imagePath = join(postDir, 'flow.svg');
+      mkdirSync(postDir, { recursive: true });
+      writeFileSync(imagePath, '<svg viewBox="0 0 606 1335" xmlns="http://www.w3.org/2000/svg"></svg>');
+
+      const image = {
+        type: 'element',
+        tagName: 'img',
+        properties: {
+          src: '/writing/demo/flow.svg',
+          alt: '流程图',
+          className: ['existing-class'],
+        },
+        children: [],
+      };
+
+      rehypeOptimizeImages()({ type: 'root', children: [image] }, { path: markdownPath });
+
+      expect(image.properties).toEqual({
+        loading: 'lazy',
+        decoding: 'async',
+        width: 606,
+        height: 1335,
+        src: '/writing/demo/flow.svg',
+        alt: '流程图',
+        className: ['existing-class', 'article-diagram--scrollable'],
+        style: '--article-diagram-width:606px;',
+      });
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+
   it('detects JPEG dimensions from file signatures and progressive markers', () => {
     expect(detectImageDimensions(resolve(
       'src/content/writing/agent-short-term-memory-management/cover.png',

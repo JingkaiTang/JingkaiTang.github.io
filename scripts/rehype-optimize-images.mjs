@@ -25,6 +25,22 @@ function sourceImagePath(markdownPath, publicUrl, prefix) {
   return path.resolve(path.dirname(markdownPath), decoded);
 }
 
+function appendClassName(properties, className) {
+  const current = properties.className;
+  const classNames = Array.isArray(current)
+    ? current
+    : typeof current === 'string'
+      ? current.split(/\s+/).filter(Boolean)
+      : [];
+  return [...new Set([...classNames, className])];
+}
+
+function appendStyleDeclaration(properties, declaration) {
+  const current = typeof properties.style === 'string' ? properties.style.trim() : '';
+  const separator = current && !current.endsWith(';') ? ';' : '';
+  return `${current}${separator}${declaration}`;
+}
+
 export function rehypeOptimizeImages() {
   return function transformer(tree, file) {
     const filePath = file?.path ? String(file.path) : '';
@@ -40,12 +56,25 @@ export function rehypeOptimizeImages() {
         const properties = node.properties ?? {};
         const sourcePath = sourceImagePath(filePath, properties.src, prefix);
         const dimensions = sourcePath ? detectImageDimensions(sourcePath) : null;
-        node.properties = {
+        const nextProperties = {
           loading: 'lazy',
           decoding: 'async',
           ...(dimensions ?? {}),
           ...properties,
         };
+        if (
+          sourcePath
+          && path.extname(sourcePath).toLowerCase() === '.svg'
+          && dimensions
+          && dimensions.width > 480
+        ) {
+          nextProperties.className = appendClassName(nextProperties, 'article-diagram--scrollable');
+          nextProperties.style = appendStyleDeclaration(
+            nextProperties,
+            `--article-diagram-width:${dimensions.width}px;`,
+          );
+        }
+        node.properties = nextProperties;
       }
 
       if (Array.isArray(node.children)) {

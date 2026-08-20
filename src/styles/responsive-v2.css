@@ -123,6 +123,37 @@
     width: 100%;
   }
 
+  .post-content p:has(> .article-diagram--scrollable) {
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .post-content p:has(> .article-diagram--scrollable)::before {
+    content: '左右滑动查看细节';
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    display: block;
+    width: max-content;
+    margin-bottom: 8px;
+    padding: 3px 8px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--panel-bg-strong);
+    color: var(--muted);
+    font-size: var(--fs-xs);
+    line-height: 1.4;
+  }
+
+  .post-content img.article-diagram--scrollable {
+    width: var(--article-diagram-width);
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
   /* Post shell: single column */
   .post-shell {
     display: grid !important;
