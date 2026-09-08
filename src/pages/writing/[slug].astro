@@ -134,9 +134,23 @@ const { words, minutes } = calculateReadingTime(postBody);
     <script is:inline data-astro-rerun>
       (() => {
         const toc = document.querySelector('[data-responsive-toc]');
-        if (toc && window.matchMedia('(max-width: 640px)').matches) {
+        if (!toc) return;
+
+        if (window.matchMedia('(max-width: 640px)').matches) {
           toc.removeAttribute('open');
         }
+
+        // The desktop layout hides the summary above 900px.
+        const compactLayout = window.matchMedia('(max-width: 900px)');
+        const restoreDesktopToc = () => {
+          if (!compactLayout.matches) toc.setAttribute('open', '');
+        };
+        restoreDesktopToc();
+        compactLayout.addEventListener('change', restoreDesktopToc);
+
+        document.addEventListener('astro:before-swap', () => {
+          compactLayout.removeEventListener('change', restoreDesktopToc);
+        }, { once: true });
       })();
     </script>
   ) : null}
